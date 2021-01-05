@@ -1,0 +1,3 @@
+infra/app/*/static/.env
+infra/app/*/build/*
+!infra/app/*/build/.gitkeep
