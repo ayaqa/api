@@ -1,3 +1,15 @@
+# Default ignores
+.vscode
+.DS_Store
+
+# All dynamic files should be ignored.
+.env
+
+# Docker compose envs files
 infra/app/*/static/.env
 infra/app/*/build/*
 !infra/app/*/build/.gitkeep
+
+# If using something that have to persis data between runs
+volume/*
+!volume/.gitkeep

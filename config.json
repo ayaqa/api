@@ -1,0 +1,13 @@
+{
+    "APPS": {
+        "ayaqa": {
+            "DOCKER_COMPOSE_VARS": {
+                "AYAQA_APP_DIR": "${ROOT_DEV_DIR}/app",
+                "AYAQA_VOLUME_DIR": "${ROOT_DEV_DIR}/volume"
+            },
+            "APP_VARS": {
+                
+            }
+        }
+    }
+}
