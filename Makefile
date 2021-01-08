@@ -104,6 +104,8 @@ compile_dev_config_file:
 		cat ${DEV_CONFIG_JSON_MAIN_FILE_PATH} > ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}; \
 		echo "${INFO_STRING} Local config overrides not found."; \
 	fi;
+	@echo "${INFO_STRING} Going to replace vars from generated config if we have any."
+	@sed -i '' -r 's~{{ROOT_DEV_DIR}}~${ROOT_DEV_DIR}~g' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}
 
 generate_infra_config_files:
 	@echo "${INFO_STRING} Ask ayaqa/infra to build configs."

@@ -4,8 +4,8 @@
             "DOCKER_COMPOSE_VARS": {
                 "AYAQA_PROJECT_NAME": "ayaqa_dev",
                 "AYAQA_PROJECT_TAG": "latest",
-                "AYAQA_APP_DIR": "${ROOT_DEV_DIR}/app",
-                "AYAQA_VOLUME_DIR": "$ROOT_DEV_DIR/volume",
+                "AYAQA_APP_DIR": "{{ROOT_DEV_DIR}}/app",
+                "AYAQA_VOLUME_DIR": "{{ROOT_DEV_DIR}}/volume",
 
                 "AYAQA_HTTP_PORT": "8080",
                 "AYAQA_HTTPS_PORT": "8443",
