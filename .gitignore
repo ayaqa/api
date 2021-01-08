@@ -7,8 +7,12 @@
 
 # Docker compose envs files
 infra/app/*/static/.env
+infra/app/*/static/app.env
 infra/app/*/build/*
 !infra/app/*/build/.gitkeep
+
+config-local.json
+config-generated.json
 
 # If using something that have to persis data between runs
 volume/*
