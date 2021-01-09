@@ -145,7 +145,7 @@ include ${INFRA_DIR_PATH}/${ROOT_INFRA_MAKE_VARS_RELATIVE_PATH}
 generate_infra_config_files:
 	@echo "${INFO_STRING} Call ayaqa/infra to build dynamic configs."
 	@echo "${YELLOW_COLOR}============== ayaqa/infra output start ========${RESET_COLOR}"
-	@cd "${INFRA_DIR_PATH}" && make ${COMPILE_CONFIG_COMMAND_INFRA} && cd - &>/dev/null
+	@cd "${INFRA_DIR_PATH}" && make -s ${COMPILE_CONFIG_COMMAND_INFRA} && cd - &>/dev/null
 	@echo "${YELLOW_COLOR}============== ayaqa/infra output end ========${RESET_COLOR}"
 
 generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_file
@@ -153,8 +153,8 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@if [[ -f "${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}" ]]; then \
 		echo "${WARN_STRING} Found generated ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"; \
 		echo "${WARN_STRING} Will stop all docker compose services and remove generated dynamic files."; \
-		make .util_ask_to_continue || exit 1;  \
-		make clean; \
+		make -s .util_ask_to_continue || exit 1;  \
+		make -s clean; \
 	fi;
 	@if [[ $$(jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}) != "null" ]]; then \
 		jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" > ${DOCKER_COMPOSE_ENV_FILE_PATH}; \
