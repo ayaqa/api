@@ -10,17 +10,17 @@ services:
     env_file:
         - app.env
     volumes:
-      - 'app-data:${AYAQA_APP_ROOT_DIR}:rw,delegated'
+      - 'ayaqa-data:${AYAQA_APP_ROOT_DIR}:rw,delegated'
     ports:
-      - '${AYAQA_HTTP_PORT}:${AYAQA_WEB_PORT}'
-      - '${AYAQA_HTTPS_PORT}:${AYAQA_SECURE_WEB_PORT}'
-      - '${AYAQA_XDEBUG_PORT}:${AYAQA_XDEBUG_PORT}'
-      - '${AYAQA_SSH_PORT}:${AYAQA_SSH_PORT}'
+      - '${AYAQA_APP_HTTP_PORT}:${AYAQA_WEB_PORT}'
+      - '${AYAQA_APP_HTTPS_PORT}:${AYAQA_SECURE_WEB_PORT}'
+      - '${AYAQA_APP_XDEBUG_PORT}:${AYAQA_XDEBUG_PORT}'
+      - '${AYAQA_APP_SSH_PORT}:${AYAQA_SSH_PORT}'
     tty: true
 
 volumes:
-  app-data:
-      name: appdata
+  ayaqa-data:
+      name: ayaqa-data
       driver: local
       driver_opts:
         o: bind
