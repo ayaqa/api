@@ -22,6 +22,8 @@ ERROR_STRING=$(RED_COLOR)[ERROR]$(RESET_COLOR)
 WARN_STRING=$(YELLOW_COLOR)[WARNING]$(RESET_COLOR)
 INFO_STRING=$(CYAN_COLOR)[INFO]$(RESET_COLOR)
 
+APP_FORMATTED_FOR_PRINT=$(RED_COLOR)[$(GREEN_COLOR)${APP_NAME}$(RED_COLOR)]$(RESET_COLOR)
+
 # paths
 ROOT_DEV_DIR=${CURDIR}
 ROOT_INFRA_DIR=
@@ -121,7 +123,7 @@ include ${INFRA_DIR_PATH}/${ROOT_INFRA_MAKE_VARS_RELATIVE_PATH}
 	@echo "${OK_STRING} Local ${ENV_FILE_NAME} file is fine."
 
 .check_if_app_dir_is_fine:
-	@echo "${INFO_STRING} Check if app dir for ${APP_NAME} have all required files/folders."
+	@echo "${INFO_STRING} Check if app dir for ${APP_FORMATTED_FOR_PRINT} have all required files/folders."
 	@if [[ ! -d "${APP_FILES_DIR}" ]]; then \
 		echo "${ERROR_STRING} App root dir was not found at ${APP_FILES_DIR}"; \
 		exit 1; \
@@ -138,7 +140,7 @@ include ${INFRA_DIR_PATH}/${ROOT_INFRA_MAKE_VARS_RELATIVE_PATH}
 		echo "${ERROR_STRING} docker-compose template is missing at ${DOCKER_COMPOSE_TEMPLATE_FILE_PATH}"; \
 		exit 1; \
 	fi;
-	@echo "${OK_STRING} App: ${APP_NAME} dir have all required files/folders."
+	@echo "${OK_STRING} App: ${APP_FORMATTED_FOR_PRINT} dir have all required files/folders."
 
 .compile_dev_config_file:
 	@echo "${INFO_STRING} Compile dynamic config using ${DEV_CONFIG_JSON_LOCAL_FILE_NAME}"
@@ -164,7 +166,7 @@ generate_infra_config_files:
 	@echo "${YELLOW_COLOR}============== ayaqa/infra output end ========${RESET_COLOR}"
 
 generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_file
-	@echo "${INFO_STRING} Generate [${DOCKER_COMPOSE_DYNAMIC_FILE_NAME}] for [${APP_NAME}] development env."
+	@echo "${INFO_STRING} Generate [${DOCKER_COMPOSE_DYNAMIC_FILE_NAME}] for ${APP_FORMATTED_FOR_PRINT} development env."
 	@if [[ -f "${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}" ]]; then \
 		echo "${WARN_STRING} Found generated ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"; \
 		echo "${WARN_STRING} Will stop all docker compose services and remove generated dynamic files."; \
@@ -188,7 +190,7 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@echo "${OK_STRING} ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} was generated at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"
 
 .clean:
-	@echo "${INFO_STRING} Removing everything dynamic generated for: ${APP_NAME}"
+	@echo "${INFO_STRING} Removing everything dynamic generated for ${APP_FORMATTED_FOR_PRINT}"
 	@if [[ -f "${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}" ]]; then \
 		echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} down; \
@@ -200,38 +202,38 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@rm -f ${DOCKER_COMPOSE_ENV_FILE_PATH}
 	@echo "${INFO_STRING} Remove dynamic ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} file at ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}"
 	@rm -f ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}
-	@echo "${OK_STRING} Everything dynamic for [${APP_NAME}] were cleared."
+	@echo "${OK_STRING} Everything dynamic for ${APP_FORMATTED_FOR_PRINT} were cleared."
 
 
 # Docker compose targets
 .check_if_docker_compose_is_generated:
 	@if [[ ! -f "${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}" ]]; then \
-		echo "${ERROR_STRING} ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} is not found for ${APP_NAME} at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"; \
+		echo "${ERROR_STRING} ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} is not found for ${APP_FORMATTED_FOR_PRINT} at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"; \
 		exit 1; \
 	fi
 
 .up: .check_if_docker_compose_is_generated
-	@echo "${INFO_STRING} Executing docker-compose up -d for ${APP_NAME}"
+	@echo "${INFO_STRING} Executing docker-compose up -d for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} up -d; \
 		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
 
 .down: .check_if_docker_compose_is_generated
-	@echo "${INFO_STRING} Executing docker-compose down for ${APP_NAME}"
+	@echo "${INFO_STRING} Executing docker-compose down for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} down; \
 		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
 
 .status: .check_if_docker_compose_is_generated
-	@echo "${INFO_STRING} Executing docker-compose ps for ${APP_NAME}"
+	@echo "${INFO_STRING} Executing docker-compose ps for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} ps; \
 		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
 
 .logs: .check_if_docker_compose_is_generated
-	@echo "${INFO_STRING} docker-compose logs for ${APP_NAME}"
+	@echo "${INFO_STRING} docker-compose logs for ${APP_FORMATTED_FOR_PRINT}"
 	@docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} logs --tail=100 -f
 
 docker_compose:
-	@echo "${INFO_STRING} Command below can be used to run docker-compose commands for ${APP_NAME}"
+	@echo "${INFO_STRING} Command below can be used to run docker-compose commands for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"
