@@ -2,15 +2,16 @@ version: '3.7'
 
 services:
   ayaqa_dev:
-    container_name: ayaqa_dev
-    hostname: ayaqa
+    container_name: ${AYAQA_APP_NAME}
+    hostname: ${AYAQA_APP_NAME}
     image: "${AYAQA_PROJECT_NAME}:${AYAQA_PROJECT_TAG}"
     networks:
       - ayaqa_network
     env_file:
         - app.env
     volumes:
-      - 'ayaqa-data:${AYAQA_APP_ROOT_DIR}:rw,delegated'
+      - '${AYAQA_DATA_NAME}:${AYAQA_APP_ROOT_DIR}:rw,delegated'
+      - '../setup/:${AYAQA_BOOT_CONFIG_DIR}:rw,cached'
     ports:
       - '${AYAQA_APP_HTTP_PORT}:${AYAQA_WEB_PORT}'
       - '${AYAQA_APP_HTTPS_PORT}:${AYAQA_SECURE_WEB_PORT}'
@@ -20,7 +21,7 @@ services:
 
 volumes:
   ayaqa-data:
-      name: ayaqa-data
+      name: "${AYAQA_DATA_NAME}"
       driver: local
       driver_opts:
         o: bind
@@ -29,5 +30,5 @@ volumes:
 
 networks:
   ayaqa_network:
-      name  : ayaqa_network
+      name  : "${AYAQA_NETWORK_NAME}"
       driver: bridge

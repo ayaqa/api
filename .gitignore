@@ -5,9 +5,12 @@
 # All dynamic files should be ignored.
 .env
 
+# Temporay ignore until everything is fine with Welcome screen of Laravel
+/app/*
+
 # Docker compose envs files
-infra/app/*/static/.env
-infra/app/*/static/app.env
+infra/app/*/static/*/.env
+infra/app/*/static/*/app.env
 infra/app/*/build/*
 !infra/app/*/build/.gitkeep
 

@@ -35,20 +35,21 @@ ROOT_INFRA_MAKE_VARS_RELATIVE_PATH=vars.mk
 
 APP_FILES_DIR=${ROOT_DEV_DIR}/infra/app/${APP_NAME}
 APP_STATIC_DIR=${APP_FILES_DIR}/static
+APP_DOCKER_TEMPLATE_DIR=${APP_STATIC_DIR}/template
 APP_BUILD_DIR=${APP_FILES_DIR}/build
 
 # docker-compose file paths
 DOCKER_COMPOSE_TEMPLATE_FILE_NAME=docker-compose.yml
-DOCKER_COMPOSE_TEMPLATE_FILE_PATH=${APP_STATIC_DIR}/${DOCKER_COMPOSE_TEMPLATE_FILE_NAME}
+DOCKER_COMPOSE_TEMPLATE_FILE_PATH=${APP_DOCKER_TEMPLATE_DIR}/${DOCKER_COMPOSE_TEMPLATE_FILE_NAME}
 
 DOCKER_COMPOSE_ENV_FILE_NAME=.env
-DOCKER_COMPOSE_ENV_FILE_PATH=${APP_STATIC_DIR}/${DOCKER_COMPOSE_ENV_FILE_NAME}
+DOCKER_COMPOSE_ENV_FILE_PATH=${APP_DOCKER_TEMPLATE_DIR}/${DOCKER_COMPOSE_ENV_FILE_NAME}
 
 DOCKER_COMPOSE_DYNAMIC_FILE_NAME=docker-compose.yml
 DOCKER_COMPOSE_DYNAMIC_FILE_PATH=${APP_BUILD_DIR}/${DOCKER_COMPOSE_DYNAMIC_FILE_NAME}
 
 DOCKER_COMPOSE_APP_ENV_FILE_NAME=app.env
-DOCKER_COMPOSE_APP_ENV_FILE_PATH=${APP_STATIC_DIR}/${DOCKER_COMPOSE_APP_ENV_FILE_NAME}
+DOCKER_COMPOSE_APP_ENV_FILE_PATH=${APP_DOCKER_TEMPLATE_DIR}/${DOCKER_COMPOSE_APP_ENV_FILE_NAME}
 
 # configs paths
 DEV_CONFIG_JSON_MAIN_FILE_NAME=config.json
@@ -72,11 +73,12 @@ help: .display_help_dev
 pre_build: .include_env .validate_env_vars_from_file
 build: pre_build generate_infra_config_files generate_docker_compose_files
 clean: .clean
-up: .up
-down: .down
-ps: .status
-status: .status
-logs: .logs
+up: .docker_up
+down: .docker_down
+ps: .docker_status
+status: .docker_status
+logs: .docker_logs
+bash: .docker_bash
 
 .util_ask_to_continue:
 	@echo -n "Continue? [y/N] " && read ans && if [[ $${ans:-N} =~ ^[Nn] ]]; then \
@@ -178,14 +180,14 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 		jq '.APPS.${APP_NAME}.APP_VARS' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_ENV_FILE_PATH}; \
 		echo "${OK_STRING} Docker compose ${DOCKER_COMPOSE_ENV_FILE_NAME} was generated. Saved in: ${DOCKER_COMPOSE_ENV_FILE_PATH} "; \
 	fi;
-	@echo "Getting shared vars from ayaqa/infra: ${SHARED_VARS_FILE_PATH}"
+	@echo "${INFO_STRING} Getting shared vars from ayaqa/infra: ${SHARED_VARS_FILE_PATH}"
 	@if [[ $$(jq '.' ${SHARED_VARS_FILE_PATH}) != "null" ]]; then \
 		jq "." ${SHARED_VARS_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_ENV_FILE_PATH}; \
 		echo "${OK_STRING} Shared vars were merged into .env: ${DOCKER_COMPOSE_ENV_FILE_PATH}"; \
 		jq "." ${SHARED_VARS_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}; \
 		echo "${OK_STRING} Shared vars were added into ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} at ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}"; \
 	fi;
-	@echo "Generate ${DOCKER_COMPOSE_TEMPLATE_FILE_NAME} by using dynamic vars."
+	@echo "${INFO_STRING} Generate ${DOCKER_COMPOSE_TEMPLATE_FILE_NAME} by using dynamic vars."
 	@docker-compose -f ${DOCKER_COMPOSE_TEMPLATE_FILE_PATH} --env-file ${DOCKER_COMPOSE_ENV_FILE_PATH} config > ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}
 	@echo "${OK_STRING} ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} was generated at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"
 
@@ -202,6 +204,8 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@rm -f ${DOCKER_COMPOSE_ENV_FILE_PATH}
 	@echo "${INFO_STRING} Remove dynamic ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} file at ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}"
 	@rm -f ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}
+	@echo "${INFO_STRING} Remove docker-compose data volume"
+	@docker volume rm $(shell jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS.AYAQA_DATA_NAME' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH})
 	@echo "${OK_STRING} Everything dynamic for ${APP_FORMATTED_FOR_PRINT} were cleared."
 
 
@@ -212,28 +216,32 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 		exit 1; \
 	fi
 
-.up: .check_if_docker_compose_is_generated
+.docker_up: .check_if_docker_compose_is_generated
 	@echo "${INFO_STRING} Executing docker-compose up -d for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} up -d; \
 		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
 
-.down: .check_if_docker_compose_is_generated
+.docker_down: .check_if_docker_compose_is_generated
 	@echo "${INFO_STRING} Executing docker-compose down for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} down; \
 		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
 
-.status: .check_if_docker_compose_is_generated
+.docker_status: .check_if_docker_compose_is_generated
 	@echo "${INFO_STRING} Executing docker-compose ps for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} ps; \
 		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
 
-.logs: .check_if_docker_compose_is_generated
+.docker_logs: .check_if_docker_compose_is_generated
 	@echo "${INFO_STRING} docker-compose logs for ${APP_FORMATTED_FOR_PRINT}"
 	@docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} logs --tail=100 -f
 
-docker_compose:
+.docker_bash: .check_if_docker_compose_is_generated
+	@echo "${INFO_STRING} docker-compose bash for ${APP_FORMATTED_FOR_PRINT}"
+	@docker exec -it $(shell jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS.AYAQA_APP_NAME' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}) /bin/bash
+
+docker_compose: .check_if_docker_compose_is_generated
 	@echo "${INFO_STRING} Command below can be used to run docker-compose commands for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"
