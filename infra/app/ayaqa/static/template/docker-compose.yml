@@ -12,6 +12,7 @@ services:
     volumes:
       - '${AYAQA_DATA_NAME}:${AYAQA_APP_ROOT_DIR}:rw,delegated'
       - '../setup/:${AYAQA_BOOT_CONFIG_DIR}:rw,cached'
+      - '${AYAQA_VOLUME_DIR}:${AYAQA_INFRA_PERSIST_DIR}:rw,cached'
     ports:
       - '${AYAQA_APP_HTTP_PORT}:${AYAQA_WEB_PORT}'
       - '${AYAQA_APP_HTTPS_PORT}:${AYAQA_SECURE_WEB_PORT}'
