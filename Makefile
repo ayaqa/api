@@ -204,8 +204,10 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@rm -f ${DOCKER_COMPOSE_ENV_FILE_PATH}
 	@echo "${INFO_STRING} Remove dynamic ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} file at ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}"
 	@rm -f ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}
-	@echo "${INFO_STRING} Remove docker-compose data volume"
-	@docker volume rm $(shell jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS.AYAQA_DATA_NAME' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH})
+	@echo "${INFO_STRING} Remove docker-compose app volume"
+	@docker volume rm -f $(shell jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS.AYAQA_DATA_NAME' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH})
+	@echo "${INFO_STRING} Remove docker-compose data persist volume"
+	@docker volume rm -f $(shell jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS.AYAQA_VOLUME_NAME' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH})
 	@echo "${OK_STRING} Everything dynamic for ${APP_FORMATTED_FOR_PRINT} were cleared."
 
 

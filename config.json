@@ -7,7 +7,8 @@
                 "AYAQA_PROJECT_TAG": "latest",
                 "AYAQA_APP_DIR": "{{ROOT_DEV_DIR}}/app",
                 "AYAQA_VOLUME_DIR": "{{ROOT_DEV_DIR}}/volume",
-                "AYAQA_DATA_NAME": "ayaqa-data",
+                "AYAQA_DATA_NAME": "ayaqa-code",
+                "AYAQA_VOLUME_NAME": "ayaqa-persist",
                 "AYAQA_NETWORK_NAME": "ayaqa_network",
 
                 "AYAQA_APP_HTTP_PORT": "8080",
