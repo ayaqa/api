@@ -11,8 +11,3 @@ ansible-playbook --tags "debug_info" ${AYAQA_INFRA_PROVISION_SHARED_DIR}/provisi
 
 info "NGINX config"
 ansible-playbook --tags "nginx_vhost" ${AYAQA_INFRA_PROVISION_SHARED_DIR}/provision.yml
-
-# Store docker envs to env file.
-info "Move all env variables into: /etc/environment."
-echo "LC_ALL=en_US.UTF-8" > /etc/environment
-env | grep "AYAQA_" >> /etc/environment
