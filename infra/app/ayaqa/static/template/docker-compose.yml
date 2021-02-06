@@ -4,15 +4,15 @@ services:
   ayaqa_dev:
     container_name: ${AYAQA_APP_NAME}
     hostname: ${AYAQA_APP_NAME}
-    image: "${AYAQA_PROJECT_NAME}:${AYAQA_PROJECT_TAG}"
+    image: "${AYAQA_INFRA_IMAGE_NAME}:${AYAQA_INFRA_IMAGE_TAG}"
     networks:
       - ayaqa_network
     env_file:
         - app.env
     volumes:
-      - '${AYAQA_DATA_NAME}:${AYAQA_APP_ROOT_DIR}:rw,delegated'
-      - '../setup/:${AYAQA_BOOT_CONFIG_DIR}:rw,cached'
-      - '${AYAQA_VOLUME_NAME}:${AYAQA_INFRA_PERSIST_DIR}:rw,cached'
+      - '${AYAQA_DATA_NAME}:${AYAQA_APP_VOLUME_DIR}:rw,delegated'
+      - '../setup/:${AYAQA_INFRA_BOOT_CONFIG_DIR}:rw,cached'
+      - '${AYAQA_VOLUME_NAME}:${AYAQA_INFRA_VOLUME_DIR}:rw,cached'
     ports:
       - '${AYAQA_APP_HTTP_PORT}:${AYAQA_WEB_PORT}'
       - '${AYAQA_APP_HTTPS_PORT}:${AYAQA_SECURE_WEB_PORT}'
@@ -29,7 +29,7 @@ volumes:
         type: none
         device: ${AYAQA_APP_DIR}
 
-  ayaqa-persist:
+  ayaqa-volume:
     name: "${AYAQA_VOLUME_NAME}"
     driver: local
     driver_opts:

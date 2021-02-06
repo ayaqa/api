@@ -31,7 +31,9 @@ ENV_FILE_NAME=.env
 ENV_FILE_TEMPLATE_NAME=.env.dist
 ENV_FILE_PATH=${ROOT_DEV_DIR}/${ENV_FILE_NAME}
 ENV_FILE_TEMPLATE_PATH=${ROOT_DEV_DIR}/${ENV_FILE_TEMPLATE_NAME}
-ROOT_INFRA_MAKE_VARS_RELATIVE_PATH=vars.mk
+
+AYAQA_INFRA_VARS_FILE_NAME=make.mk
+AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE=files/vars/${AYAQA_INFRA_VARS_FILE_NAME}
 
 APP_FILES_DIR=${ROOT_DEV_DIR}/infra/app/${APP_NAME}
 APP_STATIC_DIR=${APP_FILES_DIR}/static
@@ -110,7 +112,7 @@ bash: .docker_bash
 	@echo "${OK_STRING} Variables from ${ENV_FILE_NAME} file were included."
 include ${ENV_FILE_PATH}
 ROOT_INFRA_DIR=${INFRA_DIR_PATH}
-include ${INFRA_DIR_PATH}/${ROOT_INFRA_MAKE_VARS_RELATIVE_PATH}
+include ${INFRA_DIR_PATH}/${AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE}
 
 .validate_env_vars_from_file:
 	@echo "${INFO_STRING} Check if ${ENV_FILE_NAME} file have all required vars."
@@ -180,12 +182,19 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 		jq '.APPS.${APP_NAME}.APP_VARS' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_ENV_FILE_PATH}; \
 		echo "${OK_STRING} Docker compose ${DOCKER_COMPOSE_ENV_FILE_NAME} was generated. Saved in: ${DOCKER_COMPOSE_ENV_FILE_PATH} "; \
 	fi;
-	@echo "${INFO_STRING} Getting shared vars from ayaqa/infra: ${SHARED_VARS_FILE_PATH}"
+	@echo "${INFO_STRING} Getting shared vars from ayaqa/infra: ${SHARED_VARS_FILE_NAME}"
 	@if [[ $$(jq '.' ${SHARED_VARS_FILE_PATH}) != "null" ]]; then \
 		jq "." ${SHARED_VARS_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_ENV_FILE_PATH}; \
 		echo "${OK_STRING} Shared vars were merged into .env: ${DOCKER_COMPOSE_ENV_FILE_PATH}"; \
 		jq "." ${SHARED_VARS_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}; \
 		echo "${OK_STRING} Shared vars were added into ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} at ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}"; \
+	fi;
+	@echo "${INFO_STRING} Getting constants from ayaqa/infra: ${CONSTANTS_FILE_NAME}"
+	@if [[ $$(jq '.' ${CONSTANTS_FILE_PATH}) != "null" ]]; then \
+		jq "." ${CONSTANTS_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_ENV_FILE_PATH}; \
+		echo "${OK_STRING} Shared vars were merged into .env: ${DOCKER_COMPOSE_ENV_FILE_PATH}"; \
+		jq "." ${CONSTANTS_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" >> ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}; \
+		echo "${OK_STRING} Constants were added into ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} at ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}"; \
 	fi;
 	@echo "${INFO_STRING} Generate ${DOCKER_COMPOSE_TEMPLATE_FILE_NAME} by using dynamic vars."
 	@docker-compose -f ${DOCKER_COMPOSE_TEMPLATE_FILE_PATH} --env-file ${DOCKER_COMPOSE_ENV_FILE_PATH} config > ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}
