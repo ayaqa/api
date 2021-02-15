@@ -11,7 +11,8 @@ services:
         - app.env
     volumes:
       - '${AYAQA_DATA_NAME}:${AYAQA_APP_VOLUME_DIR}:rw,delegated'
-      - '../setup/:${AYAQA_INFRA_BOOT_CONFIG_DIR}:rw,cached'
+      - '../scripts/:${AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME}:rw,cached'
+      - '../confs/:${AYAQA_INFRA_ON_BOOT_CONFS_VOLUME}:rw,cached'
       - '${AYAQA_VOLUME_NAME}:${AYAQA_INFRA_VOLUME_DIR}:rw,cached'
     ports:
       - '${AYAQA_APP_HTTP_PORT}:${AYAQA_WEB_PORT}'

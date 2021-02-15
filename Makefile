@@ -76,6 +76,7 @@ pre_build: .include_env .validate_env_vars_from_file
 build: pre_build generate_infra_config_files generate_docker_compose_files
 clean: .clean
 up: .docker_up
+stop: .docker_stop
 down: .docker_down
 ps: .docker_status
 status: .docker_status
@@ -237,6 +238,12 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@echo "${INFO_STRING} Executing docker-compose down for ${APP_FORMATTED_FOR_PRINT}"
 	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
 		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} down; \
+		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
+
+.docker_stop: .check_if_docker_compose_is_generated
+	@echo "${INFO_STRING} Executing docker-compose stop for ${APP_FORMATTED_FOR_PRINT}"
+	@echo "${YELLOW_COLOR}============== docker-compose output start ========${RESET_COLOR}"; \
+		docker-compose -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH} stop; \
 		echo "${YELLOW_COLOR}============== docker-compose output end ========${RESET_COLOR}";
 
 .docker_status: .check_if_docker_compose_is_generated
