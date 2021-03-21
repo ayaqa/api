@@ -135,7 +135,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -169,12 +168,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-
+        AyaQA\Core\Providers\AppServiceProvider::class,
+        AyaQA\Core\Providers\AuthServiceProvider::class,
+        // AyaQA\Core\Providers\BroadcastServiceProvider::class,
+        AyaQA\Core\Providers\EventServiceProvider::class,
+        AyaQA\Core\Providers\RouteServiceProvider::class,
     ],
 
     /*
@@ -189,7 +187,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -226,7 +223,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
 
 ];
