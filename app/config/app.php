@@ -170,9 +170,10 @@ return [
          */
         AyaQA\Core\Providers\AppServiceProvider::class,
         AyaQA\Core\Providers\AuthServiceProvider::class,
-        // AyaQA\Core\Providers\BroadcastServiceProvider::class,
         AyaQA\Core\Providers\EventServiceProvider::class,
+        AyaQA\Core\Providers\ModuleServiceProvider::class,
         AyaQA\Core\Providers\RouteServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*

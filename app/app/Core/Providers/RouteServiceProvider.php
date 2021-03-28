@@ -2,10 +2,9 @@
 
 namespace AyaQA\Core\Providers;
 
-use Illuminate\Cache\RateLimiting\Limit;
+use AyaQA\Core\Contract\Module\ModuleInterface;
+use AyaQA\Core\Literal\RouteConst;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
@@ -20,44 +19,57 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
 
     /**
-     * The controller namespace for the application.
-     *
-     * When present, controller route declarations will automatically be prefixed with this namespace.
-     *
-     * @var string|null
-     */
-    // protected $namespace = 'App\\Http\\Controllers';
-
-    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
      */
-    public function boot()
+    public function map()
     {
-        $this->configureRateLimiting();
-
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
-
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
-        });
+        $this->registerDefault();
+        $this->registerModuleRoutes();
     }
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
-    protected function configureRateLimiting()
+    public function registerDefault()
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
+        Route::prefix(RouteConst::API_PREFIX)
+            ->middleware(RouteConst::API_MIDDLEWARE)
+            ->namespace($this->namespace)
+            ->group($this->getApiRoutePath('core'));
+
+        Route::middleware(RouteConst::WEB_MIDDLEWARE)
+            ->namespace($this->namespace)
+            ->group($this->getWebRoutePath('core'));
+    }
+
+    public function registerModuleRoutes()
+    {
+        $allModules = $this->app->tagged(ModuleInterface::CONTAINER_MODULES_TAG);
+
+        /** @var ModuleInterface $module */
+        foreach ($allModules as $module) {
+            $apiPath = $this->getApiRoutePath($module->getModule());
+            if (file_exists($apiPath)) {
+                Route::prefix(RouteConst::API_PREFIX)
+                    ->as($module->getKey().'.')
+                    ->group($apiPath);
+            }
+
+            $webPath = $this->getWebRoutePath($module->getModule());
+            if (file_exists($webPath)) {
+                Route::middleware(RouteConst::WEB_MIDDLEWARE)
+                    ->as($module->getKey().'.')
+                    ->group($webPath);
+            }
+        }
+    }
+
+    protected function getWebRoutePath(string $module): string
+    {
+        return sprintf(base_path('routes/web/%s/routes.php'), $module);
+    }
+
+    protected function getApiRoutePath(string $module): string
+    {
+        return sprintf(base_path('routes/api/%s/routes.php'), $module);
     }
 }
