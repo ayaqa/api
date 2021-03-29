@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('bug')->group(function () {
-    Route::get('/version', [\AyaQA\Module\Bug\Http\Controller\VersionController::class, 'index'])->name('version');
+    Route::get('/info', [\AyaQA\Module\Bug\Http\Controller\InfoController::class, 'index'])->name('version');
 });

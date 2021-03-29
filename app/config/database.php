@@ -35,10 +35,10 @@ return [
 
     'connections' => [
 
-        'sqlite' => [
+        'main_sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => sprintf('%s/../database/sqlite/%s', __DIR__, env('DB_MAIN_DB')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
