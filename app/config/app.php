@@ -173,7 +173,8 @@ return [
         AyaQA\Core\Providers\EventServiceProvider::class,
         AyaQA\Core\Providers\ModuleServiceProvider::class,
         AyaQA\Core\Providers\RouteServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
+        AyaQA\Core\Providers\EnvBasedServiceProvider::class,
     ],
 
     /*

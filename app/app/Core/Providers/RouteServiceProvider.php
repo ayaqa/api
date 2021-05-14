@@ -34,11 +34,11 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix(RouteConst::API_PREFIX)
             ->middleware(RouteConst::API_MIDDLEWARE)
             ->namespace($this->namespace)
-            ->group($this->getApiRoutePath('core'));
+            ->group($this->getApiRoutePath('Core'));
 
         Route::middleware(RouteConst::WEB_MIDDLEWARE)
             ->namespace($this->namespace)
-            ->group($this->getWebRoutePath('core'));
+            ->group($this->getWebRoutePath('Core'));
     }
 
     public function registerModuleRoutes()

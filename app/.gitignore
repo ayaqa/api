@@ -12,3 +12,5 @@ yarn-error.log
 # Custom
 .phpstorm.meta.php
 _ide_helper.php
+!database/sqlite/.gitkeep
+database/sqlite/*
