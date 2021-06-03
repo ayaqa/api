@@ -1,5 +1,7 @@
 import urls from './urls';
+import attrs from './data-attr'
 
-export default {
+export {
     urls,
+    attrs
 }

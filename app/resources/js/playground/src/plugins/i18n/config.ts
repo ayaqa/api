@@ -1,29 +1,64 @@
+import { sideMenu } from "@/router"
 
 export const mainMenuTranslations = {
     en: {
-        message: {
-            home: 'Home',
-            configure: 'Configure',
-            status: 'Status',
-            app: 'App',
-            api: 'Api',
-            versionInfo: 'Version Info',
-            reportABug: 'Report a bug',
+        home: 'Home',
+        configure: 'Configure',
+        status: 'Status',
+        ayaqa: 'AyaQA.com',
+        app: 'App',
+        api: 'Api',
+        versionInfo: 'Version Info',
+        reportABug: 'Report a bug',
 
-            intro: 'Intro',
-            support: 'Support',
+        support: 'Support',
 
-            github: 'Github',
-            twitter: 'Twitter',
-            chat: 'Chat',
-        }
+        github: 'Github',
+        twitter: 'Twitter',
+        chat: 'Chat',
+    },
+    bg: {
+        home: 'Начало',
+        configure: 'Конфигурай',
+        status: 'Статус',
     }
 }
 
-const localesList = [mainMenuTranslations];
+export const sideMenuTranslations = {
+    en: {
+        home: 'Home',
+        checkboxes: 'Checkboxes',
+
+        simpleHeader: 'Simple'
+    },
+    bg: {
+        home: 'Начало',
+        checkboxes: 'Checkboxes',
+
+        simpleHeader: 'Основни'
+    }
+}
+
+export const commonTranslations = {
+    en: {
+        logout: 'Logout',
+        navigationToggle: 'Show/hide side navigation'
+    },
+    bg: {
+        logout: 'Изход',
+        navigationToggle: 'Покажи/скрии страничната навигация'
+    }
+}
 
 export const localesConfigs = {
     en: {
-        message: Object.assign({}, ...localesList.map((v) => v.en.message)),
+        menu: mainMenuTranslations.en,
+        sidemenu: sideMenuTranslations.en,
+        common: commonTranslations.en,
+    },
+    bg: {
+        menu: mainMenuTranslations.bg,
+        sidemenu: sideMenuTranslations.bg,
+        common: commonTranslations.bg,
     }
 }

@@ -1,11 +1,11 @@
 <template>
     <div>
-        Welcome
+        Checkboxes view
     </div>
 </template>
 <script lang='ts'>
 export default {
-    name: "welcome",
+    name: "CheckboxesView",
     setup() {
         return {};
     }
