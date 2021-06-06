@@ -1,62 +1,44 @@
 <template>
-    <q-layout view="hHh lpR lFf" key="layout">
+    <q-layout view="hHh LpR lFf">
         <nav-bar />
-        <q-drawer 
-            v-model="sidebar.opened" 
-            side="left"
-            width="200"
-            breakpoint="400"
-            show-if-above
-            bordered
-        >
-            <side-menu />
-        </q-drawer>
+        <left-side-bar :isOpened="sidebar.leftOpened" />
+        <right-side-bar :isOpened="sidebar.rightOpened" />
         <q-page-container>
             <router-view :key="key" v-slot="{ Component }">
                 <component :is="Component" />
             </router-view>
         </q-page-container>
-        <q-footer reveal class="bg-teal-1 text-primary">
-            <q-space />
-            App version: 12345 &nbsp;
-            API version: 12345
-        </q-footer>
+        <app-footer />
     </q-layout>
 </template>
 
 <script lang="ts">
 import { 
     defineComponent,
-    toRefs,
-    reactive,
     computed
 } from 'vue'
 
 import { useStore } from 'vuex'
 import NavBar from './components/NavBar.vue'
-import SideMenu from './components/SideMenu.vue'
-
-interface ISet {
-  sidebar: Boolean;
-}
+import LeftSideBar from './components/LeftSideBar.vue'
+import RightSideBar from './components/RightSideBar.vue';
+import AppFooter from './components/Footer.vue'
 
 export default defineComponent({
     name: "DefaultLayout",
     components: {
         NavBar,
-        SideMenu
+        LeftSideBar,
+        AppFooter,
+        RightSideBar
     },
     setup() {
         const store = useStore();
 
-        const set: ISet = reactive({
-            sidebar: computed(() => {
-                return store.state.app.sidebar;
-            }),   
-        });
+        const sidebar = computed(() => store.state.app.sidebar);
 
         return {
-            ...toRefs(set)
+            sidebar
         }
     }
 });

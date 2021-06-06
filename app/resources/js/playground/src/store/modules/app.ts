@@ -1,21 +1,23 @@
-interface stateInterface {
+interface sideBarInterface {
     sidebar: {
-      opened: Boolean,
+      rightOpened: Boolean,
+      leftOpened: Boolean,
     },
 }
 
 const state = {
     sidebar: {
-      opened: true,
+      rightOpened: true,
+      leftOpened: true,
     },
 }
 
 const mutations = {
-    TOGGLE_SIDEBAR: (state: stateInterface): void => {
-      state.sidebar.opened = !state.sidebar.opened
+    TOGGLE_SIDEBAR: (state: sideBarInterface): void => {
+      state.sidebar.leftOpened = !state.sidebar.leftOpened
     },
-    CLOSE_SIDEBAR: (state: stateInterface) => {
-      state.sidebar.opened = false
+    CLOSE_SIDEBAR: (state: sideBarInterface) => {
+      state.sidebar.leftOpened = false
     }
 }
 

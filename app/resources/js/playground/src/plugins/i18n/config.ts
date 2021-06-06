@@ -42,11 +42,13 @@ export const sideMenuTranslations = {
 export const commonTranslations = {
     en: {
         logout: 'Logout',
-        navigationToggle: 'Show/hide side navigation'
+        navigationToggle: 'Show/hide side navigation',
+        doNotTestHere: 'DO NOT TEST HERE'
     },
     bg: {
         logout: 'Изход',
-        navigationToggle: 'Покажи/скрии страничната навигация'
+        navigationToggle: 'Покажи/скрии страничната навигация',
+        doNotTestHere: 'Не тествайте тук'
     }
 }
 
