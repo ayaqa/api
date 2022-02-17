@@ -116,8 +116,8 @@ bash: .docker_bash
 	fi;
 	@echo "${OK_STRING} Variables from ${ENV_FILE_NAME} file were included."
 include ${ENV_FILE_PATH}
-ROOT_INFRA_DIR=${INFRA_DIR_PATH}
-DOCKER_VOLUME_DIR=${DOCKER_VOLUME_PATH}
+ROOT_INFRA_DIR=`realpath -s ${INFRA_DIR_PATH}`
+DOCKER_VOLUME_DIR=`realpath -s ${DOCKER_VOLUME_PATH}`
 include ${INFRA_DIR_PATH}/${AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE}
 
 .validate_env_vars_from_file:
@@ -138,6 +138,10 @@ include ${INFRA_DIR_PATH}/${AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE}
 		echo "${ERROR_STRING} DOCKER_VOLUME_PATH from [${ENV_FILE_NAME}] is not a directory."; \
 		exit 1; \
 	fi;
+
+	@echo "${INFO_STRING} ROOT_INFRA_DIR ${ROOT_INFRA_DIR}."
+	@echo "${INFO_STRING} DOCKER_VOLUME_DIR ${DOCKER_VOLUME_DIR}."
+
 	@echo "${OK_STRING} Local ${ENV_FILE_NAME} file is fine."
 
 .check_if_app_dir_is_fine:
@@ -237,6 +241,10 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@docker volume rm -f $(shell jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS.AYAQA_DATA_NAME' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH})
 	@echo "${INFO_STRING} Remove docker-compose data persist volume"
 	@docker volume rm -f $(shell jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS.AYAQA_VOLUME_NAME' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH})
+
+	@echo "${INFO_STRING} Remove dynamic ${DEV_CONFIG_JSON_GENERATED_FILE_NAME} file at ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}"
+	@rm -f ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}
+
 	@echo "${OK_STRING} Everything dynamic for ${APP_FORMATTED_FOR_PRINT} were cleared."
 
 
