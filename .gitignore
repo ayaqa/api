@@ -3,7 +3,7 @@
 .DS_Store
 
 # All dynamic files should be ignored.
-.env
+.make-env
 
 # Docker compose envs files
 infra/app/*/static/*/.env
@@ -11,9 +11,9 @@ infra/app/*/static/*/app.env
 infra/app/*/build/*
 !infra/app/*/build/.gitkeep
 
-config-local.json
-config-generated.json
+infra-config-local.json
+infra-config-generated.json
 
 # If using something that have to persis data between runs
-volume/*
-!volume/.gitkeep
+infra/volume/*
+!infra/volume/.gitkeep

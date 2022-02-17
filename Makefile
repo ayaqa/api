@@ -26,16 +26,16 @@ APP_FORMATTED_FOR_PRINT=$(RED_COLOR)[$(GREEN_COLOR)${APP_NAME}$(RED_COLOR)]$(RES
 
 # paths
 ROOT_DEV_DIR=${CURDIR}
-ROOT_INFRA_DIR=
-ENV_FILE_NAME=.env
-ENV_FILE_TEMPLATE_NAME=.env.dist
+INFRA_APP_DIR=${ROOT_DEV_DIR}/infra
+ENV_FILE_NAME=.make-env
+ENV_FILE_TEMPLATE_NAME=.make-env.dist
 ENV_FILE_PATH=${ROOT_DEV_DIR}/${ENV_FILE_NAME}
 ENV_FILE_TEMPLATE_PATH=${ROOT_DEV_DIR}/${ENV_FILE_TEMPLATE_NAME}
 
 AYAQA_INFRA_VARS_FILE_NAME=make.mk
 AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE=files/vars/${AYAQA_INFRA_VARS_FILE_NAME}
 
-APP_FILES_DIR=${ROOT_DEV_DIR}/infra/app/${APP_NAME}
+APP_FILES_DIR=${INFRA_APP_DIR}/app/${APP_NAME}
 APP_STATIC_DIR=${APP_FILES_DIR}/static
 APP_DOCKER_TEMPLATE_DIR=${APP_STATIC_DIR}/template
 APP_BUILD_DIR=${APP_FILES_DIR}/build
@@ -54,17 +54,21 @@ DOCKER_COMPOSE_APP_ENV_FILE_NAME=app.env
 DOCKER_COMPOSE_APP_ENV_FILE_PATH=${APP_DOCKER_TEMPLATE_DIR}/${DOCKER_COMPOSE_APP_ENV_FILE_NAME}
 
 # configs paths
-DEV_CONFIG_JSON_MAIN_FILE_NAME=config.json
-DEV_CONFIG_JSON_MAIN_FILE_PATH=${ROOT_DEV_DIR}/${DEV_CONFIG_JSON_MAIN_FILE_NAME}
+DEV_CONFIG_JSON_MAIN_FILE_NAME=infra-config.json
+DEV_CONFIG_JSON_MAIN_FILE_PATH=${INFRA_APP_DIR}/${DEV_CONFIG_JSON_MAIN_FILE_NAME}
 
-DEV_CONFIG_JSON_LOCAL_FILE_NAME=config-local.json
+DEV_CONFIG_JSON_LOCAL_FILE_NAME=infra-config-local.json
 DEV_CONFIG_JSON_LOCAL_FILE_PATH=${ROOT_DEV_DIR}/${DEV_CONFIG_JSON_LOCAL_FILE_NAME}
 
-DEV_CONFIG_JSON_GENERATED_FILE_NAME=config-generated.json
+DEV_CONFIG_JSON_GENERATED_FILE_NAME=infra-config-generated.json
 DEV_CONFIG_JSON_GENERATED_FILE_PATH=${ROOT_DEV_DIR}/${DEV_CONFIG_JSON_GENERATED_FILE_NAME}
 
 # Others
 COMPILE_CONFIG_COMMAND_INFRA="compile_configs"
+
+# Dynamic (populated during running command)
+ROOT_INFRA_DIR=
+DOCKER_VOLUME_DIR=
 
 .PHONY: help pre_build build clean up down ps status logs generate_infra_config_files generate_docker_compose_files docker_compose
 
@@ -113,6 +117,7 @@ bash: .docker_bash
 	@echo "${OK_STRING} Variables from ${ENV_FILE_NAME} file were included."
 include ${ENV_FILE_PATH}
 ROOT_INFRA_DIR=${INFRA_DIR_PATH}
+DOCKER_VOLUME_DIR=${DOCKER_VOLUME_PATH}
 include ${INFRA_DIR_PATH}/${AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE}
 
 .validate_env_vars_from_file:
@@ -123,6 +128,14 @@ include ${INFRA_DIR_PATH}/${AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE}
 	fi;
 	@if [[ ! -d "${INFRA_DIR_PATH}" ]]; then \
 		echo "${ERROR_STRING} INFRA_DIR_PATH from [${ENV_FILE_NAME}] is not a directory."; \
+		exit 1; \
+	fi;
+	@if [ -z "${DOCKER_VOLUME_PATH}" ]; then \
+		echo "${ERROR_STRING} DOCKER_VOLUME_PATH from [${ENV_FILE_NAME}] was not found."; \
+		exit 1; \
+	fi;
+	@if [[ ! -d "${DOCKER_VOLUME_PATH}" ]]; then \
+		echo "${ERROR_STRING} DOCKER_VOLUME_PATH from [${ENV_FILE_NAME}] is not a directory."; \
 		exit 1; \
 	fi;
 	@echo "${OK_STRING} Local ${ENV_FILE_NAME} file is fine."
@@ -160,8 +173,10 @@ include ${INFRA_DIR_PATH}/${AYAQA_INFRA_RELATIVE_TO_ROOT_PATH_VAR_FILE}
 	@echo "${INFO_STRING} Replace vars within ${DEV_CONFIG_JSON_GENERATED_FILE_NAME}. [OS: ${DETECTED_OS}]"
 	@if [[ ${DETECTED_OS} == 'Darwin' ]]; then \
 		sed -i '' "s|{{ROOT_DEV_DIR}}|$(ROOT_DEV_DIR)|g" ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}; \
+		sed -i '' "s|{{DOCKER_VOLUME_DIR}}|$(DOCKER_VOLUME_DIR)|g" ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}; \
 	else \
 		sed -i "s|{{ROOT_DEV_DIR}}|$(ROOT_DEV_DIR)|g" ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}; \
+		sed -i "s|{{DOCKER_VOLUME_DIR}}|$(DOCKER_VOLUME_DIR)|g" ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}; \
 	fi;
 
 generate_infra_config_files:
@@ -200,6 +215,8 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@echo "${INFO_STRING} Generate ${DOCKER_COMPOSE_TEMPLATE_FILE_NAME} by using dynamic vars."
 	@docker-compose -f ${DOCKER_COMPOSE_TEMPLATE_FILE_PATH} --env-file ${DOCKER_COMPOSE_ENV_FILE_PATH} config > ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}
 	@echo "${OK_STRING} ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} was generated at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"
+	@cp ${DOCKER_COMPOSE_APP_ENV_FILE_PATH} ${APP_BUILD_DIR}
+	@echo "${OK_STRING} ${DOCKER_COMPOSE_APP_ENV_FILE_PATH} was copied to ${APP_BUILD_DIR}"
 
 .clean:
 	@echo "${INFO_STRING} Removing everything dynamic generated for ${APP_FORMATTED_FOR_PRINT}"
@@ -210,6 +227,8 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	fi;
 	@echo "${INFO_STRING} Remove dynamic ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"
 	@rm -f ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}
+	@echo "${INFO_STRING} Remove dynamic ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} at ${APP_BUILD_DIR}"
+	@rm -f ${APP_BUILD_DIR}/${DOCKER_COMPOSE_APP_ENV_FILE_NAME}
 	@echo "${INFO_STRING} Remove dynamic ${DOCKER_COMPOSE_ENV_FILE_NAME} file at ${DOCKER_COMPOSE_ENV_FILE_PATH}"
 	@rm -f ${DOCKER_COMPOSE_ENV_FILE_PATH}
 	@echo "${INFO_STRING} Remove dynamic ${DOCKER_COMPOSE_APP_ENV_FILE_NAME} file at ${DOCKER_COMPOSE_APP_ENV_FILE_PATH}"

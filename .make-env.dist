@@ -1,3 +1,4 @@
 # Put proper path to ayaqa/infra in your file system.
 #####################################################
 INFRA_DIR_PATH=../infra
+DOCKER_VOLUME_DIR=../volume
