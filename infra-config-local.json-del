@@ -1,0 +1,20 @@
+{
+    "APPS": {
+        "ayaqa": {
+            "DOCKER_COMPOSE_VARS": {
+                "AYAQA_PROJECT_NAME": "ayaqa_dev",
+                "AYAQA_PROJECT_TAG": "latest",
+                "AYAQA_APP_DIR": "{{ROOT_DEV_DIR}}",
+                "AYAQA_VOLUME_DIR": "{{ROOT_DEV_DIR}}/volume",
+
+                "AYAQA_APP_HTTP_PORT": "8081",
+                "AYAQA_APP_HTTPS_PORT": "8444",
+                "AYAQA_APP_XDEBUG_PORT": "9012",
+                "AYAQA_APP_SSH_PORT": "22123"
+            },
+            "APP_VARS": {
+
+            }
+        }
+    }
+}
