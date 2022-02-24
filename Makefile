@@ -26,7 +26,7 @@ APP_FORMATTED_FOR_PRINT=$(RED_COLOR)[$(GREEN_COLOR)${APP_NAME}$(RED_COLOR)]$(RES
 
 # paths
 ROOT_DEV_DIR=${CURDIR}
-INFRA_APP_DIR=${ROOT_DEV_DIR}/infra
+INFRA_APP_DIR=${ROOT_DEV_DIR}/.infra
 ENV_FILE_NAME=.make-env
 ENV_FILE_TEMPLATE_NAME=.make-env.dist
 ENV_FILE_PATH=${ROOT_DEV_DIR}/${ENV_FILE_NAME}
@@ -93,7 +93,7 @@ bash: .docker_bash
 		exit 1; \
 	fi;
 
-.display_help_dev: 
+.display_help_dev:
 	@echo "";
 	@echo -e "Usage example:\t make [TASK] [VARIABLES]";
 	@echo -e "===================================================================================="
@@ -193,9 +193,10 @@ generate_docker_compose_files: .check_if_app_dir_is_fine .compile_dev_config_fil
 	@echo "${INFO_STRING} Generate [${DOCKER_COMPOSE_DYNAMIC_FILE_NAME}] for ${APP_FORMATTED_FOR_PRINT} development env."
 	@if [[ -f "${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}" ]]; then \
 		echo "${WARN_STRING} Found generated ${DOCKER_COMPOSE_DYNAMIC_FILE_NAME} at ${DOCKER_COMPOSE_DYNAMIC_FILE_PATH}"; \
-		echo "${WARN_STRING} Will stop all docker compose services and remove generated dynamic files."; \
+		echo "${WARN_STRING} Will smtop all docker compose services and remove generated dynamic files."; \
 		make -s .util_ask_to_continue || exit 1;  \
 		make -s clean; \
+		make -s .compile_dev_config_file; \
 	fi;
 	@if [[ $$(jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH}) != "null" ]]; then \
 		jq '.APPS.${APP_NAME}.DOCKER_COMPOSE_VARS' ${DEV_CONFIG_JSON_GENERATED_FILE_PATH} | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" > ${DOCKER_COMPOSE_ENV_FILE_PATH}; \

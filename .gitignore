@@ -23,14 +23,10 @@ yarn-error.log
 .make-env
 
 # Docker compose envs files
-infra/app/*/static/*/.env
-infra/app/*/static/*/app.env
-infra/app/*/build/*
-!infra/app/*/build/.gitkeep
+.infra/app/*/static/*/.env
+.infra/app/*/static/*/app.env
+.infra/app/*/build/*
+!.infra/app/*/build/.gitkeep
 
 infra-config-local.json
 infra-config-generated.json
-
-# If using something that have to persis data between runs
-infra/volume/*
-!infra/volume/.gitkeep
