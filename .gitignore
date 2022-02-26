@@ -30,3 +30,8 @@ yarn-error.log
 
 infra-config-local.json
 infra-config-generated.json
+
+
+# Custom
+/_ide_helper.php
+/.phpstorm.meta.php

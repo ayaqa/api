@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\DatabaseManager;
+use App\Services\SqliteDatabaseManager;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // @TODO move it to different way of loading
+        if ($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
     }
 
     /**
@@ -23,6 +29,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // @TODO move it to specific provider
+        $this->app->singleton(DatabaseManager::class, function(Application $app) {
+            $driverName = $app->get('db')->getDriverName();
+            if ($driverName == 'sqlite') {
+                return $this->app->get(SqliteDatabaseManager::class);
+            }
+
+            throw new \Exception('Not Supported');
+        });
     }
 }

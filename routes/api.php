@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function (Request $request) {
+    $tenant = new \App\Models\Tenant();
+    $tenant->database = 'test_'.mt_rand(100, 500000);
+    $tenant->session = \Ramsey\Uuid\Uuid::uuid4()->toString();
+    $tenant->state = 'created';
+
+    $tenant->save();
 });

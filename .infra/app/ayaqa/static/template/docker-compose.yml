@@ -10,7 +10,7 @@ services:
     env_file:
         - app.env
     volumes:
-      - '${AYAQA_DATA_NAME}:${AYAQA_APP_VOLUME_DIR}:rw,delegated'
+      - '${AYAQA_DATA_NAME}:${AYAQA_APP_VOLUME_DIR}:rw'
       - '../scripts/:${AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME}:rw,cached'
       - '../confs/:${AYAQA_INFRA_ON_BOOT_CONFS_VOLUME}:rw,cached'
       - '${AYAQA_VOLUME_NAME}:${AYAQA_INFRA_VOLUME_DIR}:rw,cached'
@@ -26,9 +26,9 @@ volumes:
       name: "${AYAQA_DATA_NAME}"
       driver: local
       driver_opts:
-        o: bind
-        type: none
-        device: ${AYAQA_APP_DIR}
+        o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+        type: nfs
+        device: ":${AYAQA_APP_DIR}"
 
   ayaqa-volume:
     name: "${AYAQA_VOLUME_NAME}"
