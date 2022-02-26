@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts;
+namespace App\Contracts\Core;
 
 use Spatie\Multitenancy\Models\Tenant;
 

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Core;
 
-use App\Contracts\DatabaseManager;
-use \Spatie\Multitenancy\Models\Tenant as SpatieTenant;
+use App\Contracts\Core\DatabaseManager;
+use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
+use function app;
 
 class Tenant extends SpatieTenant
 {

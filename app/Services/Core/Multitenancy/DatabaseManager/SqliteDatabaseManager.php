@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Multitenancy\DatabaseManager;
+namespace App\Services\Core\Multitenancy\DatabaseManager;
 
-use App\Contracts\DatabaseManager;
+use App\Contracts\Core\DatabaseManager;
 use Spatie\Multitenancy\Models\Tenant;
 use Throwable;
 

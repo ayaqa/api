@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Core;
 
-use App\Contracts\DatabaseManager;
+use App\Contracts\Core\DatabaseManager;
 use App\Services\SqliteDatabaseManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
