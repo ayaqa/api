@@ -171,11 +171,11 @@ return [
         /*
          * Application Service Providers...
          */
-        \App\Providers\Core\AppServiceProvider::class,
-        \App\Providers\Core\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        \App\Providers\Core\EventServiceProvider::class,
-        \App\Providers\Core\RouteServiceProvider::class,
+        \AyaQA\Providers\Core\AppServiceProvider::class,
+        \AyaQA\Providers\Core\AuthServiceProvider::class,
+        // AyaQA\Providers\BroadcastServiceProvider::class,
+        \AyaQA\Providers\Core\EventServiceProvider::class,
+        \AyaQA\Providers\Core\RouteServiceProvider::class,
 
     ],
 

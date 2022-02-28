@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Core\Multitenancy\DatabaseManager;
+namespace AyaQA\Services\Core\Multitenancy\DatabaseManager;
 
-use App\Contracts\Core\DatabaseManager;
+use AyaQA\Contracts\Core\DatabaseManager;
 use Spatie\Multitenancy\Models\Tenant;
 use Throwable;
 

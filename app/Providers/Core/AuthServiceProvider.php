@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Core;
+namespace AyaQA\Providers\Core;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

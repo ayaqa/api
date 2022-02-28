@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Core\Middleware;
+namespace AyaQA\Http\Core\Middleware;
 
 use Illuminate\Http\Middleware\TrustHosts as Middleware;
 

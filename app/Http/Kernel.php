@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace AyaQA\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \App\Http\Middleware\TrustHosts::class,
+        // \AyaQA\Http\Middleware\TrustHosts::class,
         Core\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
         Core\Middleware\PreventRequestsDuringMaintenance::class,

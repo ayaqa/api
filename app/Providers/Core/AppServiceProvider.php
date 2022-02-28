@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers\Core;
+namespace AyaQA\Providers\Core;
 
-use App\Contracts\Core\DatabaseManager;
-use App\Services\SqliteDatabaseManager;
+use AyaQA\Contracts\Core\DatabaseManager;
+use AyaQA\Services\SqliteDatabaseManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 

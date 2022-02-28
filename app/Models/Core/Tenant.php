@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Core;
+namespace AyaQA\Models\Core;
 
-use App\Contracts\Core\DatabaseManager;
+use AyaQA\Contracts\Core\DatabaseManager;
 use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
 use function app;
 

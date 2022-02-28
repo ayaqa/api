@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Core\Middleware;
+namespace AyaQA\Http\Core\Middleware;
 
-use App\Providers\Core\RouteServiceProvider;
+use AyaQA\Providers\Core\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
