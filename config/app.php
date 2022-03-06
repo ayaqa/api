@@ -172,10 +172,10 @@ return [
          * Application Service Providers...
          */
         \AyaQA\Providers\Core\AppServiceProvider::class,
-        \AyaQA\Providers\Core\AuthServiceProvider::class,
         // AyaQA\Providers\BroadcastServiceProvider::class,
         \AyaQA\Providers\Core\EventServiceProvider::class,
         \AyaQA\Providers\Core\RouteServiceProvider::class,
+        \AyaQA\Providers\Core\EnvServiceProvider::class,
 
     ],
 

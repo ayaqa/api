@@ -3,7 +3,7 @@
 namespace AyaQA\Providers\Core;
 
 use AyaQA\Contracts\Core\DatabaseManager;
-use AyaQA\Services\SqliteDatabaseManager;
+use AyaQA\Services\Core\Multitenancy\DatabaseManager\SqliteDatabaseManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 

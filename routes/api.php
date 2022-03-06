@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use AyaQA\Http\Core\Controllers\DefaultController;
+use AyaQA\Http\Core\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (Request $request) {
-    $tenant = new \App\Models\Core\Tenant();
-    $tenant->database = 'test_'.mt_rand(100, 500000);
-    $tenant->session = \Ramsey\Uuid\Uuid::uuid4()->toString();
-    $tenant->state = 'created';
+Route::get('/', [DefaultController::class, 'show'])->name('home');
 
-    $tenant->save();
+Route::prefix('tenant')->group(function () {
+    Route::get('/', [TenantController::class, 'info'])->name('tenant.info');
+    Route::post('/', [TenantController::class, 'create'])->name('tenant.create');
+
+    Route::delete('/', [TenantController::class, 'delete'])->name('tenant.delete');
 });

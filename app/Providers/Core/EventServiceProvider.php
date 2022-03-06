@@ -2,6 +2,7 @@
 
 namespace AyaQA\Providers\Core;
 
+use AyaQA\Listeners\Core\TenantEventSubscriber;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -15,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         //
     ];
 
+    protected $subscribe = [
+        TenantEventSubscriber::class,
+    ];
+
     /**
      * Register any events for your application.
      *
@@ -25,6 +30,8 @@ class EventServiceProvider extends ServiceProvider
         //
     }
 
+
+
     /**
      * Determine if events and listeners should be automatically discovered.
      *
@@ -32,6 +39,13 @@ class EventServiceProvider extends ServiceProvider
      */
     public function shouldDiscoverEvents()
     {
-        return false;
+        return true;
+    }
+
+    protected function discoverEventsWithin()
+    {
+        return [
+            //$this->app->path('Listeners/Core'),
+        ];
     }
 }
