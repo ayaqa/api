@@ -35,3 +35,6 @@ infra-config-generated.json
 # Custom
 /_ide_helper.php
 /.phpstorm.meta.php
+
+# Telescope Dev package
+public/vendor/telescope/*

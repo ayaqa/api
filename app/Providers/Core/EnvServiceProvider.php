@@ -2,12 +2,14 @@
 
 namespace AyaQA\Providers\Core;
 
+use AyaQA\Providers\TelescopeServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class EnvServiceProvider extends ServiceProvider
 {
     const DEV_ONLY_PROVIDERS = [
-        // @TODO add dev packages
+        \Laravel\Telescope\TelescopeServiceProvider::class,
+        TelescopeServiceProvider::class
     ];
 
     public function register()
