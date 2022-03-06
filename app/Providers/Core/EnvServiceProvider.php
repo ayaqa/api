@@ -3,11 +3,13 @@
 namespace AyaQA\Providers\Core;
 
 use AyaQA\Providers\TelescopeServiceProvider;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class EnvServiceProvider extends ServiceProvider
 {
     const DEV_ONLY_PROVIDERS = [
+        IdeHelperServiceProvider::class,
         \Laravel\Telescope\TelescopeServiceProvider::class,
         TelescopeServiceProvider::class
     ];
