@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Multitenancy\TenantFinder\TenantFinder;
 
-class OurTenantFinder extends TenantFinder
+class RequestTenantFinder extends TenantFinder
 {
     const HEADER_SESSION_KEY = 'session';
     const GET_SESSION_KEY = 'session';
@@ -26,8 +26,9 @@ class OurTenantFinder extends TenantFinder
         return $tenant;
     }
 
-    protected function findTenant(string $tenantIdentifier): Tenant
+    protected function findTenant(string $tenantIdentifier): ?Tenant
     {
+        // @TODO try/catch validation and exclude ID?
         return Tenant::where(function(Builder $query) use ($tenantIdentifier) {
             $query->where('id', '=', $tenantIdentifier)->orWhere('session', '=', $tenantIdentifier);
         })->firstOrFail();

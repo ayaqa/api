@@ -17,7 +17,7 @@ return [
      * This class should extend `Spatie\Multitenancy\TenantFinder\TenantFinder`
      *
      */
-    'tenant_finder' => \AyaQA\Services\Core\Multitenancy\OurTenantFinder::class,
+    'tenant_finder' => \AyaQA\Services\Core\Multitenancy\RequestTenantFinder::class,
 
     /*
      * These fields are used by tenant:artisan command to match one or more tenant
