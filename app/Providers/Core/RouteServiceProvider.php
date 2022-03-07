@@ -20,6 +20,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/';
 
+    const API_ROUTES = ['core', 'playground'];
+
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -28,13 +30,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
-
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
-        });
+        $this->bootRoutes();
     }
 
     /**
@@ -46,6 +42,17 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+    }
+
+    protected function bootRoutes()
+    {
+        $this->routes(function () {
+            foreach (self::API_ROUTES as $routeGroup) {
+                Route::middleware('api')
+                    ->namespace($routeGroup)
+                    ->group(base_path(sprintf('routes/api/%s.php', $routeGroup)));
+            }
         });
     }
 }

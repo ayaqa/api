@@ -1,7 +1,8 @@
 <?php
 
-use AyaQA\Http\Core\Controllers\DefaultController;
+use AyaQA\Http\Core\Controllers\MainController;
 use AyaQA\Http\Core\Controllers\TenantController;
+use AyaQA\Http\Core\Middleware\EnsureTenantIsSet;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [DefaultController::class, 'show'])->name('home');
+Route::get('/', [MainController::class, 'info'])->name('home');
 
 Route::prefix('tenant')->group(function () {
-    Route::get('/', [TenantController::class, 'info'])->name('tenant.info');
     Route::post('/', [TenantController::class, 'create'])->name('tenant.create');
-
     Route::delete('/', [TenantController::class, 'delete'])->name('tenant.delete');
 });

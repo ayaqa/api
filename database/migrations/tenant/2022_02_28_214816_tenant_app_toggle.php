@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('toggles', function(Blueprint $table) {
+        Schema::create(\AyaQA\Models\Playground\Toggle::TABLE_NAME, function(Blueprint $table) {
             $table->id();
             $table->string('key', 100)->unique('toggle_key');
             $table->boolean('value')->default(0);
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('toggles');
+        Schema::dropIfExists(\AyaQA\Models\Playground\Toggle::TABLE_NAME);
     }
 };

@@ -2,13 +2,16 @@
 
 namespace AyaQA\Services\Core\Multitenancy;
 
-use AyaQA\Models\Core\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantModel;
+use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Multitenancy\TenantFinder\TenantFinder;
 
 class RequestTenantFinder extends TenantFinder
 {
+    use UsesTenantModel;
+
     const HEADER_SESSION_KEY = 'session';
     const GET_SESSION_KEY = 'session';
 
@@ -29,7 +32,7 @@ class RequestTenantFinder extends TenantFinder
     protected function findTenant(string $tenantIdentifier): ?Tenant
     {
         // @TODO try/catch validation and exclude ID?
-        return Tenant::where(function(Builder $query) use ($tenantIdentifier) {
+        return $this->getTenantModel()::where(function(Builder $query) use ($tenantIdentifier) {
             $query->where('id', '=', $tenantIdentifier)->orWhere('session', '=', $tenantIdentifier);
         })->firstOrFail();
     }

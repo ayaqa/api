@@ -5,9 +5,10 @@ namespace AyaQA\Http\Core\Controllers;
 use AyaQA\Abstracts\Http\ApiController;
 use Illuminate\Http\Request;
 
-class DefaultController extends ApiController
+class MainController extends ApiController
 {
-    public function show(Request $request) {
+    public function info(Request $request)
+    {
         return response()->json(['ok']);
     }
 }
