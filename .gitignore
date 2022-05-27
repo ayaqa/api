@@ -2,18 +2,39 @@
 .vscode
 .DS_Store
 
-# All dynamic files should be ignored.
+# Laravel
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
 .env
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+
+# All dynamic files should be ignored.
+.make-env
 
 # Docker compose envs files
-infra/app/*/static/*/.env
-infra/app/*/static/*/app.env
-infra/app/*/build/*
-!infra/app/*/build/.gitkeep
+.infra/app/*/static/*/.env
+.infra/app/*/static/*/app.env
+.infra/app/*/build/*
+!.infra/app/*/build/.gitkeep
 
-config-local.json
-config-generated.json
+infra-config-local.json
+infra-config-generated.json
 
-# If using something that have to persis data between runs
-volume/*
-!volume/.gitkeep
+
+# Custom
+/_ide_helper.php
+/.phpstorm.meta.php
+
+# Telescope Dev package
+public/vendor/telescope/*
