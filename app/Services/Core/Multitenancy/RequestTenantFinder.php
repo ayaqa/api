@@ -31,9 +31,8 @@ class RequestTenantFinder extends TenantFinder
 
     protected function findTenant(string $tenantIdentifier): ?Tenant
     {
-        // @TODO try/catch validation and exclude ID?
-        return $this->getTenantModel()::where(function(Builder $query) use ($tenantIdentifier) {
+        return $this->getTenantModel()->newQuery()->where(function(Builder $query) use ($tenantIdentifier) {
             $query->where('id', '=', $tenantIdentifier)->orWhere('session', '=', $tenantIdentifier);
-        })->firstOrFail();
+        })->first();
     }
 }

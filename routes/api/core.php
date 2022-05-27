@@ -1,6 +1,6 @@
 <?php
 
-use AyaQA\Http\Core\Controllers\MainController;
+use AyaQA\Http\Core\Controllers\HomeController;
 use AyaQA\Http\Core\Controllers\TenantController;
 use AyaQA\Http\Core\Middleware\EnsureTenantIsSet;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MainController::class, 'info'])->name('home');
+Route::get('/', [HomeController::class, 'root'])->name('home');
 
-Route::prefix('tenant')->group(function () {
-    Route::post('/', [TenantController::class, 'create'])->name('tenant.create');
-    Route::delete('/', [TenantController::class, 'delete'])->name('tenant.delete');
+Route::prefix('session')->group(function () {
+    Route::post('/', [TenantController::class, 'create'])->name('session.create');
+    Route::delete('/', [TenantController::class, 'delete'])->name('session.delete');
 });

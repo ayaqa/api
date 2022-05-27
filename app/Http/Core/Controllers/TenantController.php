@@ -3,21 +3,22 @@
 namespace AyaQA\Http\Core\Controllers;
 
 use AyaQA\Abstracts\Http\ApiController;
+use AyaQA\Actions\Core\Tenant\CreateTenant;
+use AyaQA\Actions\Core\Tenant\GetCurrentTenant;
 use Illuminate\Http\Request;
 
 class TenantController extends ApiController
 {
-    public function create(Request $request)
+    public function current(GetCurrentTenant $fetchCurrent)
     {
-        // @TODO perform checks and create new
-        // @TODO move that logic to service
+        $tenant = $fetchCurrent->handle();
 
-        $tenant = new \AyaQA\Models\Core\Tenant();
-        $tenant->database = sprintf('test-%s.sqlite', mt_rand(100, 500000));
-        $tenant->session = \Ramsey\Uuid\Uuid::uuid4()->toString();
-        $tenant->state = 'created';
+        return response()->json($tenant->toArray());
+    }
 
-        $tenant->save();
+    public function create(CreateTenant $createTenant)
+    {
+        $tenant = $createTenant->handle();
 
         return response()->json($tenant);
     }

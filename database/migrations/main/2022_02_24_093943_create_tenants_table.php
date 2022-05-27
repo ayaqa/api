@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->uuid('session')->unique();
             $table->string('database')->unique();
-            $table->enum('state', ['created', 'provisioning', 'ready', 'deleting']);
+            $table->enum('state', ['created', 'provisioning', 'failed', 'ready', 'deleting']);
             $table->timestamps();
         });
     }
