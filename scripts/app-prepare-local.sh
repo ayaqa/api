@@ -10,6 +10,7 @@ cd_root
 
 echo "Prepare Laravel Telescope"
 $PHP artisan telescope:install
+$PHP artisan db:create
 $PHP artisan migrate
 
 echo "Prepare IDE Helper"

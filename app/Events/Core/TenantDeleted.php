@@ -6,7 +6,7 @@ use AyaQA\Models\Core\Tenant;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TenantCreated
+class TenantDeleted
 {
     use Dispatchable, SerializesModels;
 

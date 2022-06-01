@@ -2,8 +2,9 @@
 
 namespace AyaQA\Models\Core;
 
-use AyaQA\Enum\Core\TenantStatus;
+use AyaQA\Enum\Core\TenantState;
 use AyaQA\Events\Core\TenantCreated;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
 
 /**
@@ -12,7 +13,7 @@ use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
  * @property int $id
  * @property string $session
  * @property string $database
- * @property string $state
+ * @property TenantState $state
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Spatie\Multitenancy\TenantCollection|static[] all($columns = ['*'])
@@ -27,11 +28,19 @@ use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
  * @method static \Illuminate\Database\Eloquent\Builder|Tenant whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tenant whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|Tenant onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Tenant withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Tenant withoutTrashed()
  */
 class Tenant extends SpatieTenant
 {
+    use SoftDeletes;
+
+    protected $fillable = ['database', 'session', 'state'];
+
     protected $casts = [
-        'state' => TenantStatus::class,
+        'state' => TenantState::class,
+        'requested_at' => 'immutable_datetime'
     ];
 
     protected static function booted()

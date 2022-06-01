@@ -4,9 +4,10 @@ namespace AyaQA\Jobs\Core;
 
 use Artisan;
 use AyaQA\Contracts\Core\DatabaseManager;
-use AyaQA\Enum\Core\TenantStatus;
-use AyaQA\Exceptions\Core\AyaQAException;
+use AyaQA\Enum\Core\TenantState;
+use AyaQA\Exceptions\Core\TenantException;
 use AyaQA\Models\Core\Tenant;
+use AyaQA\Repositories\Core\TenantRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,46 +18,35 @@ class ProvisionTenant implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct(private Tenant $tenant)
-    {
-    }
+    public function __construct(private Tenant $tenant){}
 
     /**
      * Execute the job.
      *
      * @return void
      */
-    public function handle(DatabaseManager $db)
+    public function handle(DatabaseManager $db, TenantRepository $tenantRepository): void
     {
-        $this->setStatus(TenantStatus::PROVISIONING);
+        $tenantRepository->setState($this->tenant, TenantState::PROVISIONING);
 
         try {
             $this->createTenantDb($db);
             $this->migrateTenant();
             $this->seedTenant();
 
-            $this->setStatus(TenantStatus::READY);
-        } catch (AyaQAException $throwable) {
-            $this->setStatus(TenantStatus::PROVISIONING_FAILED);
+            $tenantRepository->setState($this->tenant, TenantState::READY);
+        } catch (TenantException) {
+            $tenantRepository->setState($this->tenant, TenantState::PROVISIONING_FAILED);
         }
-    }
-
-    protected function setStatus(TenantStatus $status)
-    {
-        $this->tenant->state = $status->value;
-        $this->tenant->save();
     }
 
     protected function createTenantDb(DatabaseManager $db): void
     {
         $db->createDatabase($this->tenant);
         if (false === $db->exists($this->tenant)) {
-            throw new AyaQAException(sprintf('Tenant DB %s was not created.', $this->tenant->id));
+            throw new TenantException(
+                sprintf('Tenant DB %s was not created.', $this->tenant->id)
+            );
         }
     }
 
@@ -71,7 +61,9 @@ class ProvisionTenant implements ShouldQueue
         );
 
         if (0 != $result) {
-            throw new AyaQAException(sprintf('Tenant Migration failed for ID: %s', $this->tenant->id));
+            throw new TenantException(
+                sprintf('Tenant Migration failed for ID: %s', $this->tenant->id)
+            );
         }
     }
 
@@ -86,7 +78,9 @@ class ProvisionTenant implements ShouldQueue
         );
 
         if (0 != $result) {
-            throw new AyaQAException(sprintf('Tenant Seeder failed for ID: %s', $this->tenant->id));
+            throw new TenantException(
+                sprintf('Tenant Seeder failed for ID: %s', $this->tenant->id)
+            );
         }
     }
 }

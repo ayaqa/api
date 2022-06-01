@@ -34,6 +34,7 @@ class Kernel extends HttpKernel
         ],
         'tenant' => [
             \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
+            \AyaQA\Http\Core\Middleware\TenantRequestedAt::class
         ]
     ];
 

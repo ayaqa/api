@@ -2,11 +2,17 @@
 
 namespace AyaQA\Listeners\Core;
 
+use AyaQA\Contracts\Core\DatabaseManager;
 use AyaQA\Events\Core\TenantCreated;
+use AyaQA\Events\Core\TenantDeleted;
 use AyaQA\Jobs\Core\ProvisionTenant;
 
 class TenantEventSubscriber
 {
+    public function __construct(private DatabaseManager $databaseManager)
+    {
+    }
+
     /**
      * Register the listeners for the subscriber.
      *
@@ -16,6 +22,7 @@ class TenantEventSubscriber
     {
         return [
             TenantCreated::class => 'handleCreated',
+            TenantDeleted::class => 'handleDelete',
         ];
     }
 
@@ -24,5 +31,12 @@ class TenantEventSubscriber
         $tenant = $tenantCreated->getTenant();
 
         ProvisionTenant::dispatch($tenant);
+    }
+
+    public function handleDelete(TenantDeleted $tenantDeleted)
+    {
+        $tenant = $tenantDeleted->getTenant();
+
+        $this->databaseManager->deleteDatabase($tenant);
     }
 }

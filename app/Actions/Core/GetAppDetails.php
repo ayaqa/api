@@ -4,17 +4,21 @@ namespace AyaQA\Actions\Core;
 
 use AyaQA\Actions\Core\Tenant\GetCurrentTenant;
 use AyaQA\Exceptions\Core\NotFoundTenantException;
+use AyaQA\Settings\Core\CoreSettings;
+use AyaQA\Settings\Core\TenantSettings;
 
 class GetAppDetails
 {
-    public function __construct(private GetCurrentTenant $getCurrentTenant)
-    {
-    }
+    public function __construct(
+        private GetCurrentTenant $getCurrentTenant,
+        private CoreSettings $coreSettings,
+        private TenantSettings $tenantSettings
+    ){}
 
     public function handle(): array
     {
-        // @TODO add more info and convert it to DTO
         return [
+            'settings' => $this->coreSettings->refresh()->toArray(),
             ...$this->formatSessionDetails()
         ];
     }
@@ -32,6 +36,7 @@ class GetAppDetails
                 'id' => $tenant->id,
                 'uuid' => $tenant->session,
                 'state' => $tenant->state,
+                'settings' => $this->tenantSettings->refresh()->toArray()
             ],
         ];
     }

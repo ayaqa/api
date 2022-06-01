@@ -2,11 +2,13 @@
 
 namespace AyaQA\Enum\Core;
 
-enum TenantStatus: string
+enum TenantState: string
 {
     case CREATED = 'created';
     case PROVISIONING = 'provisioning';
     case PROVISIONING_FAILED = 'failed';
-    case READY = 'ready';
+
     case DELETING = 'deleting';
+
+    case READY = 'ready';
 }

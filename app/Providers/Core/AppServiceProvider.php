@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
                 return $this->app->get(SqliteDatabaseManager::class);
             }
 
+            // @TODO custom exception
             throw new \Exception('Not Supported');
         });
     }

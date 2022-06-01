@@ -2,6 +2,6 @@
 
 namespace AyaQA\Exceptions\Core;
 
-class NotFoundTenantException extends AyaQAException
+class NotFoundTenantException extends TenantException
 {
 }
