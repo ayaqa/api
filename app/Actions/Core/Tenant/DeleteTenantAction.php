@@ -8,7 +8,7 @@ use AyaQA\Enum\Core\TenantState;
 use AyaQA\Events\Core\TenantDeleted;
 use AyaQA\Models\Core\Tenant;
 
-class DeleteTenant implements Action
+class DeleteTenantAction implements Action
 {
     use InvocableAction;
 

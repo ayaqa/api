@@ -2,8 +2,8 @@
 
 namespace AyaQA\Commands\Core;
 
-use AyaQA\Actions\Core\Tenant\DeleteTenant as DeleteTenantAction;
-use AyaQA\Actions\Core\Tenant\GetTenant;
+use AyaQA\Actions\Core\Tenant\DeleteTenantAction as DeleteTenantAction;
+use AyaQA\Actions\Core\Tenant\GetTenantAction;
 use AyaQA\Models\Core\Tenant;
 use AyaQA\Services\Core\TenantService;
 use Illuminate\Console\Command;
@@ -11,9 +11,9 @@ use Illuminate\Console\Command;
 class DeleteTenantCmd extends Command
 {
     public function __construct(
-        private DeleteTenantAction $deleteTenant,
-        private TenantService $tenantService,
-        private GetTenant $getTenant
+        private DeleteTenantAction $deleteTenantAction,
+        private TenantService      $tenantService,
+        private GetTenantAction    $getTenantAction
     ){
         parent::__construct();
     }
@@ -45,7 +45,7 @@ class DeleteTenantCmd extends Command
 
 
         foreach ($idsToDelete as $tenantId) {
-            $tenant = $this->getTenant->handle($tenantId);
+            $tenant = $this->getTenantAction->handle($tenantId);
 
             $this->deleteTenant($tenant);
         }
@@ -63,6 +63,6 @@ class DeleteTenantCmd extends Command
     protected function deleteTenant(Tenant $tenant)
     {
         $this->info(sprintf('Delete session: %s (%s)', $tenant->id, $tenant->session));
-        $this->deleteTenant->handle($tenant);
+        $this->deleteTenantAction->handle($tenant);
     }
 }

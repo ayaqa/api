@@ -2,7 +2,7 @@
 
 namespace AyaQA\Actions\Core;
 
-use AyaQA\Actions\Core\Tenant\GetCurrentTenant;
+use AyaQA\Actions\Core\Tenant\GetCurrentTenantAction;
 use AyaQA\Concerns\InvocableAction;
 use AyaQA\Exceptions\Core\NotFoundTenantException;
 use AyaQA\Settings\Core\CoreSettings;
@@ -13,9 +13,9 @@ class GetAppDetails
     use InvocableAction;
 
     public function __construct(
-        private GetCurrentTenant $getCurrentTenant,
-        private CoreSettings $coreSettings,
-        private TenantSettings $tenantSettings
+        private GetCurrentTenantAction $getCurrentTenantAction,
+        private CoreSettings           $coreSettings,
+        private TenantSettings         $tenantSettings
     ){}
 
     public function handle(): array
@@ -29,7 +29,7 @@ class GetAppDetails
     private function getSessionDetails(): array
     {
         try {
-            $tenant = $this->getCurrentTenant->handle();
+            $tenant = $this->getCurrentTenantAction->handle();
         } catch (NotFoundTenantException) {
             return [];
         }

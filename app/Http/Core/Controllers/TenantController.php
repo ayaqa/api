@@ -3,32 +3,35 @@
 namespace AyaQA\Http\Core\Controllers;
 
 use AyaQA\Abstracts\Http\ApiController;
-use AyaQA\Actions\Core\Tenant\CreateTenant;
-use AyaQA\Actions\Core\Tenant\DeleteTenant;
-use AyaQA\Actions\Core\Tenant\GetTenant;
-use AyaQA\Actions\Core\Tenant\ToggleDeletableTenant;
+use AyaQA\Actions\Core\Tenant\CreateTenantAction;
+use AyaQA\Actions\Core\Tenant\DeleteTenantAction;
+use AyaQA\Actions\Core\Tenant\GetTenantAction;
+use AyaQA\Actions\Core\Tenant\ToggleDeletableTenantAction;
 use Illuminate\Http\JsonResponse;
 
 class TenantController extends ApiController
 {
-    public function get(GetTenant $getTenant, string $sessionIdentifier): JsonResponse
-    {
+    public function get(
+        GetTenantAction $getTenantAction,
+        string $sessionIdentifier
+    ): JsonResponse {
         return $this->respond(
-            $getTenant($sessionIdentifier)
+            $getTenantAction($sessionIdentifier)
         );
     }
 
-    public function create(CreateTenant $createTenantAction): JsonResponse
-    {
+    public function create(
+        CreateTenantAction $createTenantAction
+    ): JsonResponse {
         return $this->respond(
             $createTenantAction()
         );
     }
 
     public function delete(
-        GetTenant $getTenantAction,
-        DeleteTenant $deleteTenantAction,
-        string $sessionIdentifier,
+        GetTenantAction    $getTenantAction,
+        DeleteTenantAction $deleteTenantAction,
+        string             $sessionIdentifier,
     ): JsonResponse {
         return $this->respond(
             $deleteTenantAction($getTenantAction($sessionIdentifier))
@@ -36,12 +39,12 @@ class TenantController extends ApiController
     }
 
     public function deletable(
-        GetTenant $getTenantAction,
-        ToggleDeletableTenant $toggleDeletableTenant,
-        string $sessionIdentifier
+        GetTenantAction             $getTenantAction,
+        ToggleDeletableTenantAction $toggleDeletableTenantAction,
+        string                      $sessionIdentifier
     ): JsonResponse {
         return $this->respond(
-            $toggleDeletableTenant($getTenantAction($sessionIdentifier))
+            $toggleDeletableTenantAction($getTenantAction($sessionIdentifier))
         );
     }
 }

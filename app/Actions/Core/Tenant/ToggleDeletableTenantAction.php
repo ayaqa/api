@@ -6,7 +6,7 @@ use AyaQA\Concerns\InvocableAction;
 use AyaQA\Contracts\Action;
 use AyaQA\Models\Core\Tenant;
 
-class ToggleDeletableTenant implements Action
+class ToggleDeletableTenantAction implements Action
 {
     use InvocableAction;
 

@@ -93,22 +93,31 @@ class Tenant extends SpatieTenant
         $query->when($withDeleted, function(Builder $q) {
             $q->orWhereNotNull('deleted_at');
         }, function(Builder $q) {
-            $q->whereNot('state', TenantState::DELETING);
+            $q->where('state', '!=', TenantState::DELETING);
         });
 
         return $query;
     }
 
-    public function scopeForAutoDelete($query, int $timeSinceLastRequestInSeconds)
+    /**
+     * @param Builder $query
+     * @param int $timeSinceLastRequestInSeconds
+     *
+     * @return Builder
+     */
+    public function scopeForAutoDelete($query, int $timeSinceLastRequestInSeconds): Builder
     {
         $dateTime = Date::now('UTC')->subSeconds($timeSinceLastRequestInSeconds)->toDateTimeString();
 
         $this->scopeSessions($query, false)
+            ->where('deletable', '=', 1)
             ->where(function (Builder $query) use ($dateTime) {
                 $query->where('created_at', '<=', $dateTime);
                 $query->whereNull('requested_at');
             })
             ->orWhere('requested_at', '<=', $dateTime);
+
+        return $query;
     }
 
     protected static function booted()

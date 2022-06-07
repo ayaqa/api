@@ -7,7 +7,7 @@ use AyaQA\Contracts\Action;
 use AyaQA\Exceptions\Core\NotFoundTenantException;
 use AyaQA\Models\Core\Tenant;
 
-class GetTenant implements Action
+class GetTenantAction implements Action
 {
     use InvocableAction;
 

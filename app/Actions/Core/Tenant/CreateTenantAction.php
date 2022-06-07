@@ -9,7 +9,7 @@ use AyaQA\Models\Core\Tenant;
 use AyaQA\Services\Core\TenantService;
 use AyaQA\Settings\Core\CoreSettings;
 
-class CreateTenant implements Action
+class CreateTenantAction implements Action
 {
     use InvocableAction;
 
