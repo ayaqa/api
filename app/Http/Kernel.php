@@ -2,6 +2,7 @@
 
 namespace AyaQA\Http;
 
+use AyaQA\Http\Core\Middleware\UrlTenantResolver;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -14,7 +15,6 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \AyaQA\Http\Middleware\TrustHosts::class,
         Core\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
@@ -48,5 +48,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'core.password' => \AyaQA\Http\Core\Middleware\CorePasswordChecker::class,
     ];
 }

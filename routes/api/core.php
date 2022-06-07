@@ -20,5 +20,11 @@ Route::get('/', [HomeController::class, 'root'])->name('home');
 
 Route::prefix('session')->group(function () {
     Route::post('/', [TenantController::class, 'create'])->name('session.create');
-    Route::delete('/', [TenantController::class, 'delete'])->name('session.delete');
+    Route::get('/{session}', [TenantController::class, 'get'])->name('session.get');
+
+    Route::middleware('core.password:true')->group(function() {
+            Route::delete('/{session}', [TenantController::class, 'delete'])->name('session.delete');
+            Route::patch('/{session}/deletable', [TenantController::class, 'deletable'])->name('session.update.deletable');
+        }
+    );
 });

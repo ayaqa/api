@@ -7,7 +7,6 @@ use AyaQA\Contracts\Core\DatabaseManager;
 use AyaQA\Enum\Core\TenantState;
 use AyaQA\Exceptions\Core\TenantException;
 use AyaQA\Models\Core\Tenant;
-use AyaQA\Repositories\Core\TenantRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -25,18 +24,19 @@ class ProvisionTenant implements ShouldQueue
      *
      * @return void
      */
-    public function handle(DatabaseManager $db, TenantRepository $tenantRepository): void
+    public function handle(DatabaseManager $db): void
     {
-        $tenantRepository->setState($this->tenant, TenantState::PROVISIONING);
+
+        $this->tenant->setState(TenantState::PROVISIONING);
 
         try {
             $this->createTenantDb($db);
             $this->migrateTenant();
             $this->seedTenant();
 
-            $tenantRepository->setState($this->tenant, TenantState::READY);
+            $this->tenant->setState(TenantState::READY);
         } catch (TenantException) {
-            $tenantRepository->setState($this->tenant, TenantState::PROVISIONING_FAILED);
+            $this->tenant->setState(TenantState::PROVISIONING_FAILED);
         }
     }
 

@@ -3,7 +3,7 @@
 use AyaQA\Settings\Core\TenantSettings;
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-class AddSettings extends SettingsMigration
+return new class extends SettingsMigration
 {
     public function up()
     {
@@ -22,4 +22,4 @@ class AddSettings extends SettingsMigration
             $defaultValue
         );
     }
-}
+};

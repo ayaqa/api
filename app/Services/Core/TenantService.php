@@ -2,35 +2,52 @@
 
 namespace AyaQA\Services\Core;
 
-use AyaQA\Exceptions\Core\NotFoundTenantException;
+use AyaQA\Enum\Core\TenantState;
 use AyaQA\Models\Core\Tenant;
-use AyaQA\Repositories\Core\TenantRepository;
 use AyaQA\Settings\Core\CoreSettings;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 class TenantService
 {
-    public function __construct(private TenantRepository $tenantRepository, private CoreSettings $settings)
-    {
-    }
+    public function __construct(
+        private CoreSettings $settings,
+    ){}
 
-    /**
-     * @throws NotFoundTenantException
-     */
-    public function get(string $identifier): Tenant
+    public function create(): Tenant
     {
-        return $this->tenantRepository->get($identifier);
+        do {
+            $dbName = sprintf('ts-%s.sqlite', mt_rand(5, 500000));
+        } while(Tenant::sessions()->where('database', $dbName)->exists());
+
+        do {
+            $uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
+        } while(Tenant::sessions()->where('session', $uuid)->exists());
+
+        return Tenant::create([
+            'database' => $dbName,
+            'session' =>  $uuid,
+            'state' => TenantState::CREATED,
+            'deletable' => 1,
+            'requested_at' => Date::now('UTC'),
+        ]);
     }
 
     public function getReadyForAutoDelete(): Collection
     {
         $tenants = collect();
         if ($this->settings->autoDeleteSession) {
-            $tenants = $this->tenantRepository->getAllForAutoDeleting(
-                $this->settings->sessionDeleteAfter
-            );
+            $tenants = Tenant::forAutoDelete($this->settings->sessionDeleteAfter)->get();
         }
 
         return $tenants;
+    }
+
+
+    public function canCreateSession(): bool
+    {
+        $foundSessions = Tenant::sessions()->count();
+
+        return $this->settings->sessionsLimit > $foundSessions;
     }
 }

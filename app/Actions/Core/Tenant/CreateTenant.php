@@ -2,22 +2,28 @@
 
 namespace AyaQA\Actions\Core\Tenant;
 
+use AyaQA\Concerns\InvocableAction;
+use AyaQA\Contracts\Action;
+use AyaQA\Exceptions\Core\TenantException;
 use AyaQA\Models\Core\Tenant;
-use AyaQA\Repositories\Core\TenantRepository;
+use AyaQA\Services\Core\TenantService;
+use AyaQA\Settings\Core\CoreSettings;
 
-class CreateTenant
+class CreateTenant implements Action
 {
-    public function __construct(private TenantRepository $tenantRepository)
-    {
-    }
+    use InvocableAction;
+
+    public function __construct(
+        private TenantService $tenantService,
+        private CoreSettings $coreSettings
+    ){}
 
     public function handle(): Tenant
     {
-        // @TODO check if is allowed to create tenant, once settings are implemented
+        if (false === $this->tenantService->canCreateSession()) {
+            throw TenantException::maxTenant($this->coreSettings->sessionsLimit);
+        }
 
-        return $this->tenantRepository->create(
-            sprintf('test-%s.sqlite', mt_rand(100, 500000)),
-            \Ramsey\Uuid\Uuid::uuid4()->toString()
-        );
+        return $this->tenantService->create();
     }
 }

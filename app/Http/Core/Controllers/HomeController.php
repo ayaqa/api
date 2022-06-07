@@ -10,6 +10,6 @@ class HomeController extends ApiController
 {
     public function root(GetAppDetails $appDetails): JsonResponse
     {
-        return response()->json($appDetails->handle());
+        return $this->respond($appDetails());
     }
 }

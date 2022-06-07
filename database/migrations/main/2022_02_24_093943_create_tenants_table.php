@@ -13,6 +13,8 @@ return new class extends Migration {
             $table->uuid('session')->unique();
             $table->string('database')->unique();
             $table->enum('state', array_column(TenantState::cases(), 'value'));
+
+            $table->boolean('deletable')->default(1);
             $table->timestamp('requested_at')->nullable();
 
             $table->timestamps();

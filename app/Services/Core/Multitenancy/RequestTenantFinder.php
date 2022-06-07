@@ -2,8 +2,8 @@
 
 namespace AyaQA\Services\Core\Multitenancy;
 
+use AyaQA\Actions\Core\Tenant\GetTenant;
 use AyaQA\Exceptions\Core\NotFoundTenantException;
-use AyaQA\Services\Core\TenantService;
 use Illuminate\Http\Request;
 use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Multitenancy\TenantFinder\TenantFinder;
@@ -13,9 +13,9 @@ class RequestTenantFinder extends TenantFinder
     const HEADER_SESSION_KEY = 'session';
     const GET_SESSION_KEY = 'session';
 
-    public function __construct(private TenantService $tenantService)
-    {
-    }
+    public function __construct(
+        private GetTenant $getTenant,
+    ){}
 
     public function findForRequest(Request $request): ?Tenant
     {
@@ -28,13 +28,17 @@ class RequestTenantFinder extends TenantFinder
             $tenant = $this->findTenant($request->get(self::GET_SESSION_KEY));
         }
 
+        if ($request->route()?->hasParameter(self::GET_SESSION_KEY)) {
+            $tenant = $this->findTenant($request->route()->parameter(self::GET_SESSION_KEY));
+        }
+
         return $tenant;
     }
 
     protected function findTenant(string $tenantIdentifier): ?Tenant
     {
         try {
-            return $this->tenantService->get($tenantIdentifier);
+            return $this->getTenant->handle($tenantIdentifier);
         } catch (NotFoundTenantException) {
             return null;
         }
