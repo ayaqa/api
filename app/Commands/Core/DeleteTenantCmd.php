@@ -4,16 +4,16 @@ namespace AyaQA\Commands\Core;
 
 use AyaQA\Actions\Core\Tenant\DeleteTenantAction as DeleteTenantAction;
 use AyaQA\Actions\Core\Tenant\GetTenantAction;
+use AyaQA\Actions\Core\Tenant\GetTenantsForAutoDeleteAction;
 use AyaQA\Models\Core\Tenant;
-use AyaQA\Support\Core\TenantService;
 use Illuminate\Console\Command;
 
 class DeleteTenantCmd extends Command
 {
     public function __construct(
-        private DeleteTenantAction $deleteTenantAction,
-        private TenantService      $tenantService,
-        private GetTenantAction    $getTenantAction
+        private DeleteTenantAction            $deleteTenantAction,
+        private GetTenantsForAutoDeleteAction $getTenantsForAutoDeleteAction,
+        private GetTenantAction               $getTenantAction
     ){
         parent::__construct();
     }
@@ -53,7 +53,7 @@ class DeleteTenantCmd extends Command
 
     protected function handleAutoDeleting()
     {
-        $tenants = $this->tenantService->getReadyForAutoDelete();
+        $tenants = $this->getTenantsForAutoDeleteAction->handle();
         $this->warn(sprintf('Found %s sessions for auto delete.', $tenants->count()));
         $tenants->each(function(Tenant $tenant) {
             $this->deleteTenant($tenant);

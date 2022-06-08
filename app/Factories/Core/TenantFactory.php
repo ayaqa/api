@@ -1,20 +1,16 @@
 <?php
 
-namespace AyaQA\Support\Core;
+namespace AyaQA\Factories\Core;
 
+use AyaQA\Abstracts\Factory;
 use AyaQA\Enum\Core\TenantState;
 use AyaQA\Models\Core\Tenant;
 use AyaQA\Settings\Core\CoreSettings;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 
-class TenantService
+class TenantFactory extends Factory
 {
-    public function __construct(
-        private CoreSettings $settings,
-    ){}
-
-    public function create(): Tenant
+    public function create(array $overrides = []): Tenant
     {
         do {
             $dbName = sprintf('ts-%s.sqlite', mt_rand(5, 500000));
@@ -24,30 +20,19 @@ class TenantService
             $uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
         } while(Tenant::query()->sessionExists($uuid));
 
-        return Tenant::create([
+        return Tenant::create(array_merge([
             'database' => $dbName,
             'session' =>  $uuid,
             'state' => TenantState::CREATED,
             'deletable' => 1,
             'requested_at' => Date::now('UTC'),
-        ]);
+        ], $overrides));
     }
 
-    public function getReadyForAutoDelete(): Collection
-    {
-        $tenants = collect();
-        if ($this->settings->autoDeleteSession) {
-            $tenants = Tenant::query()->forAutoDelete($this->settings->sessionDeleteAfter)->get();
-        }
-
-        return $tenants;
-    }
-
-
-    public function canCreateSession(): bool
+    public function isAllowedToCreate(CoreSettings $coreSettings): bool
     {
         $foundSessions = Tenant::query()->sessions()->count();
 
-        return $this->settings->sessionsLimit > $foundSessions;
+        return $coreSettings->sessionsLimit > $foundSessions;
     }
 }

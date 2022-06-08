@@ -21,6 +21,8 @@ yarn-error.log
 
 # All dynamic files should be ignored.
 .make-env
+database/sqlite/*.sqlite
+database/sqlite/*/*.sqlite
 
 # Docker compose envs files
 .infra/app/*/static/*/.env
@@ -31,10 +33,10 @@ yarn-error.log
 infra-config-local.json
 infra-config-generated.json
 
-
-# Custom
-/_ide_helper.php
-/.phpstorm.meta.php
+# Dev
+_ide_helper.php
+.phpstorm.meta.php
+_ide_helper_models.php
 
 # Telescope Dev package
 public/vendor/telescope/*

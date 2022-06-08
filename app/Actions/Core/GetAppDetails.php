@@ -3,14 +3,15 @@
 namespace AyaQA\Actions\Core;
 
 use AyaQA\Actions\Core\Tenant\GetCurrentTenantAction;
-use AyaQA\Concerns\InvocableAction;
+use AyaQA\Concerns\Invocable;
+use AyaQA\Contracts\QueryAction;
 use AyaQA\Exceptions\Core\NotFoundTenantException;
 use AyaQA\Settings\Core\CoreSettings;
 use AyaQA\Settings\Core\TenantSettings;
 
-class GetAppDetails
+class GetAppDetails implements QueryAction
 {
-    use InvocableAction;
+    use Invocable;
 
     public function __construct(
         private GetCurrentTenantAction $getCurrentTenantAction,

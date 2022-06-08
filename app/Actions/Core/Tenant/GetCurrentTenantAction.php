@@ -2,14 +2,14 @@
 
 namespace AyaQA\Actions\Core\Tenant;
 
-use AyaQA\Concerns\InvocableAction;
-use AyaQA\Contracts\Action;
+use AyaQA\Concerns\Invocable;
+use AyaQA\Contracts\QueryAction;
 use AyaQA\Exceptions\Core\NotFoundTenantException;
 use AyaQA\Models\Core\Tenant;
 
-class GetCurrentTenantAction implements Action
+class GetCurrentTenantAction implements QueryAction
 {
-    use InvocableAction;
+    use Invocable;
 
     public function handle(): Tenant
     {

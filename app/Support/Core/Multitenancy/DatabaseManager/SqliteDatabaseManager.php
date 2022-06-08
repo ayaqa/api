@@ -2,7 +2,7 @@
 
 namespace AyaQA\Support\Core\Multitenancy\DatabaseManager;
 
-use AyaQA\Contracts\Core\DatabaseManager;
+use AyaQA\Contracts\Support\DatabaseManager;
 use Spatie\Multitenancy\Models\Tenant;
 use Throwable;
 

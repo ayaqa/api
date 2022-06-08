@@ -2,28 +2,28 @@
 
 namespace AyaQA\Actions\Core\Tenant;
 
-use AyaQA\Concerns\InvocableAction;
-use AyaQA\Contracts\Action;
+use AyaQA\Concerns\Invocable;
+use AyaQA\Contracts\CommandAction;
 use AyaQA\Exceptions\Core\TenantException;
+use AyaQA\Factories\Core\TenantFactory;
 use AyaQA\Models\Core\Tenant;
-use AyaQA\Support\Core\TenantService;
 use AyaQA\Settings\Core\CoreSettings;
 
-class CreateTenantAction implements Action
+class CreateTenantAction implements CommandAction
 {
-    use InvocableAction;
+    use Invocable;
 
     public function __construct(
-        private TenantService $tenantService,
         private CoreSettings $coreSettings
     ){}
 
     public function handle(): Tenant
     {
-        if (false === $this->tenantService->canCreateSession()) {
+        $factory = TenantFactory::make();
+        if (false === $factory->isAllowedToCreate($this->coreSettings)) {
             throw TenantException::maxTenant($this->coreSettings->sessionsLimit);
         }
 
-        return $this->tenantService->create();
+        return $factory->create();
     }
 }

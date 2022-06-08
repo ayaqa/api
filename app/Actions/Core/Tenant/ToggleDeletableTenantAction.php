@@ -2,13 +2,13 @@
 
 namespace AyaQA\Actions\Core\Tenant;
 
-use AyaQA\Concerns\InvocableAction;
-use AyaQA\Contracts\Action;
+use AyaQA\Concerns\Invocable;
+use AyaQA\Contracts\CommandAction;
 use AyaQA\Models\Core\Tenant;
 
-class ToggleDeletableTenantAction implements Action
+class ToggleDeletableTenantAction implements CommandAction
 {
-    use InvocableAction;
+    use Invocable;
 
     public function handle(Tenant $tenant)
     {

@@ -3,7 +3,7 @@
 namespace AyaQA\Jobs\Core;
 
 use Artisan;
-use AyaQA\Contracts\Core\DatabaseManager;
+use AyaQA\Contracts\Support\DatabaseManager;
 use AyaQA\Enum\Core\TenantState;
 use AyaQA\Exceptions\Core\TenantException;
 use AyaQA\Models\Core\Tenant;

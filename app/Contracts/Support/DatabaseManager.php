@@ -1,6 +1,6 @@
 <?php
 
-namespace AyaQA\Contracts\Core;
+namespace AyaQA\Contracts\Support;
 
 use Spatie\Multitenancy\Models\Tenant;
 

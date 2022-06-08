@@ -2,7 +2,7 @@
 
 namespace AyaQA\Listeners\Core;
 
-use AyaQA\Contracts\Core\DatabaseManager;
+use AyaQA\Contracts\Support\DatabaseManager;
 use AyaQA\Events\Core\TenantCreated;
 use AyaQA\Events\Core\TenantDeleted;
 use AyaQA\Jobs\Core\ProvisionTenant;

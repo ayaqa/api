@@ -20,7 +20,6 @@ use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- *
  * @method static \Spatie\Multitenancy\TenantCollection|static[] all($columns = ['*'])
  * @method static TenantBuilder|Tenant byIdentifier(string $identifier)
  * @method static TenantBuilder|Tenant dbExists(string $dbName)

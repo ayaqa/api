@@ -2,15 +2,15 @@
 
 namespace AyaQA\Actions\Core\Tenant;
 
-use AyaQA\Concerns\InvocableAction;
-use AyaQA\Contracts\Action;
+use AyaQA\Concerns\Invocable;
+use AyaQA\Contracts\CommandAction;
 use AyaQA\Enum\Core\TenantState;
 use AyaQA\Events\Core\TenantDeleted;
 use AyaQA\Models\Core\Tenant;
 
-class DeleteTenantAction implements Action
+class DeleteTenantAction implements CommandAction
 {
-    use InvocableAction;
+    use Invocable;
 
     public function __construct(){}
 
