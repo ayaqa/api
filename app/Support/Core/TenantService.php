@@ -1,6 +1,6 @@
 <?php
 
-namespace AyaQA\Services\Core;
+namespace AyaQA\Support\Core;
 
 use AyaQA\Enum\Core\TenantState;
 use AyaQA\Models\Core\Tenant;
@@ -18,11 +18,11 @@ class TenantService
     {
         do {
             $dbName = sprintf('ts-%s.sqlite', mt_rand(5, 500000));
-        } while(Tenant::sessions()->where('database', $dbName)->exists());
+        } while(Tenant::query()->dbExists($dbName));
 
         do {
             $uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
-        } while(Tenant::sessions()->where('session', $uuid)->exists());
+        } while(Tenant::query()->sessionExists($uuid));
 
         return Tenant::create([
             'database' => $dbName,
@@ -37,7 +37,7 @@ class TenantService
     {
         $tenants = collect();
         if ($this->settings->autoDeleteSession) {
-            $tenants = Tenant::forAutoDelete($this->settings->sessionDeleteAfter)->get();
+            $tenants = Tenant::query()->forAutoDelete($this->settings->sessionDeleteAfter)->get();
         }
 
         return $tenants;
@@ -46,7 +46,7 @@ class TenantService
 
     public function canCreateSession(): bool
     {
-        $foundSessions = Tenant::sessions()->count();
+        $foundSessions = Tenant::query()->sessions()->count();
 
         return $this->settings->sessionsLimit > $foundSessions;
     }

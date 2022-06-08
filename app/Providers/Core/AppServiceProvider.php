@@ -3,9 +3,9 @@
 namespace AyaQA\Providers\Core;
 
 use AyaQA\Contracts\Core\DatabaseManager;
-use AyaQA\Dtos\Core\SessionDto;
+use AyaQA\Data\AppContext;
 use AyaQA\Exceptions\Core\TenantException;
-use AyaQA\Services\Core\Multitenancy\DatabaseManager\SqliteDatabaseManager;
+use AyaQA\Support\Core\Multitenancy\DatabaseManager\SqliteDatabaseManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,8 +32,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->bootDatabaseManager();
 
-        $this->app->singleton(SessionDto::class, function() {
-            return new SessionDto();
+        /// @TODO move it
+        $this->app->singleton(AppContext::class, function() {
+            return AppContext::build();
         });
     }
 

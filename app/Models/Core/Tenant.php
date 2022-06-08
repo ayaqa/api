@@ -2,11 +2,10 @@
 
 namespace AyaQA\Models\Core;
 
+use AyaQA\Builders\Core\TenantBuilder;
 use AyaQA\Enum\Core\TenantState;
 use AyaQA\Events\Core\TenantCreated;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Date;
 use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
 
 /**
@@ -16,33 +15,35 @@ use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
  * @property string $session
  * @property string $database
  * @property TenantState $state
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Spatie\Multitenancy\TenantCollection|static[] all($columns = ['*'])
- * @method static \Spatie\Multitenancy\TenantCollection|static[] get($columns = ['*'])
- * @method static Builder|Tenant newModelQuery()
- * @method static Builder|Tenant newQuery()
- * @method static Builder|Tenant query()
- * @method static Builder|Tenant whereCreatedAt($value)
- * @method static Builder|Tenant whereDatabase($value)
- * @method static Builder|Tenant whereId($value)
- * @method static Builder|Tenant whereSession($value)
- * @method static Builder|Tenant whereState($value)
- * @method static Builder|Tenant whereUpdatedAt($value)
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Query\Builder|Tenant onlyTrashed()
- * @method static \Illuminate\Database\Query\Builder|Tenant withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Tenant withoutTrashed()
  * @property bool $deletable
  * @property \Carbon\CarbonImmutable|null $requested_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @method static Builder|Tenant byIdentifier(string $identifier)
- * @method static Builder|Tenant whereDeletable($value)
- * @method static Builder|Tenant whereDeletedAt($value)
- * @method static Builder|Tenant whereRequestedAt($value)
- * @method static Builder|Tenant active(bool $withDeleted = false)
- * @method static Builder|Tenant sessions(bool $withDeleted = false)
- * @method static Builder|Tenant forAutoDelete(int $timeSinceLastRequestInSeconds)
+ *
+ * @method static \Spatie\Multitenancy\TenantCollection|static[] all($columns = ['*'])
+ * @method static TenantBuilder|Tenant byIdentifier(string $identifier)
+ * @method static TenantBuilder|Tenant dbExists(string $dbName)
+ * @method static TenantBuilder|Tenant forAutoDelete(int $timeSinceLastRequestInSeconds)
+ * @method static \Spatie\Multitenancy\TenantCollection|static[] get($columns = ['*'])
+ * @method static TenantBuilder|Tenant newModelQuery()
+ * @method static TenantBuilder|Tenant newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Tenant onlyTrashed()
+ * @method static TenantBuilder|Tenant query()
+ * @method static TenantBuilder|Tenant sessionExists(string $sessionId)
+ * @method static TenantBuilder|Tenant sessions(bool $withDeleted = false)
+ * @method static TenantBuilder|Tenant whereCreatedAt($value)
+ * @method static TenantBuilder|Tenant whereDatabase($value)
+ * @method static TenantBuilder|Tenant whereDeletable($value)
+ * @method static TenantBuilder|Tenant whereDeletedAt($value)
+ * @method static TenantBuilder|Tenant whereId($value)
+ * @method static TenantBuilder|Tenant whereRequestedAt($value)
+ * @method static TenantBuilder|Tenant whereSession($value)
+ * @method static TenantBuilder|Tenant whereState($value)
+ * @method static TenantBuilder|Tenant whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Tenant withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Tenant withoutTrashed()
+ * @mixin \Eloquent
  */
 class Tenant extends SpatieTenant
 {
@@ -57,67 +58,22 @@ class Tenant extends SpatieTenant
         'deletable' => 'boolean'
     ];
 
+    /**
+     * @param $query
+     *
+     * @return TenantBuilder
+     */
+    public function newEloquentBuilder($query): TenantBuilder
+    {
+        return new TenantBuilder($query);
+    }
+
     public function setState(TenantState $state): self
     {
         $this->state = $state;
         $this->save();
 
         return $this;
-    }
-
-    /**
-     * @param Builder  $query
-     * @param string $identifier
-     *
-     * @return Builder
-     */
-    public function scopeByIdentifier($query, string $identifier): Builder
-    {
-        return $query
-            ->where('state', '!=', TenantState::DELETING)
-            ->where(function(Builder $query) use ($identifier) {
-                $query
-                    ->where('id', '=', $identifier)
-                    ->orWhere('session', '=', $identifier);
-            });
-    }
-
-    /**
-     * @param Builder $query
-     * @param bool    $withDeleted
-     *
-     * @return Builder
-     */
-    public function scopeSessions($query, bool $withDeleted = false): Builder
-    {
-        $query->when($withDeleted, function(Builder $q) {
-            $q->orWhereNotNull('deleted_at');
-        }, function(Builder $q) {
-            $q->where('state', '!=', TenantState::DELETING);
-        });
-
-        return $query;
-    }
-
-    /**
-     * @param Builder $query
-     * @param int $timeSinceLastRequestInSeconds
-     *
-     * @return Builder
-     */
-    public function scopeForAutoDelete($query, int $timeSinceLastRequestInSeconds): Builder
-    {
-        $dateTime = Date::now('UTC')->subSeconds($timeSinceLastRequestInSeconds)->toDateTimeString();
-
-        $this->scopeSessions($query, false)
-            ->where('deletable', '=', 1)
-            ->where(function (Builder $query) use ($dateTime) {
-                $query->where('created_at', '<=', $dateTime);
-                $query->whereNull('requested_at');
-            })
-            ->orWhere('requested_at', '<=', $dateTime);
-
-        return $query;
     }
 
     protected static function booted()

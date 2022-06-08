@@ -6,7 +6,7 @@ use AyaQA\Concerns\InvocableAction;
 use AyaQA\Contracts\Action;
 use AyaQA\Exceptions\Core\TenantException;
 use AyaQA\Models\Core\Tenant;
-use AyaQA\Services\Core\TenantService;
+use AyaQA\Support\Core\TenantService;
 use AyaQA\Settings\Core\CoreSettings;
 
 class CreateTenantAction implements Action

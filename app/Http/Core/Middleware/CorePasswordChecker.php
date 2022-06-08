@@ -2,7 +2,7 @@
 
 namespace AyaQA\Http\Core\Middleware;
 
-use AyaQA\Dtos\Core\SessionDto;
+use AyaQA\Data\AppContext;
 use AyaQA\Exceptions\Core\TenantException;
 use AyaQA\Settings\Core\CoreSettings;
 
@@ -10,7 +10,7 @@ class CorePasswordChecker
 {
     public function __construct(
         private CoreSettings $coreSettings,
-        private SessionDto $sessionDto,
+        private AppContext $appContext,
     ){}
 
     /**
@@ -36,7 +36,7 @@ class CorePasswordChecker
             throw TenantException::noPermission();
         }
 
-        $this->sessionDto->setVerifiedPassword($hasValidPassword);
+        $this->appContext->getSession()->getCorePassword()->setVerified($hasValidPassword);
 
         return $next($request);
     }

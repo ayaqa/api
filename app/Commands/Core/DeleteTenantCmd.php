@@ -5,7 +5,7 @@ namespace AyaQA\Commands\Core;
 use AyaQA\Actions\Core\Tenant\DeleteTenantAction as DeleteTenantAction;
 use AyaQA\Actions\Core\Tenant\GetTenantAction;
 use AyaQA\Models\Core\Tenant;
-use AyaQA\Services\Core\TenantService;
+use AyaQA\Support\Core\TenantService;
 use Illuminate\Console\Command;
 
 class DeleteTenantCmd extends Command

@@ -1,8 +1,8 @@
 <?php
 
-namespace AyaQA\Services\Core\Multitenancy\Tasks;
+namespace AyaQA\Support\Core\Multitenancy\Tasks;
 
-use AyaQA\Services\Core\Multitenancy\DatabaseManager\SqliteDatabaseManager;
+use AyaQA\Support\Core\Multitenancy\DatabaseManager\SqliteDatabaseManager;
 use Illuminate\Support\Facades\DB;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 use Spatie\Multitenancy\Exceptions\InvalidConfiguration;

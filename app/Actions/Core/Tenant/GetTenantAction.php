@@ -13,7 +13,7 @@ class GetTenantAction implements Action
 
     public function handle(string $identifier)
     {
-        return Tenant::byIdentifier($identifier)->firstOr(['*'], function () {
+        return Tenant::query()->byIdentifier($identifier)->firstOr(['*'], function () {
             throw NotFoundTenantException::notFound();
         });
     }
