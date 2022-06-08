@@ -5,7 +5,7 @@ namespace AyaQA\Providers\Core;
 use AyaQA\Contracts\Support\DatabaseManager;
 use AyaQA\Data\AppContext;
 use AyaQA\Exceptions\Core\TenantException;
-use AyaQA\Support\Core\Multitenancy\DatabaseManager\SqliteDatabaseManager;
+use AyaQA\Support\Multitenancy\DatabaseManager\SqliteDatabaseManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 

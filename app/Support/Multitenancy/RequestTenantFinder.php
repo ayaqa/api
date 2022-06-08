@@ -1,6 +1,6 @@
 <?php
 
-namespace AyaQA\Support\Core\Multitenancy;
+namespace AyaQA\Support\Multitenancy;
 
 use AyaQA\Actions\Core\Tenant\GetTenantAction;
 use AyaQA\Exceptions\Core\NotFoundTenantException;

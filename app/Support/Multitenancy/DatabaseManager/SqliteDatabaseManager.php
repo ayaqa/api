@@ -1,6 +1,6 @@
 <?php
 
-namespace AyaQA\Support\Core\Multitenancy\DatabaseManager;
+namespace AyaQA\Support\Multitenancy\DatabaseManager;
 
 use AyaQA\Contracts\Support\DatabaseManager;
 use Spatie\Multitenancy\Models\Tenant;

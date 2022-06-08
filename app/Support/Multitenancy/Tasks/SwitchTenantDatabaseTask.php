@@ -1,13 +1,15 @@
 <?php
 
-namespace AyaQA\Support\Core\Multitenancy\Tasks;
+namespace AyaQA\Support\Multitenancy\Tasks;
 
-use AyaQA\Support\Core\Multitenancy\DatabaseManager\SqliteDatabaseManager;
+use AyaQA\Support\Multitenancy\DatabaseManager\SqliteDatabaseManager;
 use Illuminate\Support\Facades\DB;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 use Spatie\Multitenancy\Exceptions\InvalidConfiguration;
 use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Multitenancy\Tasks\SwitchTenantTask;
+use function app;
+use function config;
 
 class SwitchTenantDatabaseTask implements SwitchTenantTask
 {

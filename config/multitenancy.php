@@ -17,7 +17,7 @@ return [
      * This class should extend `Spatie\Multitenancy\TenantFinder\TenantFinder`
      *
      */
-    'tenant_finder' => \AyaQA\Support\Core\Multitenancy\RequestTenantFinder::class,
+    'tenant_finder' => \AyaQA\Support\Multitenancy\RequestTenantFinder::class,
 
     /*
      * These fields are used by tenant:artisan command to match one or more tenant
@@ -33,7 +33,7 @@ return [
      * A valid task is any class that implements Spatie\Multitenancy\Tasks\SwitchTenantTask
      */
     'switch_tenant_tasks' => [
-        \AyaQA\Support\Core\Multitenancy\Tasks\SwitchTenantDatabaseTask::class,
+        \AyaQA\Support\Multitenancy\Tasks\SwitchTenantDatabaseTask::class,
          \Spatie\Multitenancy\Tasks\PrefixCacheTask::class,
         // \Spatie\Multitenancy\Tasks\SwitchTenantDatabaseTask::class,
         // \Spatie\Multitenancy\Tasks\SwitchRouteCacheTask::class,
