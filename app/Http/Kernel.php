@@ -2,7 +2,6 @@
 
 namespace AyaQA\Http;
 
-use AyaQA\Http\Core\Middleware\UrlTenantResolver;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -34,7 +33,8 @@ class Kernel extends HttpKernel
         ],
         'tenant' => [
             \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
-            \AyaQA\Http\Core\Middleware\TenantRequestedAt::class
+            \AyaQA\Http\Core\Middleware\TenantRequestedAt::class,
+            'bug.all'
         ]
     ];
 
