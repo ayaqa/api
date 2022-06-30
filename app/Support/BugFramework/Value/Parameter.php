@@ -2,12 +2,12 @@
 
 namespace AyaQA\Support\BugFramework\Value;
 
-use AyaQA\Support\BugFramework\Contract\BugValue;
-use AyaQA\Support\BugFramework\Value\Concern\ComparableValue;
+use AyaQA\Support\Bug\Field\Concern\ComparableFieldValue;
+use AyaQA\Support\Bug\Field\Contract\BugFieldValue;
 
-class Parameter implements BugValue
+class Parameter implements BugFieldValue
 {
-    use ComparableValue {
+    use ComparableFieldValue {
         sameValueAs as compareValue;
     }
 
@@ -26,7 +26,7 @@ class Parameter implements BugValue
         return $this->name;
     }
 
-    public function sameValueAs(BugValue $value): bool
+    public function sameValueAs(BugFieldValue $value): bool
     {
         if ($value instanceof Parameter) {
             return $this->compareValue($value)

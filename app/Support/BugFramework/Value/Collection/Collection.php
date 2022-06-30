@@ -2,13 +2,13 @@
 
 namespace AyaQA\Support\BugFramework\Value\Collection;
 
-use AyaQA\Support\BugFramework\Contract\BugValue;
-use AyaQA\Support\BugFramework\Contract\BugValueCollection;
 use AyaQA\Support\BugFramework\Support\Validation\AssertHelper;
 use AyaQA\Support\BugFramework\Support\Validation\Exception\AssertionFailed;
 use AyaQA\Support\BugFramework\Value\Concern\ComparableValue;
+use AyaQA\Support\BugFramework\Value\Contract\BugField;
+use AyaQA\Support\BugFramework\Value\Contract\BugFieldCollection;
 
-class Collection implements BugValue, BugValueCollection
+class Collection implements BugFieldCollection
 {
     use ComparableValue {
         sameValueAs as compareValue;
@@ -17,7 +17,7 @@ class Collection implements BugValue, BugValueCollection
 
     private string $type;
 
-    /** @var BugValue[] */
+    /** @var BugField[] */
     private array $items = [];
 
     public function __construct(string $valueClass, array $items = [])
@@ -38,17 +38,17 @@ class Collection implements BugValue, BugValueCollection
     }
 
     /**
-     * @return BugValue[]
+     * @return BugField[]
      */
     public function value(): array
     {
         return $this->items;
     }
 
-    public function sameTypeAs(BugValue $value): bool
+    public function sameTypeAs(BugField $value): bool
     {
         try {
-            AssertHelper::isInstanceOf($value, BugValueCollection::class);
+            AssertHelper::isInstanceOf($value, BugFieldCollection::class);
         } catch (AssertionFailed) {
             return false;
         }
@@ -56,7 +56,7 @@ class Collection implements BugValue, BugValueCollection
         return $this->getValueType() === $value->getValueType();
     }
 
-    public function sameValueAs(BugValue $value): bool
+    public function sameValueAs(BugField $value): bool
     {
         if (false === $this->sameTypeAs($value)) {
             return false;

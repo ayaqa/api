@@ -10,7 +10,7 @@ class BugRules
 
     public function add(BugRule $rule): self
     {
-        if (false == $this->hasTargetRules($rule->getTarget())) {
+        if (false == $this->hasRulesForTarget($rule->getTarget())) {
             $this->rules[$rule->getTarget()->asString()] = [];
         }
 
@@ -24,7 +24,7 @@ class BugRules
         return false === empty($this->rules);
     }
 
-    public function hasTargetRules(BugTarget $target): bool
+    public function hasRulesForTarget(BugTarget $target): bool
     {
         return isset($this->rules[$target->asString()]);
     }
@@ -32,9 +32,9 @@ class BugRules
     /**
      * @return BugRule[]
      */
-    public function getTargetRules(BugTarget $target): array
+    public function getRulesByTarget(BugTarget $target): array
     {
-        if ($this->hasTargetRules($target)) {
+        if ($this->hasRulesForTarget($target)) {
             return $this->rules[$target->asString()];
         }
 
@@ -44,8 +44,13 @@ class BugRules
     /**
      * @return BugRule[]
      */
-    public function getAll(): array
+    public function all(): array
     {
-        return \Illuminate\Support\Arr::flatten($this->rules);
+        $rulesReturn = [];
+        foreach ($this->rules as $rules) {
+            $rulesReturn = array_merge($rulesReturn, $rules);
+        }
+
+        return $rulesReturn;
     }
 }

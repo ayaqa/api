@@ -2,10 +2,11 @@
 
 namespace AyaQA\Support\BugFramework\Integration\Laravel\Middleware;
 
-use AyaQA\Support\BugFramework\Action\Type\ReturnErrorAction;
+use AyaQA\Support\BugFramework\Action\Actions\ReturnErrorAction;
 use AyaQA\Support\BugFramework\BugManager;
 use AyaQA\Support\BugFramework\BugTarget;
-use AyaQA\Support\BugFramework\Condition\Condition;
+use AyaQA\Support\BugFramework\Condition\Conjunction;
+use AyaQA\Support\BugFramework\Condition\Operator;
 use AyaQA\Support\BugFramework\Condition\ConditionFactory;
 use AyaQA\Support\BugFramework\Rule\BugRule;
 use AyaQA\Support\BugFramework\Rule\BugRules;
@@ -29,7 +30,7 @@ class BugsInRequest
     {
         $this->fakeBugRules();
 
-        $this->bugManager->bugsInStage();
+        $this->bugManager->boot();
 
         return $next($request);
     }
@@ -37,14 +38,17 @@ class BugsInRequest
     private function fakeBugRules()
     {
         $parameter = new Parameter('name', 'angel');
-        $resourceId = new ResourceId('aaOObb');
+        $parameter2 = new Parameter('name', 'legna');
 
         $conditionFactory = new ConditionFactory();
-        $condition = $conditionFactory->createByType(Condition::EQUAL, $resourceId);
+        $operator = $conditionFactory->createOperatorByType(Operator::EQUAL, BugTarget::PARAMETER, $parameter);
+        $operator2 = $conditionFactory->createOperatorByType(Operator::NOT_EQUAL, BugTarget::PARAMETER, $parameter2);
+
+        $condition = $conditionFactory->create(Conjunction::OR, $operator, $operator2);
 
         $action = new ReturnErrorAction();
 
-        $rule = new BugRule(BugTarget::RESOURCE_ID, $condition, $action);
+        $rule = new BugRule(BugTarget::PARAMETER, $condition, $action);
         $this->bugRules->add($rule);
     }
 }

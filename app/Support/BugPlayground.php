@@ -2,31 +2,29 @@
 
 namespace AyaQA\Support;
 
-use AyaQA\Support\BugFramework\Action\Type\ReturnErrorAction;
-use AyaQA\Support\BugFramework\BugTarget;
-use AyaQA\Support\BugFramework\Condition\ConditionFactory;
-use AyaQA\Support\BugFramework\Condition\Condition;
-use AyaQA\Support\BugFramework\Rule\BugRule;
-use AyaQA\Support\BugFramework\Rule\BugRules;
-use AyaQA\Support\BugFramework\Value\Parameter;
-use AyaQA\Support\BugFramework\Value\ResourceId;
-
+use AyaQA\Support\Bug\Condition\Enum\BugOperator;
+use AyaQA\Support\Bug\Condition\Enum\BugTarget;
+use AyaQA\Support\Bug\Condition\Enum\Conjunction;
+use AyaQA\Support\Bug\Condition\Factory\ConditionFactory;
 
 class BugPlayground
 {
     public function define()
     {
-        $resource = new ResourceId('AA-32');
-        $parameter = new Parameter('name', 'angel');
+        $factory = new ConditionFactory();
 
-        $conditionFactory = new ConditionFactory();
-        $condition = $conditionFactory->createByType(Condition::EQUAL_TO, $resource);
+        $condition = $factory->createCondition(
+            BugTarget::PARAM_VALUE,
+            BugOperator::IS,
+            'angel'
+        );
 
-        $action = new ReturnErrorAction();
+        $condition2 = $factory->createCondition(
+            BugTarget::PARAM_KEY,
+            BugOperator::IS,
+            'name'
+        );
 
-        $rules = new BugRules();
-
-        $rule = new BugRule(BugTarget::RESOURCE_ID, $condition, $action);
-        $rules->add($rule);
+        $group = $factory->createGroup(Conjunction::AND, $condition, $condition2);
     }
 }

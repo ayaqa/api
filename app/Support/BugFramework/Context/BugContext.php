@@ -3,15 +3,15 @@
 namespace AyaQA\Support\BugFramework\Context;
 
 use AyaQA\Support\BugFramework\BugTarget;
-use AyaQA\Support\BugFramework\Contract\BugValue;
 use AyaQA\Support\BugFramework\Value\Collection\Collection;
+use AyaQA\Support\BugFramework\Value\Contract\BugField;
 
 class BugContext
 {
     private array $values = [];
     private array $collections = [];
 
-    public function setValue(BugTarget $type, BugValue $bugValue, bool $overrideIfExists = false): self
+    public function setValue(BugTarget $type, BugField $bugValue, bool $overrideIfExists = false): self
     {
         // @TODO check if exists and throw exception if no override
         $this->values[$type->name] = $bugValue;
@@ -30,9 +30,9 @@ class BugContext
     /**
      * @param BugTarget $type
      *
-     * @return BugValue|null
+     * @return BugField|null
      */
-    public function getValue(BugTarget $type): ?BugValue
+    public function getValue(BugTarget $type): ?BugField
     {
         return $this->values[$type->name] ?? null;
     }

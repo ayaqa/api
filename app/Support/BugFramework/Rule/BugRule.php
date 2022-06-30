@@ -2,9 +2,9 @@
 
 namespace AyaQA\Support\BugFramework\Rule;
 
+use AyaQA\Support\BugFramework\Action\Contract\BugAction;
 use AyaQA\Support\BugFramework\BugTarget;
-use AyaQA\Support\BugFramework\Contract\BugAction;
-use AyaQA\Support\BugFramework\Contract\BugCondition;
+use AyaQA\Support\BugFramework\Condition\Contract\BugCondition;
 
 class BugRule
 {

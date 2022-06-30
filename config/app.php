@@ -176,7 +176,7 @@ return [
         \AyaQA\Providers\Core\EventServiceProvider::class,
         \AyaQA\Providers\Core\RouteServiceProvider::class,
         \AyaQA\Providers\Core\EnvServiceProvider::class,
-        \AyaQA\Support\BugFramework\Integration\Laravel\BugServiceProvider::class,
+        \AyaQA\Support\Bug\Integration\Laravel\BugServiceProvider::class,
 
     ],
 

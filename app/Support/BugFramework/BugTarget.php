@@ -2,16 +2,19 @@
 
 namespace AyaQA\Support\BugFramework;
 
+use AyaQA\Support\BugFramework\Support\Concern\StringableEnum;
 use AyaQA\Support\BugFramework\Value\Parameter;
 use AyaQA\Support\BugFramework\Value\ResourceId;
 use RuntimeException;
 
-enum BugTarget
+enum BugTarget: string
 {
-    case RESOURCE_ID;
-    case PAGE_ID;
-    case SECTION_ID;
-    case PARAMETER;
+    use StringableEnum;
+
+    case RESOURCE_ID = 'RESOURCE_ID';
+    case PAGE_ID = 'PAGE_ID';
+    case SECTION_ID = 'SECTION_ID';
+    case PARAMETER = 'PARAMETER';
 
     public function asValueClass()
     {
@@ -27,10 +30,5 @@ enum BugTarget
                 )
             ),
         };
-    }
-
-    public function asString(): string
-    {
-        return $this->name;
     }
 }

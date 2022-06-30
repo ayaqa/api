@@ -3,16 +3,14 @@
 namespace AyaQA\Support\BugFramework\Integration\Laravel\Middleware;
 
 use AyaQA\Support\BugFramework\BugTarget;
-use AyaQA\Support\BugFramework\Context\BugContext;
-use AyaQA\Support\BugFramework\Integration\RequestParamType;
-use AyaQA\Support\BugFramework\Value\Factory\ValueFactory;
+use AyaQA\Support\BugFramework\Context\BugContextSetter;
+use AyaQA\Support\BugFramework\Integration\RequestParam;
 use Illuminate\Http\Request;
 
 class RequestValuesToContext
 {
     public function __construct(
-        private BugContext $bugContext,
-        private ValueFactory $valueFactory
+        private BugContextSetter $contextSetter
     ) {}
 
     /**
@@ -32,16 +30,14 @@ class RequestValuesToContext
     protected function fillRequestParameters(Request $request)
     {
         $params = $request->all();
-        $collection = $this->valueFactory->createCollection(BugTarget::PARAMETER, $params);
-        $this->bugContext->setCollection(BugTarget::PARAMETER, $collection);
+        $this->contextSetter->set(BugTarget::PARAMETER, $params);
     }
 
     protected function fillRequestResourceId(Request $request)
     {
-        $resourceIdKey = RequestParamType::RESOURCE_ID->getParamKey();
+        $resourceIdKey = RequestParam::RESOURCE_ID->asParamKey();
         if ($request->has($resourceIdKey)) {
-            $value = $this->valueFactory->createResourceId($request->get($resourceIdKey));
-            $this->bugContext->setValue(BugTarget::RESOURCE_ID, $value);
+            $this->contextSetter->set(BugTarget::RESOURCE_ID, $request->get($resourceIdKey));
 
             $request->request->remove($resourceIdKey);
         }

@@ -2,10 +2,10 @@
 
 namespace AyaQA\Support\BugFramework\Value;
 
-use AyaQA\Support\BugFramework\Contract\BugValue;
 use AyaQA\Support\BugFramework\Value\Concern\ComparableValue;
+use AyaQA\Support\BugFramework\Value\Contract\BugField;
 
-class ResourceId implements BugValue
+class ResourceId implements BugField
 {
     use ComparableValue;
 
