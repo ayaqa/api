@@ -1,13 +1,13 @@
 <?php
 
-namespace AyaQA\Abstracts\Http;
+namespace AyaQA\Concerns;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\JsonResponse;
 
-abstract class ApiController extends BaseController
+trait ResponseTrait
 {
-    protected function respond(mixed $responseData)
+    protected function respond(mixed $responseData): JsonResponse
     {
         $toArray = [];
         if ($responseData instanceof Arrayable) {

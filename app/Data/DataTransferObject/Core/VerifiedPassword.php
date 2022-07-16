@@ -2,7 +2,7 @@
 
 namespace AyaQA\Data\Dtos\Core;
 
-class PasswordDTO
+class VerifiedPassword
 {
     private bool $isVerified = false;
 
@@ -17,7 +17,7 @@ class PasswordDTO
     /**
      * @param bool $verified
      *
-     * @return PasswordDTO
+     * @return VerifiedPassword
      */
     public function setVerified(bool $verified): self
     {

@@ -2,7 +2,6 @@
 
 use AyaQA\Http\Core\Controllers\HomeController;
 use AyaQA\Http\Core\Controllers\TenantController;
-use AyaQA\Http\Core\Middleware\EnsureTenantIsSet;
 use Illuminate\Support\Facades\Route;
 
 /*

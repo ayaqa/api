@@ -3,9 +3,8 @@
 namespace AyaQA\Exceptions;
 
 use AyaQA\Actions\Core\GetAppDetails;
-use AyaQA\Contracts\Core\Exception\HideExceptionMessage;
 use AyaQA\Contracts\Core\Exception\HasResponseCode;
-use AyaQA\Exceptions\Core\AyaQAException;
+use AyaQA\Contracts\Core\Exception\HideExceptionMessage;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;

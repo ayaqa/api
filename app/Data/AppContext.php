@@ -2,25 +2,25 @@
 
 namespace AyaQA\Data;
 
-use AyaQA\Data\Dtos\SessionDTO;
+use AyaQA\Data\Dtos\Core\Session;
 
 class AppContext
 {
-    private SessionDto $sessionDto;
+    private Session $sessionDto;
 
     public static function build()
     {
         $self = new self();
 
-        $self->sessionDto = SessionDTO::build();
+        $self->sessionDto = Session::init();
 
         return $self;
     }
 
     /**
-     * @return SessionDTO
+     * @return Session
      */
-    public function getSession(): SessionDTO
+    public function getSession(): Session
     {
         return $this->sessionDto;
     }

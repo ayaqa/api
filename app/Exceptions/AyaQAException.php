@@ -1,6 +1,6 @@
 <?php
 
-namespace AyaQA\Exceptions\Core;
+namespace AyaQA\Exceptions;
 
 use RuntimeException;
 

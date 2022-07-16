@@ -2,15 +2,17 @@
 
 namespace AyaQA\Http\Core\Controllers;
 
-use AyaQA\Abstracts\Http\ApiController;
 use AyaQA\Actions\Core\Tenant\CreateTenantAction;
 use AyaQA\Actions\Core\Tenant\DeleteTenantAction;
 use AyaQA\Actions\Core\Tenant\GetTenantAction;
 use AyaQA\Actions\Core\Tenant\ToggleDeletableTenantAction;
+use AyaQA\Concerns\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 
-class TenantController extends ApiController
+class TenantController
 {
+    use ResponseTrait;
+
     public function get(
         GetTenantAction $getTenantAction,
         string $sessionIdentifier

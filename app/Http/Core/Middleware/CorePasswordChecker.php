@@ -36,7 +36,7 @@ class CorePasswordChecker
             throw TenantException::noPermission();
         }
 
-        $this->appContext->getSession()->getCorePassword()->setVerified($hasValidPassword);
+        $this->appContext->getSession()->getCorePasswordVerification()->setVerified($hasValidPassword);
 
         return $next($request);
     }

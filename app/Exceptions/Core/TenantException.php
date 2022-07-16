@@ -2,6 +2,8 @@
 
 namespace AyaQA\Exceptions\Core;
 
+use AyaQA\Exceptions\AyaQAException;
+
 class TenantException extends AyaQAException
 {
     public static function maxTenant(int $limit): static
