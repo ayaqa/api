@@ -3,24 +3,20 @@
 namespace AyaQA\Actions\Playground;
 
 use AyaQA\Concerns\Invocable;
-use AyaQA\Contracts\CommandAction;
+use AyaQA\Contracts\QueryAction;
 use AyaQA\Enum\Playground\ElementType;
 use AyaQA\Enum\SectionId;
 use AyaQA\Exceptions\Playground\ResourceNotFound;
 
-class UpdateSingleSwitch implements CommandAction
+class GetSwitch implements QueryAction
 {
     use Invocable;
 
-    public function handle(SectionId $sectionId, ElementType $elementType, bool $newState = false): bool
+    public function handle(SectionId $sectionId, ElementType $elementType): bool
     {
         $switch = $elementType->getQuery()
             ->where('key', '=', $sectionId->get())
             ->firstOr(['*'], fn() => throw ResourceNotFound::inDB($sectionId->get(), $elementType));
-
-
-        $switch->value = $newState;
-        $switch->save();
 
         return (bool) $switch->value;
     }

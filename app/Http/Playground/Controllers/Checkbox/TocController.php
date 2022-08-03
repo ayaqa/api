@@ -2,8 +2,8 @@
 
 namespace AyaQA\Http\Playground\Controllers\Checkbox;
 
-use AyaQA\Actions\Playground\GetSingleSwitch;
-use AyaQA\Actions\Playground\UpdateSingleSwitch;
+use AyaQA\Actions\Playground\GetSwitch;
+use AyaQA\Actions\Playground\UpdateSwitch;
 use AyaQA\Concerns\ResponseTrait;
 use AyaQA\Enum\Playground\ElementType;
 use AyaQA\Enum\SectionId;
@@ -13,9 +13,10 @@ class TocController
 {
     use ResponseTrait;
 
-    public function get(GetSingleSwitch $getSingleSwitchAction)
+    public function get(GetSwitch $getSingleSwitchAction)
     {
-        $result = $getSingleSwitchAction->handle(SectionId::CHECKBOX_01, ElementType::CHECKBOX);
+        $result = $getSingleSwitchAction
+            ->handle(SectionId::CHECKBOX_01, ElementType::CHECKBOX);
 
         return $this->respond([
             'accepted' => $result,
@@ -23,7 +24,7 @@ class TocController
         ]);
     }
 
-    public function set(Request $request, UpdateSingleSwitch $updateSingleSwitchAction)
+    public function set(Request $request, UpdateSwitch $updateSingleSwitchAction)
     {
         $state = $request->post('accepted', false);
 
