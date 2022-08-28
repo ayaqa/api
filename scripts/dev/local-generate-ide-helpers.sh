@@ -16,5 +16,7 @@ $PHP artisan ide-helper:generate
 $PHP artisan ide-helper:meta
 $PHP artisan ide-helper:models Core -n
 $PHP artisan tenants:artisan "ide-helper:models Toggle -n" $TENANT_ARGS
+$PHP artisan tenants:artisan "ide-helper:models Checkbox -n" $TENANT_ARGS
+$PHP artisan tenants:artisan "ide-helper:models Bug -n" $TENANT_ARGS
 
 cd_back

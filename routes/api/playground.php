@@ -4,7 +4,7 @@ use AyaQA\Http\Playground\Controllers\Checkbox\RemindersController;
 use AyaQA\Http\Playground\Controllers\Checkbox\TechnologiesController;
 use AyaQA\Http\Playground\Controllers\Checkbox\TocController;
 
-Route::prefix('playground')->middleware('tenant')->group(function () {
+Route::prefix('playground')->middleware(['tenant', 'buggable'])->group(function () {
     Route::prefix('checkbox')->group(function() {
         Route::get('/toc', [TocController::class, 'get'])->name('toc.get');
         Route::post('/toc', [TocController::class, 'set'])->name('toc.set');
