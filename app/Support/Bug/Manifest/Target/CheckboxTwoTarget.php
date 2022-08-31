@@ -2,10 +2,10 @@
 
 namespace AyaQA\Support\Bug\Manifest\Target;
 
-use AyaQA\Enum\SectionId;
 use AyaQA\Support\Bug\BugMapper;
-use AyaQA\Support\Bug\Manifest\Bug\HideUIElementBug;
-use AyaQA\Support\Bug\Manifest\Bug\ModifyRequestParameter;
+use AyaQA\Support\Bug\Manifest\Bug\API\ModifyRequestParameter;
+use AyaQA\Support\Bug\Manifest\Bug\API\ModifyResponseParameter;
+use AyaQA\Support\Bug\Manifest\Bug\UI\HideUIElementBug;
 use AyaQA\Support\Bug\Manifest\Contract\BugTarget;
 use AyaQA\Support\Bug\Manifest\Dto\KeyLabelDTO;
 
@@ -38,10 +38,21 @@ class CheckboxTwoTarget implements BugTarget
     public function getRequestParams(): array
     {
         return [
-            KeyLabelDTO::from('2g', 'Param: 2G (bool)'),
-            KeyLabelDTO::from('3g', 'Param: 3G (bool)'),
-            KeyLabelDTO::from('4g', 'Param: 4G (bool)'),
-            KeyLabelDTO::from('5g', 'Param: 5G (bool)'),
+            KeyLabelDTO::from('2g', '2G (bool)'),
+            KeyLabelDTO::from('3g', '3G (bool)'),
+            KeyLabelDTO::from('4g', '4G (bool)'),
+            KeyLabelDTO::from('5g', '5G (bool)'),
+        ];
+    }
+
+    public function getResponseParams(): array
+    {
+        return [
+            KeyLabelDTO::from('id', 'id (string)'),
+            KeyLabelDTO::from('radio.2g', '2G (bool)'),
+            KeyLabelDTO::from('radio.3g', '3G (bool)'),
+            KeyLabelDTO::from('radio.4g', '4G (bool)'),
+            KeyLabelDTO::from('radio.5g', '5G (bool)'),
         ];
     }
 
@@ -49,7 +60,8 @@ class CheckboxTwoTarget implements BugTarget
     {
         return [
             HideUIElementBug::class,
-            ModifyRequestParameter::class
+            ModifyRequestParameter::class,
+            ModifyResponseParameter::class,
         ];
     }
 }

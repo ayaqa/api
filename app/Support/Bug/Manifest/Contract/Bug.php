@@ -4,7 +4,7 @@ namespace AyaQA\Support\Bug\Manifest\Contract;
 
 use AyaQA\Support\Bug\Manifest\Enum\ApplicableTo;
 
-interface Bug extends Configurable
+interface Bug extends HasConfigType
 {
     public function getId(): string;
 

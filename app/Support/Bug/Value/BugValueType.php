@@ -16,16 +16,19 @@ enum BugValueType: string
     case PARAM = 'param';
     case CLIENT_IP = 'client_ip';
     case REQUEST_TYPE = 'request_type';
+    case SECTION_ID = 'section_id';
+    case RESPONSE_PARAM = 'response_param';
 
     public function getFieldClass(): string
     {
         return match ($this) {
             self::HEADER_PARAM => BugHeaderParam::class,
-            self::GET_PARAM    => BugGetParam::class,
-            self::POST_PARAM   => BugPostParam::class,
-            self::PARAM        => BugParam::class,
-            self::CLIENT_IP    => BugClientIp::class,
+            self::GET_PARAM => BugGetParam::class,
+            self::POST_PARAM => BugPostParam::class,
+            self::PARAM, self::RESPONSE_PARAM => BugParam::class,
+            self::CLIENT_IP => BugClientIp::class,
             self::REQUEST_TYPE => BugRequestType::class,
+            self::SECTION_ID => BugSectionId::class,
         };
     }
 
@@ -35,7 +38,7 @@ enum BugValueType: string
             self::HEADER_PARAM => BugHeaderParams::class,
             self::GET_PARAM => BugGetParams::class,
             self::POST_PARAM => BugPostParams::class,
-            self::PARAM => BugParams::class,
+            self::PARAM, self::RESPONSE_PARAM => BugParams::class,
             default => throw new \RuntimeException(
                 sprintf('Bug value %s dont have collection or is not mapped', $this->name)
             )

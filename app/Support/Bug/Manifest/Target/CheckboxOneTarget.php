@@ -3,8 +3,9 @@
 namespace AyaQA\Support\Bug\Manifest\Target;
 
 use AyaQA\Support\Bug\BugMapper;
-use AyaQA\Support\Bug\Manifest\Bug\HideUIElementBug;
-use AyaQA\Support\Bug\Manifest\Bug\ModifyRequestParameter;
+use AyaQA\Support\Bug\Manifest\Bug\API\ModifyRequestParameter;
+use AyaQA\Support\Bug\Manifest\Bug\API\ModifyResponseParameter;
+use AyaQA\Support\Bug\Manifest\Bug\UI\HideUIElementBug;
 use AyaQA\Support\Bug\Manifest\Contract\BugTarget;
 use AyaQA\Support\Bug\Manifest\Dto\KeyLabelDTO;
 
@@ -34,7 +35,14 @@ class CheckboxOneTarget implements BugTarget
     public function getRequestParams(): array
     {
         return [
-            KeyLabelDTO::from('accepted', 'Param: accepted (bool)')
+            KeyLabelDTO::from('accepted', 'accepted (bool)')
+        ];
+    }
+
+    public function getResponseParams(): array
+    {
+        return [
+            KeyLabelDTO::from('accepted', 'accepted (bool)')
         ];
     }
 
@@ -42,7 +50,8 @@ class CheckboxOneTarget implements BugTarget
     {
         return [
             HideUIElementBug::class,
-            ModifyRequestParameter::class
+            ModifyRequestParameter::class,
+            ModifyResponseParameter::class
         ];
     }
 }

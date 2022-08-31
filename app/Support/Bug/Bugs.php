@@ -30,13 +30,13 @@ class Bugs implements JsonSerializable
     /**
      * @return Bug[]
      */
-    public function getBugs(): array
+    public function asArray(): array
     {
         return $this->bugs;
     }
 
     public function jsonSerialize(): array
     {
-        return $this->getBugs();
+        return $this->asArray();
     }
 }

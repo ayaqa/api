@@ -3,7 +3,7 @@
 namespace AyaQA\Support\Bug\Manifest\Target;
 
 use AyaQA\Support\Bug\BugMapper;
-use AyaQA\Support\Bug\Manifest\Bug\ModifyRequestParameter;
+use AyaQA\Support\Bug\Manifest\Bug\API\ModifyRequestParameter;
 use AyaQA\Support\Bug\Manifest\Contract\BugTarget;
 
 class AnyTarget implements BugTarget
@@ -31,6 +31,11 @@ class AnyTarget implements BugTarget
     }
 
     public function getRequestParams(): array
+    {
+        return [];
+    }
+
+    public function getResponseParams(): array
     {
         return [];
     }

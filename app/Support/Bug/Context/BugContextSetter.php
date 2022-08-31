@@ -14,33 +14,33 @@ class BugContextSetter
         private BugContext $context,
     ){}
 
-    public function set(BugValueType $field, array $data): self
+    public function set(BugValueType $type, array $data, bool $overrideIfSet = false): self
     {
-        if (false === $field->hasCollection()) {
-            $value = $this->createValue($field, ...$data);
+        if (false === $type->hasCollection()) {
+            $value = $this->createValue($type, ...$data);
         } else {
-            $value = $this->createCollection($field, $data);
+            $value = $this->createCollection($type, $data);
         }
 
-        $this->context->set($field, $value, false);
+        $this->context->set($type, $value, $overrideIfSet);
 
         return $this;
     }
 
-    private function createValue(BugValueType $field, mixed ...$args): BugValue
+    private function createValue(BugValueType $type, mixed ...$args): BugValue
     {
         // @TODO input data validation
-        return $this->factory->createValue($field, ...$args);
+        return $this->factory->createValue($type, ...$args);
     }
 
-    private function createCollection(BugValueType $field, array $data): BugValueCollection
+    private function createCollection(BugValueType $type, array $data): BugValueCollection
     {
         // @TODO input data validation
         $values = [];
         foreach ($data as $key => $val) {
-            $values[] = $this->factory->createValue($field, $key, $val);
+            $values[] = $this->factory->createValue($type, $key, $val);
         }
 
-        return $this->factory->createValueCollection($field, $values);
+        return $this->factory->createValueCollection($type, $values);
     }
 }

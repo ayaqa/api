@@ -63,8 +63,11 @@ class ManifestManager
             $targets[] = [
                 'id' => $target->getId(),
                 'text' => $target->getText(),
-                'elements' => $target->getUIElements(),
-                'params' => $target->getRequestParams(),
+                'attributes' => [
+                    'ui' => $target->getUIElements(),
+                    'reqParams' => $target->getRequestParams(),
+                    'respParams' => $target->getResponseParams(),
+                ],
                 'bugs'  => $bugs
             ];
         }
@@ -85,7 +88,7 @@ class ManifestManager
                 'id' => $bug->getId(),
                 'text' => $bug->getText(),
                 'for' => $bug->applicableTo()->get(),
-                'configurable' => $bug->configurable()->get(),
+                'configType' => $bug->getConfigType()->get(),
                 'conditions' => $conditions
             ];
 
@@ -106,7 +109,7 @@ class ManifestManager
             $tmpCondition = [
                 'id' => $condition->getId(),
                 'text' => $condition->getText(),
-                'configurable' => $condition->configurable()->get(),
+                'configType' => $condition->getConfigType()->get(),
             ];
 
             if ($condition instanceof HasDescription) {

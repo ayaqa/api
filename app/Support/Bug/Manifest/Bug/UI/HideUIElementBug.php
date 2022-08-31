@@ -1,15 +1,14 @@
 <?php
 
-namespace AyaQA\Support\Bug\Manifest\Bug;
+namespace AyaQA\Support\Bug\Manifest\Bug\UI;
 
 use AyaQA\Support\Bug\BugMapper;
 use AyaQA\Support\Bug\Manifest\Condition\AlwaysCondition;
-use AyaQA\Support\Bug\Manifest\Condition\IfToggleableIsCondition;
 use AyaQA\Support\Bug\Manifest\Contract\Bug;
 use AyaQA\Support\Bug\Manifest\Enum\ApplicableTo;
-use AyaQA\Support\Bug\Manifest\Enum\ConfigurableStep;
+use AyaQA\Support\Bug\Manifest\Enum\ConfigType;
 
-class ModifyRequestParameter implements Bug
+class HideUIElementBug implements Bug
 {
     public function getId(): string
     {
@@ -18,24 +17,23 @@ class ModifyRequestParameter implements Bug
 
     public function getText(): string
     {
-        return 'Modify request parameter';
+        return 'Hide UI Element';
     }
 
     public function applicableTo(): ApplicableTo
     {
-        return ApplicableTo::API;
+        return ApplicableTo::APP;
     }
 
-    public function configurable(): ConfigurableStep
+    public function getConfigType(): ConfigType
     {
-        return ConfigurableStep::WITH_PARAMETERS;
+        return ConfigType::WITH_UI_ELEMENT_KEY;
     }
 
     public function getSupportedConditions(): array
     {
         return [
-            AlwaysCondition::class,
-            IfToggleableIsCondition::class
+            AlwaysCondition::class
         ];
     }
 }

@@ -28,14 +28,14 @@ class BugController
 
     public function getBugs(Request $request, BugManager $bugManager): JsonResponse
     {
-        return $this->respond($bugManager->fetchBugs()->getBugs());
+        return $this->respond($bugManager->getBugs()->asArray());
     }
 
     public function storeBugs(Request $request, BugManager $bugManager): JsonResponse
     {
         $postData = $request->post();
 
-        $bugManager->replaceBugs($postData);
+        $bugManager->storeBugs($postData);
 
         return $this->respond($postData);
     }

@@ -9,6 +9,7 @@ interface BugTarget
 
     public function getUIElements(): array;
     public function getRequestParams(): array;
+    public function getResponseParams(): array;
 
     public function getSupportedBugs(): array;
 }

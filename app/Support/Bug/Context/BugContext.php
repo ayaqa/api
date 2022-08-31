@@ -48,12 +48,12 @@ class BugContext
         throw ContextException::notFound($field);
     }
 
-    private function hasValue(BugValueType $field): bool
+    public function hasValue(BugValueType $field): bool
     {
         return isset($this->values[$field->asString()]);
     }
 
-    private function hasCollection(BugValueType $field): bool
+    public function hasCollection(BugValueType $field): bool
     {
         return isset($this->collections[$field->asString()]);
     }

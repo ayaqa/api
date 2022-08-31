@@ -4,14 +4,10 @@ namespace AyaQA\Support\Bug\Manifest\Enum;
 
 enum ApplicableTo: string
 {
+    case ANY = 'any';
     case BOTH = 'both';
     case APP = 'app';
     case API = 'api';
-
-    public function isBoth(): bool
-    {
-        return $this === self::BOTH;
-    }
 
     public function get(): string
     {
@@ -21,7 +17,7 @@ enum ApplicableTo: string
     public static function present(): array
     {
         $return = [];
-        foreach ([self::BOTH, self::APP, self::API] as $item) {
+        foreach ([self::ANY, self::APP, self::API] as $item) {
             $return[] = [
                 'id' => $item->get(),
                 'text' => $item->get()

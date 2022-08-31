@@ -34,6 +34,6 @@ abstract class AbstractBugValue implements BugValue
     {
         AssertHelper::isInstanceOf($this, BugValue::class);
 
-        return $this->value() === $value->value();
+        return mb_strtolower($this->value()) === mb_strtolower($value->value());
     }
 }

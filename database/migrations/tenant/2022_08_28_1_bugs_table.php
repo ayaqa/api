@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create(\AyaQA\Models\Core\Bug::TABLE_NAME, function(Blueprint $table) {
             $table->id();
             $table->string('target');
-            $table->enum('applicable', ['both', 'app', 'api']);
+            $table->enum('applicable', ['any', 'both', 'app', 'api']);
             $table->string('bug');
             $table->text('bugConfig')->nullable();
             $table->string('condition');
