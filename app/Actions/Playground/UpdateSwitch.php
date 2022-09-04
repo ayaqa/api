@@ -15,8 +15,8 @@ class UpdateSwitch implements CommandAction
     public function handle(SectionId $sectionId, ElementType $elementType, bool $newState = false): bool
     {
         $switch = $elementType->getQuery()
-            ->where('key', '=', $sectionId->get())
-            ->firstOr(['*'], fn() => throw ResourceNotFound::inDB($sectionId->get(), $elementType));
+            ->where('key', '=', $sectionId->getId())
+            ->firstOr(['*'], fn() => throw ResourceNotFound::inDB($sectionId->getId(), $elementType));
 
         $switch->value = $newState;
         $switch->save();

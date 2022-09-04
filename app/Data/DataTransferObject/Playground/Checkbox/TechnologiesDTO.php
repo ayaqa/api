@@ -53,7 +53,7 @@ class TechnologiesDTO
     public function asResponse(): array
     {
         return [
-            'id' => SectionId::CHECKBOX_02->get(),
+            'id' => SectionId::CHECKBOX_02->getId(),
             'radio' => $this->asArray()
         ];
     }

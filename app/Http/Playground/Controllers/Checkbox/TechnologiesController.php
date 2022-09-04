@@ -8,18 +8,20 @@ use AyaQA\Concerns\ResponseTrait;
 use AyaQA\Data\DataTransferObject\Playground\Checkbox\TechnologiesDTO;
 use AyaQA\Enum\Playground\ElementType;
 use AyaQA\Enum\SectionId;
-use AyaQA\Support\Bug\Event\NewContextValue;
-use AyaQA\Support\Bug\Value\BugValueType;
+use AyaQA\Support\BugFramework\Support\Controller\BuggableController;
 use Illuminate\Http\Request;
 
-class TechnologiesController
+class TechnologiesController extends BuggableController
 {
     use ResponseTrait;
 
+    public static function getSection(): SectionId
+    {
+        return SectionId::CHECKBOX_02;
+    }
+
     public function get(GetSwitches $getSwitchesAction)
     {
-        event(NewContextValue::from(BugValueType::SECTION_ID, [SectionId::CHECKBOX_02->get()]));
-
         $collection = $getSwitchesAction
             ->handle(SectionId::CHECKBOX_02, ElementType::CHECKBOX);
 
@@ -30,8 +32,6 @@ class TechnologiesController
 
     public function set(Request $request, UpdateSwitches $updateSwitchesAction)
     {
-        event(NewContextValue::from(BugValueType::SECTION_ID, [SectionId::CHECKBOX_02->get()]));
-
         $dto = TechnologiesDTO::fromRequest($request);
 
         $collection = $updateSwitchesAction

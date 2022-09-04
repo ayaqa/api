@@ -74,7 +74,7 @@ class RemindersDTO
     public function asResponse(): array
     {
         return [
-            'id' => SectionId::CHECKBOX_03->get(),
+            'id' => SectionId::CHECKBOX_03->getId(),
             'reminders' => $this->isReminderEnabled(),
             'channels' => $this->getChannels()
         ];

@@ -16,11 +16,11 @@ class GetSwitches implements QueryAction
     public function handle(SectionId $sectionId, ElementType $elementType): Collection
     {
         $collection = $elementType->getQuery()
-            ->where('group', '=', $sectionId->get())
+            ->where('group', '=', $sectionId->getId())
             ->get();
 
         if ($collection->isEmpty()) {
-            throw ResourceNotFound::inDB($sectionId->get(), $elementType);
+            throw ResourceNotFound::inDB($sectionId->getId(), $elementType);
         }
 
         return $collection;

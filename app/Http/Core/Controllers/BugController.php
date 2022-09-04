@@ -3,9 +3,9 @@
 namespace AyaQA\Http\Core\Controllers;
 
 use AyaQA\Concerns\ResponseTrait;
-use AyaQA\Support\Bug\BugManager;
-use AyaQA\Support\Bug\Manifest\Enum\ApplicableTo;
-use AyaQA\Support\Bug\Manifest\ManifestManager;
+use AyaQA\Support\BugFramework\Integration\Laravel\Storage\BugStorageService;
+use AyaQA\Support\BugFramework\Manifest\ManifestManager;
+use AyaQA\Support\BugFramework\Support\ApplicableTo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -26,16 +26,16 @@ class BugController
         ]);
     }
 
-    public function getBugs(Request $request, BugManager $bugManager): JsonResponse
+    public function getBugs(BugStorageService $bugStorageService): JsonResponse
     {
-        return $this->respond($bugManager->getBugs()->asArray());
+        return $this->respond($bugStorageService->getBugs()->toArray());
     }
 
-    public function storeBugs(Request $request, BugManager $bugManager): JsonResponse
+    public function storeBugs(Request $request, BugStorageService $bugStorageService): JsonResponse
     {
         $postData = $request->post();
 
-        $bugManager->storeBugs($postData);
+        $bugStorageService->storeBugs($postData);
 
         return $this->respond($postData);
     }

@@ -1,0 +1,43 @@
+<?php
+
+namespace AyaQA\Support\BugFramework\Manifest\Target;
+
+use AyaQA\Support\BugFramework\Manifest\Bug\API\ModifyRequestParameter;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugTarget;
+
+class AnyTarget implements BugTarget
+{
+    public const ANY_TARGET = 'any';
+
+    public function getId(): string
+    {
+        return self::ANY_TARGET;
+    }
+
+    public function getText(): string
+    {
+        return 'Any';
+    }
+
+    public function getSupportedBugs(): array
+    {
+        return [
+            ModifyRequestParameter::class
+        ];
+    }
+
+    public function getUIElements(): array
+    {
+        return [];
+    }
+
+    public function getRequestParams(): array
+    {
+        return [];
+    }
+
+    public function getResponseParams(): array
+    {
+        return [];
+    }
+}

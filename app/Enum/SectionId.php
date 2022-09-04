@@ -12,7 +12,7 @@ enum SectionId: string
     case TOGGLE_02 = 'tg-02';
     case TOGGLE_03 = 'tg-03';
 
-    public function get(): string
+    public function getId(): string
     {
         return $this->value;
     }

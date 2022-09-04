@@ -24,7 +24,7 @@ class UpdateSwitches implements CommandAction
             $switch = $switches->firstWhere('key', '=', $key);
 
             if (null === $switch) {
-                throw ResourceNotFound::inDB($sectionId->get(), $elementType);
+                throw ResourceNotFound::inDB($sectionId->getId(), $elementType);
             }
 
             $switch->value = (bool) $state;
