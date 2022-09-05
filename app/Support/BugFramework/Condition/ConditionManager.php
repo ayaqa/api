@@ -19,7 +19,7 @@ class ConditionManager
      *
      * @return void
      */
-    public function evaluate()
+    public function evaluate(): void
     {
         foreach ($this->bugs->toArray() as $bug) {
             $this->conditionResolver->evalCondition($bug);
@@ -36,7 +36,7 @@ class ConditionManager
         $bugs = $this->bugFactory->createConfiguredBugs();
         foreach ($this->bugs->toArray() as $bug) {
             if ($bug->condition->isSatisfied()) {
-                $bugs->add($bug);
+                $bugs->append($bug);
             }
         }
 
@@ -48,12 +48,12 @@ class ConditionManager
      *
      * @return void
      */
-    public function filterOnlyTargetBugs(): void
+    public function removeNonTargetBugs(): void
     {
         $bugs = $this->bugFactory->createConfiguredBugs();
         foreach ($this->bugs->toArray() as $bug) {
             if ($this->conditionResolver->hasSameTarget($bug)) {
-                $bugs->add($bug);
+                $bugs->append($bug);
             }
         }
 

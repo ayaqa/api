@@ -2,10 +2,10 @@
 
 namespace AyaQA\Support\BugFramework\Integration\Laravel\Middleware;
 
-use AyaQA\Support\BugFramework\AppFlowStep;
+use AyaQA\Support\BugFramework\AppStep;
 use AyaQA\Support\BugFramework\Bug\BugManager;
 use AyaQA\Support\BugFramework\Bug\Enum\ParamType;
-use AyaQA\Support\BugFramework\Context\Event\AppFlowStepUpdated;
+use AyaQA\Support\BugFramework\Context\Event\AppStepUpdated;
 use AyaQA\Support\BugFramework\Context\Event\SetContextValue;
 use AyaQA\Support\BugFramework\Support\Controller\BuggableController;
 use AyaQA\Support\BugFramework\Value\ValueType;
@@ -34,7 +34,7 @@ class PreController
         }
 
         // update app flow state
-        event(AppFlowStepUpdated::toStep(AppFlowStep::PRE_CONTROLLER));
+        event(AppStepUpdated::toStep(AppStep::PRE_CONTROLLER));
 
         $this->handleParamReplace($request);
 
@@ -43,7 +43,7 @@ class PreController
 
     protected function handleParamReplace(Request $request)
     {
-        $postParams = $this->bugManager->getParametersForReplace(ParamType::POST);
+        $postParams = $this->bugManager->getModifiedParameters(ParamType::POST);
         foreach ($postParams as $key => $value) {
             $request->request->set($key, $value);
         }

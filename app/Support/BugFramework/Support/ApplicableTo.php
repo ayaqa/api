@@ -2,14 +2,16 @@
 
 namespace AyaQA\Support\BugFramework\Support;
 
-enum ApplicableTo: string
+use AyaQA\Support\BugFramework\Support\Contract\HasId;
+
+enum ApplicableTo: string implements HasId
 {
     case ANY = 'any';
     case BOTH = 'both';
     case APP = 'app';
     case API = 'api';
 
-    public function get(): string
+    public function getId(): string
     {
         return $this->value;
     }
@@ -19,8 +21,8 @@ enum ApplicableTo: string
         $return = [];
         foreach ([self::ANY, self::APP, self::API] as $item) {
             $return[] = [
-                'id' => $item->get(),
-                'text' => $item->get()
+                'id' => $item->getId(),
+                'text' => $item->getId()
             ];
         }
 

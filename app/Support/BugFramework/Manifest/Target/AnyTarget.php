@@ -2,6 +2,7 @@
 
 namespace AyaQA\Support\BugFramework\Manifest\Target;
 
+use AyaQA\Enum\SectionId;
 use AyaQA\Support\BugFramework\Manifest\Bug\API\ModifyRequestParameter;
 use AyaQA\Support\BugFramework\Manifest\Contract\BugTarget;
 
@@ -11,7 +12,7 @@ class AnyTarget implements BugTarget
 
     public function getId(): string
     {
-        return self::ANY_TARGET;
+        return SectionId::ANY->getId();
     }
 
     public function getText(): string

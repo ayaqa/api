@@ -4,6 +4,8 @@ namespace AyaQA\Enum;
 
 enum SectionId: string
 {
+    case ANY = 'any';
+
     case CHECKBOX_01 = 'cb-01';
     case CHECKBOX_02 = 'cb-02';
     case CHECKBOX_03 = 'cb-03';

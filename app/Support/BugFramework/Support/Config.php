@@ -2,10 +2,14 @@
 
 namespace AyaQA\Support\BugFramework\Support;
 
+use AyaQA\Support\BugFramework\Support\Concern\Arrayable;
+use AyaQA\Support\BugFramework\Support\Contract\HasToArray;
 use AyaQA\Support\BugFramework\Value\Custom\ConfigValue;
 
-class Config
+class Config implements HasToArray
 {
+    use Arrayable;
+    
     public function __construct(
         private readonly array $config,
         private readonly ConfigType $configType,
@@ -14,7 +18,7 @@ class Config
     /**
      * @return array
      */
-    public function asArray(): array
+    public function toArray(): array
     {
         return $this->config;
     }

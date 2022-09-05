@@ -23,19 +23,24 @@ class ManifestManager
     /** @var BugCondition[] */
     protected array $conditions = [];
 
-    private const AVAILABLE_TARGETS = [
-        AnyTarget::class,
-        CheckboxOneTarget::class,
-        CheckboxTwoTarget::class,
-    ];
-
-    public function __construct(private ManifestFactory $factory)
-    {
+    public function __construct(
+        private ManifestFactory $factory,
+        private array $availableTargets = []
+    ){
+        $this->availableTargets = [
+            AnyTarget::class,
+            CheckboxOneTarget::class,
+            CheckboxTwoTarget::class,
+        ];
     }
 
-    public function boot()
+    public function boot(): void
     {
-        foreach (self::AVAILABLE_TARGETS as $target) {
+        if ($this->booted) {
+            return;
+        }
+
+        foreach ($this->availableTargets as $target) {
             $target = $this->addTarget($target);
 
             foreach ($target->getSupportedBugs() as $bug) {
@@ -87,8 +92,8 @@ class ManifestManager
             $tmpBug = [
                 'id' => $bug->getId(),
                 'text' => $bug->getText(),
-                'for' => $bug->applicableTo()->get(),
-                'configType' => $bug->getConfigType()->get(),
+                'for' => $bug->applicableTo()->getId(),
+                'configType' => $bug->getConfigType()->getId(),
                 'conditions' => $conditions
             ];
 
@@ -109,7 +114,7 @@ class ManifestManager
             $tmpCondition = [
                 'id' => $condition->getId(),
                 'text' => $condition->getText(),
-                'configType' => $condition->getConfigType()->get(),
+                'configType' => $condition->getConfigType()->getId(),
             ];
 
             if ($condition instanceof HasDescription) {

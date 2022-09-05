@@ -62,7 +62,7 @@ class BugFactory
     {
         $bugsValueObject = new ConfiguredBugs();
         foreach ($bugs as $bug) {
-            $bugsValueObject->add(
+            $bugsValueObject->append(
                 $this->createConfiguredBug($bug)
             );
         }

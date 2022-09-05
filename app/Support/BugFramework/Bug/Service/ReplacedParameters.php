@@ -4,7 +4,7 @@ namespace AyaQA\Support\BugFramework\Bug\Service;
 
 use AyaQA\Support\BugFramework\Bug\Enum\ParamType;
 
-class ParameterReplaceContainer
+class ReplacedParameters
 {
     /**
      * @var array<string|integer, mixed>[]
@@ -27,7 +27,7 @@ class ParameterReplaceContainer
         return isset($this->params[$type->name]);
     }
 
-    public function getParams(ParamType $type): array
+    public function get(ParamType $type): array
     {
         if ($this->has($type)) {
             return $this->params[$type->name];

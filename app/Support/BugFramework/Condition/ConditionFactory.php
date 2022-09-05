@@ -2,7 +2,7 @@
 
 namespace AyaQA\Support\BugFramework\Condition;
 
-use AyaQA\Support\BugFramework\AppFlowStep;
+use AyaQA\Support\BugFramework\AppStep;
 use AyaQA\Support\BugFramework\Condition\Operator\OperatorGroup;
 use AyaQA\Support\BugFramework\Support\Config;
 use AyaQA\Support\BugFramework\Support\ConfigType;
@@ -10,7 +10,7 @@ use Throwable;
 
 class ConditionFactory
 {
-    public function create(string $condition, array $config, ConfigType $configType, AppFlowStep $evalAtStep): Condition
+    public function create(string $condition, array $config, ConfigType $configType, AppStep $evalAtStep): Condition
     {
         return new Condition(
             $condition,

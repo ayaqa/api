@@ -2,8 +2,8 @@
 
 namespace AyaQA\Support\BugFramework\Value;
 
-use AyaQA\Support\BugFramework\Value\Base\AbstractBugKeyValue;
+use AyaQA\Support\BugFramework\Value\Base\BaseValueAndKey;
 
-class HeaderParamValue extends AbstractBugKeyValue
+class HeaderParamValue extends BaseValueAndKey
 {
 }

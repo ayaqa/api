@@ -2,7 +2,7 @@
 
 namespace AyaQA\Support\BugFramework\Manifest\Contract;
 
-use AyaQA\Support\BugFramework\AppFlowStep;
+use AyaQA\Support\BugFramework\AppStep;
 use AyaQA\Support\BugFramework\Value\ValueType;
 
 interface BugCondition extends HasConfigType
@@ -14,5 +14,5 @@ interface BugCondition extends HasConfigType
      * @return ValueType[]
      */
     public function shouldEvalWithValues(): array;
-    public function shouldEvalAtStep(): AppFlowStep;
+    public function shouldEvalAtStep(): AppStep;
 }

@@ -2,7 +2,9 @@
 
 namespace AyaQA\Support\BugFramework\Support;
 
-enum ConfigType: string
+use AyaQA\Support\BugFramework\Support\Contract\HasId;
+
+enum ConfigType: string implements HasId
 {
     case NONE = 'none';
 
@@ -18,7 +20,7 @@ enum ConfigType: string
     case WITH_CUSTOM = 'custom';
     case WITH_CUSTOM_KEY = 'custom-key';
 
-    public function get(): string
+    public function getId(): string
     {
         return $this->value;
     }

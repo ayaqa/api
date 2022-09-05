@@ -4,17 +4,17 @@ namespace AyaQA\Support\BugFramework\Integration\Laravel;
 
 use AyaQA\Support\BugFramework\Bug\BugFactory;
 use AyaQA\Support\BugFramework\Bug\Event\SetParameter;
-use AyaQA\Support\BugFramework\Bug\Listener\ApplyWhenConditionsEvaluated;
+use AyaQA\Support\BugFramework\Bug\Listener\ApplyAfterConditionsEval;
 use AyaQA\Support\BugFramework\Bug\Listener\SetParameterHandler;
-use AyaQA\Support\BugFramework\Bug\Service\ParameterReplaceContainer;
+use AyaQA\Support\BugFramework\Bug\Service\ReplacedParameters;
 use AyaQA\Support\BugFramework\Condition\ConditionManager;
-use AyaQA\Support\BugFramework\Condition\Event\ConditionsWereEvaluated;
-use AyaQA\Support\BugFramework\Condition\Listener\EvalWhenAppFlowStepUpdate;
-use AyaQA\Support\BugFramework\Condition\Listener\FilterBugsAfterTargetIsSet;
+use AyaQA\Support\BugFramework\Condition\Event\ConditionsEvaluated;
+use AyaQA\Support\BugFramework\Condition\Listener\EvalOnAppStepUpdated;
+use AyaQA\Support\BugFramework\Condition\Listener\RemoveNonTargetBugs;
 use AyaQA\Support\BugFramework\Condition\Resolver\ConditionResolver;
 use AyaQA\Support\BugFramework\Context\BugContext;
 use AyaQA\Support\BugFramework\Context\BugContextSetter;
-use AyaQA\Support\BugFramework\Context\Event\AppFlowStepUpdated;
+use AyaQA\Support\BugFramework\Context\Event\AppStepUpdated;
 use AyaQA\Support\BugFramework\Context\Event\SetContextValue;
 use AyaQA\Support\BugFramework\Context\Listener\SetContextValueHandler;
 use AyaQA\Support\BugFramework\Integration\Laravel\Middleware\PostController;
@@ -55,13 +55,13 @@ class BugServiceProvider extends ServiceProvider
         $dispatcher = $this->app->get(Dispatcher::class);
 
         $dispatcher->listen(SetContextValue::class, [SetContextValueHandler::class, 'handleGeneric']);
-        $dispatcher->listen(SetContextValue::class, [FilterBugsAfterTargetIsSet::class, 'handle']);
+        $dispatcher->listen(SetContextValue::class, [RemoveNonTargetBugs::class, 'handle']);
 
-        $dispatcher->listen(AppFlowStepUpdated::class, [SetContextValueHandler::class, 'handleAppFlow']);
-        $dispatcher->listen(AppFlowStepUpdated::class, [EvalWhenAppFlowStepUpdate::class, 'handle']);
+        $dispatcher->listen(AppStepUpdated::class, [SetContextValueHandler::class, 'handleAppFlow']);
+        $dispatcher->listen(AppStepUpdated::class, [EvalOnAppStepUpdated::class, 'handle']);
 
         $dispatcher->listen(SetParameter::class, [SetParameterHandler::class, 'handle']);
-        $dispatcher->listen(ConditionsWereEvaluated::class, [ApplyWhenConditionsEvaluated::class, 'handle']);
+        $dispatcher->listen(ConditionsEvaluated::class, [ApplyAfterConditionsEval::class, 'handle']);
     }
 
     protected function registerSingletons()
@@ -87,8 +87,8 @@ class BugServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton(ParameterReplaceContainer::class, function (Application $app) {
-            return new ParameterReplaceContainer();
+        $this->app->singleton(ReplacedParameters::class, function (Application $app) {
+            return new ReplacedParameters();
         });
     }
 }

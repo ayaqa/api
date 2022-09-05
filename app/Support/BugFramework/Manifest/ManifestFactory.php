@@ -26,7 +26,7 @@ class ManifestFactory
         return $this->create($class);
     }
 
-    private function create(string $class)
+    private function create(string $class): mixed
     {
         if (false === class_exists($class)) {
             // @TODO exception

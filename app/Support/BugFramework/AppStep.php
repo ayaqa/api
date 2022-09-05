@@ -4,7 +4,7 @@ namespace AyaQA\Support\BugFramework;
 
 use AyaQA\Support\BugFramework\Support\Contract\HasId;
 
-enum AppFlowStep: string implements HasId
+enum AppStep: string implements HasId
 {
     case PRE_CONTROLLER = 'preController';
     case POST_CONTROLLER = 'postController';

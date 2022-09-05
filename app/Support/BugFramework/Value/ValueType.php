@@ -7,7 +7,7 @@ use AyaQA\Support\BugFramework\Value\Collection\GetParams;
 use AyaQA\Support\BugFramework\Value\Collection\HeaderParams;
 use AyaQA\Support\BugFramework\Value\Collection\Params;
 use AyaQA\Support\BugFramework\Value\Collection\PostParams;
-use AyaQA\Support\BugFramework\Value\Custom\AppFlowStepValue;
+use AyaQA\Support\BugFramework\Value\Custom\AppStepValue;
 use Throwable;
 
 enum ValueType: string implements HasId
@@ -20,7 +20,7 @@ enum ValueType: string implements HasId
     case REQUEST_TYPE = 'request_type';
     case SECTION_ID = 'section_id';
     case RESPONSE_PARAM = 'response_param';
-    case APP_FLOW_STEP = 'app_step';
+    case APP_STEP = 'app_step';
 
     public function getFieldClass(): string
     {
@@ -32,7 +32,7 @@ enum ValueType: string implements HasId
             self::CLIENT_IP => ClientIpValue::class,
             self::REQUEST_TYPE => RequestType::class,
             self::SECTION_ID => SectionId::class,
-            self::APP_FLOW_STEP => AppFlowStepValue::class
+            self::APP_STEP => AppStepValue::class
         };
     }
 

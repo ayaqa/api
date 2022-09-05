@@ -2,8 +2,8 @@
 
 namespace AyaQA\Support\BugFramework\Value;
 
-use AyaQA\Support\BugFramework\Value\Base\AbstractBugValue;
+use AyaQA\Support\BugFramework\Value\Base\BaseValue;
 
-class SectionId extends AbstractBugValue
+class SectionId extends BaseValue
 {
 }

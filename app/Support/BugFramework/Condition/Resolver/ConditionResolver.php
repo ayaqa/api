@@ -7,7 +7,7 @@ use AyaQA\Support\BugFramework\Condition\ConditionType;
 use AyaQA\Support\BugFramework\Context\BugContext;
 use AyaQA\Support\BugFramework\Manifest\ManifestFactory;
 use AyaQA\Support\BugFramework\Manifest\Target\AnyTarget;
-use AyaQA\Support\BugFramework\Value\Custom\AppFlowStepValue;
+use AyaQA\Support\BugFramework\Value\Custom\AppStepValue;
 use AyaQA\Support\BugFramework\Value\ValueType;
 
 class ConditionResolver
@@ -40,12 +40,11 @@ class ConditionResolver
 
         $manifestCondition = $this->manifestFactory->createCondition($conditionType->getManifestClass());
 
-        /** @var AppFlowStepValue $stepValue */
-        $stepValue = $this->bugContext->get(ValueType::APP_FLOW_STEP);
+        /** @var AppStepValue $stepValue */
+        $stepValue = $this->bugContext->get(ValueType::APP_STEP);
         if (false === $stepValue->sameStep($bug->condition->evalAtStep())) {
             return;
         }
-
 
         foreach ($manifestCondition->shouldEvalWithValues() as $valueType) {
             // if no context value to eval against - just skip

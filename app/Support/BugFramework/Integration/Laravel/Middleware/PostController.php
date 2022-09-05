@@ -2,8 +2,8 @@
 
 namespace AyaQA\Support\BugFramework\Integration\Laravel\Middleware;
 
-use AyaQA\Support\BugFramework\AppFlowStep;
-use AyaQA\Support\BugFramework\Context\Event\AppFlowStepUpdated;
+use AyaQA\Support\BugFramework\AppStep;
+use AyaQA\Support\BugFramework\Context\Event\AppStepUpdated;
 use Closure;
 use Illuminate\Http\JsonResponse;
 
@@ -13,7 +13,7 @@ class PostController
     {
         $response = $next($request);
 
-        event(AppFlowStepUpdated::toStep(AppFlowStep::POST_CONTROLLER));
+        event(AppStepUpdated::toStep(AppStep::POST_CONTROLLER));
 
         if ($response instanceof JsonResponse) {
             // @TODO

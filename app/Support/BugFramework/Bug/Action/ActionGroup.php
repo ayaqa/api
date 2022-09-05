@@ -11,6 +11,7 @@ class ActionGroup
 
     /**
      * @param BugAction ...$actions
+     *
      * @return static
      */
     public static function from(BugAction ...$actions): self

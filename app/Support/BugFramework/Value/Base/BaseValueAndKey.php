@@ -2,10 +2,10 @@
 
 namespace AyaQA\Support\BugFramework\Value\Base;
 
-use AyaQA\Support\BugFramework\Value\Contract\BugKeyValue;
+use AyaQA\Support\BugFramework\Value\Contract\BugValueAndKey;
 use AyaQA\Support\BugFramework\Value\Contract\BugValue;
 
-abstract class AbstractBugKeyValue extends AbstractBugValue implements BugKeyValue
+abstract class BaseValueAndKey extends BaseValue implements BugValueAndKey
 {
     public function __construct(
         protected string $key,
@@ -21,7 +21,7 @@ abstract class AbstractBugKeyValue extends AbstractBugValue implements BugKeyVal
 
     public function sameValueAs(BugValue $value): bool
     {
-        if ($value instanceof BugKeyValue) {
+        if ($value instanceof BugValueAndKey) {
             return parent::sameValueAs($value) && $this->sameKeyAs($value);
         }
 
@@ -30,7 +30,7 @@ abstract class AbstractBugKeyValue extends AbstractBugValue implements BugKeyVal
 
     public function sameKeyAs(BugValue $value): bool
     {
-        if ($value instanceof BugKeyValue) {
+        if ($value instanceof BugValueAndKey) {
             return $this->key() === $value->key();
         }
 

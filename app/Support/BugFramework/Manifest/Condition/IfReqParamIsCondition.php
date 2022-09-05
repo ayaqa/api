@@ -2,7 +2,7 @@
 
 namespace AyaQA\Support\BugFramework\Manifest\Condition;
 
-use AyaQA\Support\BugFramework\AppFlowStep;
+use AyaQA\Support\BugFramework\AppStep;
 use AyaQA\Support\BugFramework\Condition\ConditionType;
 use AyaQA\Support\BugFramework\Manifest\Contract\BugCondition;
 use AyaQA\Support\BugFramework\Manifest\Contract\HasDescription;
@@ -40,8 +40,8 @@ class IfReqParamIsCondition implements BugCondition, HasDescription
         ];
     }
 
-    public function shouldEvalAtStep(): AppFlowStep
+    public function shouldEvalAtStep(): AppStep
     {
-        return AppFlowStep::PRE_CONTROLLER;
+        return AppStep::PRE_CONTROLLER;
     }
 }

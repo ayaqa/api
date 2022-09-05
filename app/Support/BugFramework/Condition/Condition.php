@@ -2,20 +2,21 @@
 
 namespace AyaQA\Support\BugFramework\Condition;
 
-use AyaQA\Support\BugFramework\AppFlowStep;
+use AyaQA\Support\BugFramework\AppStep;
 use AyaQA\Support\BugFramework\Condition\Operator\OperatorGroup;
 use AyaQA\Support\BugFramework\Support\Config;
+use AyaQA\Support\BugFramework\Support\Contract\HasId;
 use AyaQA\Support\BugFramework\Value\Contract\BugValue;
 use AyaQA\Support\BugFramework\Value\Contract\BugValueCollection;
 
-class Condition
+class Condition implements HasId
 {
     protected bool $isSatisfied = false;
 
     public function __construct(
         private readonly string $id,
         private readonly Config $conditionConfig,
-        private readonly AppFlowStep $evalAtStep,
+        private readonly AppStep $evalAtStep,
         private readonly OperatorGroup $operatorGroup,
     ){}
 
@@ -33,7 +34,7 @@ class Condition
 
         $result = false;
         if ($value instanceof BugValueCollection) {
-            foreach ($value->values() as $bugValue) {
+            foreach ($value as $bugValue) {
                 $result = $this->operatorGroup->allAreSatisfied($this->conditionConfig, $bugValue);
 
                 if ($result) {
@@ -63,7 +64,7 @@ class Condition
         return $this->conditionConfig;
     }
 
-    public function evalAtStep(): AppFlowStep
+    public function evalAtStep(): AppStep
     {
         return $this->evalAtStep;
     }

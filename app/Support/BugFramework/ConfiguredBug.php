@@ -5,11 +5,14 @@ namespace AyaQA\Support\BugFramework;
 use AyaQA\Support\BugFramework\Bug\Bug;
 use AyaQA\Support\BugFramework\Condition\Condition;
 use AyaQA\Support\BugFramework\Support\ApplicableTo;
+use AyaQA\Support\BugFramework\Support\Concern\Arrayable;
+use AyaQA\Support\BugFramework\Support\Contract\HasToArray;
 use AyaQA\Support\BugFramework\Value\SectionId;
-use JsonSerializable;
 
-class ConfiguredBug implements JsonSerializable
+class ConfiguredBug implements HasToArray
 {
+    use Arrayable;
+
     public function __construct(
         public readonly SectionId $target,
         public readonly ApplicableTo $applicable,
@@ -17,15 +20,15 @@ class ConfiguredBug implements JsonSerializable
         public readonly Condition $condition
     ){}
 
-    public function jsonSerialize(): array
+    public function toArray(): array
     {
         return [
             'target' => $this->target->value(),
-            'applicable' => $this->applicable->get(),
+            'applicable' => $this->applicable->getId(),
             'bug' => $this->bug->getId(),
-            'bugConfig' => $this->bug->getConfig()->asArray(),
+            'bugConfig' => $this->bug->getConfig()->toArray(),
             'condition' => $this->condition->getId(),
-            'conditionConfig' => $this->condition->getConfig()->asArray(),
+            'conditionConfig' => $this->condition->getConfig()->toArray(),
         ];
     }
 }

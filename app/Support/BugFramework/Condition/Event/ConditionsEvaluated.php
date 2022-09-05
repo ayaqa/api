@@ -2,6 +2,6 @@
 
 namespace AyaQA\Support\BugFramework\Condition\Event;
 
-class ConditionsWereEvaluated
+class ConditionsEvaluated
 {
 }

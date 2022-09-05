@@ -29,18 +29,18 @@ class BugContextSetter
 
     private function createValue(ValueType $type, mixed ...$args): BugValue
     {
-        // @TODO input data validation
+        // @TODO input data validation ??
         return $this->factory->createValue($type, ...$args);
     }
 
     private function createCollection(ValueType $type, array $data): BugValueCollection
     {
-        // @TODO input data validation
-        $values = [];
+        // @TODO input data validation ??
+        $collection = $this->factory->createValueCollection($type);
         foreach ($data as $key => $val) {
-            $values[] = $this->factory->createValue($type, $key, $val);
+            $collection->append($this->factory->createValue($type, $key, $val));
         }
 
-        return $this->factory->createValueCollection($type, $values);
+        return $collection;
     }
 }

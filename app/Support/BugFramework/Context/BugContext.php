@@ -5,14 +5,14 @@ namespace AyaQA\Support\BugFramework\Context;
 use AyaQA\Support\BugFramework\Context\Exception\ContextException;
 use AyaQA\Support\BugFramework\Context\Exception\OverrideContextValueException;
 use AyaQA\Support\BugFramework\Value\ValueType;
-use AyaQA\Support\BugFramework\Value\Contract\BugKeyValue;
+use AyaQA\Support\BugFramework\Value\Contract\BugValueAndKey;
 use AyaQA\Support\BugFramework\Value\Contract\BugValue;
 use AyaQA\Support\BugFramework\Value\Contract\BugValueCollection;
 
 class BugContext
 {
     /**
-     * @var BugValue|BugKeyValue[]
+     * @var BugValue|BugValueAndKey[]
      */
     private array $values = [];
 

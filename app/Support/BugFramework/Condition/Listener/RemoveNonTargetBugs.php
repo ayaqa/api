@@ -6,7 +6,7 @@ use AyaQA\Support\BugFramework\Condition\ConditionManager;
 use AyaQA\Support\BugFramework\Context\Event\SetContextValue;
 use AyaQA\Support\BugFramework\Value\ValueType;
 
-class FilterBugsAfterTargetIsSet
+class RemoveNonTargetBugs
 {
     public function __construct(
         private ConditionManager $conditionManager
@@ -18,6 +18,6 @@ class FilterBugsAfterTargetIsSet
             return;
         }
 
-        $this->conditionManager->filterOnlyTargetBugs();
+        $this->conditionManager->removeNonTargetBugs();
     }
 }

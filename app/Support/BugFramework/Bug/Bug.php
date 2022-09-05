@@ -4,8 +4,9 @@ namespace AyaQA\Support\BugFramework\Bug;
 
 use AyaQA\Support\BugFramework\Bug\Action\ActionGroup;
 use AyaQA\Support\BugFramework\Support\Config;
+use AyaQA\Support\BugFramework\Support\Contract\HasId;
 
-class Bug
+class Bug implements HasId
 {
     private bool $isApplied = false;
 

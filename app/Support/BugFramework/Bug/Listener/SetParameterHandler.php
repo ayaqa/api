@@ -3,12 +3,12 @@
 namespace AyaQA\Support\BugFramework\Bug\Listener;
 
 use AyaQA\Support\BugFramework\Bug\Event\SetParameter;
-use AyaQA\Support\BugFramework\Bug\Service\ParameterReplaceContainer;
+use AyaQA\Support\BugFramework\Bug\Service\ReplacedParameters;
 
 class SetParameterHandler
 {
     public function __construct(
-        private ParameterReplaceContainer $replaceContainer
+        private ReplacedParameters $replaceContainer
     ){}
 
     public function handle(SetParameter $event): void

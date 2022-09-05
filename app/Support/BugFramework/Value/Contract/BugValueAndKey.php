@@ -2,7 +2,7 @@
 
 namespace AyaQA\Support\BugFramework\Value\Contract;
 
-interface BugKeyValue extends BugValue
+interface BugValueAndKey extends BugValue
 {
     public function key(): string;
 

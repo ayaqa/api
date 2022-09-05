@@ -8,9 +8,10 @@ use AyaQA\Support\BugFramework\Manifest\Condition\AlwaysCondition;
 use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamIsCondition;
 use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamKeyExistsCondition;
 use AyaQA\Support\BugFramework\Manifest\Condition\IfRespParamIsCondition;
+use AyaQA\Support\BugFramework\Support\Contract\HasId;
 use AyaQA\Support\BugFramework\Support\Exception\BugException;
 
-enum ConditionType: string
+enum ConditionType: string implements HasId
 {
     case ALWAYS = 'always';
     case IF_REQ_PARAM_IS = 'if-req-param-is';

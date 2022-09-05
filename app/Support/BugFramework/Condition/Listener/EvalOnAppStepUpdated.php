@@ -3,19 +3,19 @@
 namespace AyaQA\Support\BugFramework\Condition\Listener;
 
 use AyaQA\Support\BugFramework\Condition\ConditionManager;
-use AyaQA\Support\BugFramework\Condition\Event\ConditionsWereEvaluated;
-use AyaQA\Support\BugFramework\Context\Event\AppFlowStepUpdated;
+use AyaQA\Support\BugFramework\Condition\Event\ConditionsEvaluated;
+use AyaQA\Support\BugFramework\Context\Event\AppStepUpdated;
 
-class EvalWhenAppFlowStepUpdate
+class EvalOnAppStepUpdated
 {
     public function __construct(
         private ConditionManager $conditionManager
     ){}
 
-    public function handle(AppFlowStepUpdated $event)
+    public function handle(AppStepUpdated $event)
     {
         $this->conditionManager->evaluate();
 
-        event(new ConditionsWereEvaluated());
+        event(new ConditionsEvaluated());
     }
 }

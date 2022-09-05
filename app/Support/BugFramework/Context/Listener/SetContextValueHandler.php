@@ -3,7 +3,7 @@
 namespace AyaQA\Support\BugFramework\Context\Listener;
 
 use AyaQA\Support\BugFramework\Context\BugContextSetter;
-use AyaQA\Support\BugFramework\Context\Event\AppFlowStepUpdated;
+use AyaQA\Support\BugFramework\Context\Event\AppStepUpdated;
 use AyaQA\Support\BugFramework\Context\Event\SetContextValue;
 use AyaQA\Support\BugFramework\Value\ValueType;
 
@@ -22,10 +22,10 @@ class SetContextValueHandler
         );
     }
 
-    public function handleAppFlow(AppFlowStepUpdated $event)
+    public function handleAppFlow(AppStepUpdated $event)
     {
         $this->contextSetter->set(
-            ValueType::APP_FLOW_STEP,
+            ValueType::APP_STEP,
             [$event->step->getId()],
             true
         );

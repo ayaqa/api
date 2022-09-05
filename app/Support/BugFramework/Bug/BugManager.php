@@ -3,14 +3,14 @@
 namespace AyaQA\Support\BugFramework\Bug;
 
 use AyaQA\Support\BugFramework\Bug\Enum\ParamType;
-use AyaQA\Support\BugFramework\Bug\Service\ParameterReplaceContainer;
+use AyaQA\Support\BugFramework\Bug\Service\ReplacedParameters;
 use AyaQA\Support\BugFramework\Condition\ConditionManager;
 
 class BugManager
 {
     public function __construct(
         private readonly ConditionManager $conditionManager,
-        private readonly ParameterReplaceContainer $parameterReplaceContainer
+        private readonly ReplacedParameters $parameterReplaceContainer
     ){}
 
     public function apply()
@@ -21,8 +21,8 @@ class BugManager
         }
     }
 
-    public function getParametersForReplace(ParamType $type): array
+    public function getModifiedParameters(ParamType $type): array
     {
-        return $this->parameterReplaceContainer->getParams($type);
+        return $this->parameterReplaceContainer->get($type);
     }
 }

@@ -24,14 +24,6 @@ class OperatorGroup
         return $self;
     }
 
-    /**
-     * @return array []
-     */
-    public function getConditions(): array
-    {
-        return $this->operators;
-    }
-
     public function allAreSatisfied(Config $config, BugValue $value): bool
     {
         $areSatisfied = true;
