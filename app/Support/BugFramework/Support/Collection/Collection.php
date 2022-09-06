@@ -39,6 +39,13 @@ abstract class Collection extends ArrayObject implements HasToArray
 
     public function toArray(): array
     {
-        return $this->getArrayCopy();
+        $response = [];
+        foreach ($this as $item) {
+            if($item instanceof HasToArray) {
+                $response[] = $item->toArray();
+            }
+        }
+
+        return $response;
     }
 }

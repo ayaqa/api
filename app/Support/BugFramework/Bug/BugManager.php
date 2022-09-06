@@ -16,7 +16,7 @@ class BugManager
     public function apply()
     {
         $bugs = $this->conditionManager->getSatisfiedBugs();
-        foreach ($bugs->toArray() as $bug) {
+        foreach ($bugs as $bug) {
             $bug->bug->apply();
         }
     }

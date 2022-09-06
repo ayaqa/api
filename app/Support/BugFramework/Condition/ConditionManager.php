@@ -3,6 +3,7 @@
 namespace AyaQA\Support\BugFramework\Condition;
 
 use AyaQA\Support\BugFramework\Bug\BugFactory;
+use AyaQA\Support\BugFramework\ConfiguredBug;
 use AyaQA\Support\BugFramework\ConfiguredBugs;
 use AyaQA\Support\BugFramework\Condition\Resolver\ConditionResolver;
 
@@ -21,7 +22,7 @@ class ConditionManager
      */
     public function evaluate(): void
     {
-        foreach ($this->bugs->toArray() as $bug) {
+        foreach ($this->bugs as $bug) {
             $this->conditionResolver->evalCondition($bug);
         }
     }
@@ -34,7 +35,7 @@ class ConditionManager
     public function getSatisfiedBugs(): ConfiguredBugs
     {
         $bugs = $this->bugFactory->createConfiguredBugs();
-        foreach ($this->bugs->toArray() as $bug) {
+        foreach ($this->bugs as $bug) {
             if ($bug->condition->isSatisfied()) {
                 $bugs->append($bug);
             }
@@ -51,7 +52,7 @@ class ConditionManager
     public function removeNonTargetBugs(): void
     {
         $bugs = $this->bugFactory->createConfiguredBugs();
-        foreach ($this->bugs->toArray() as $bug) {
+        foreach ($this->bugs as $bug) {
             if ($this->conditionResolver->hasSameTarget($bug)) {
                 $bugs->append($bug);
             }

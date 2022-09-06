@@ -20,15 +20,14 @@ use AyaQA\Support\BugFramework\Context\Listener\SetContextValueHandler;
 use AyaQA\Support\BugFramework\Integration\Laravel\Middleware\PostController;
 use AyaQA\Support\BugFramework\Integration\Laravel\Middleware\PreController;
 use AyaQA\Support\BugFramework\Integration\Laravel\Middleware\RequestContextSetter;
+use AyaQA\Support\BugFramework\Integration\Laravel\Middleware\ResponseContextSetter;
 use AyaQA\Support\BugFramework\Integration\Laravel\Storage\BugDatabaseService;
 use AyaQA\Support\BugFramework\Integration\Laravel\Storage\BugStorageService;
 use AyaQA\Support\BugFramework\Value\Factory\ValueFactory;
-use Event;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class BugServiceProvider extends ServiceProvider
 {
@@ -40,7 +39,8 @@ class BugServiceProvider extends ServiceProvider
         $router->middlewareGroup('buggable', [
             RequestContextSetter::class,
             PreController::class,
-            PostController::class
+            PostController::class,
+            ResponseContextSetter::class,
         ]);
     }
 

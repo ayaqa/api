@@ -27,5 +27,7 @@ class BugDatabaseService implements BugStorageService
         foreach ($bugs as $bug) {
             Bug::create($bug)->save();
         }
+
+        return $this->getBugs();
     }
 }
