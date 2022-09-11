@@ -4,7 +4,7 @@ namespace AyaQA\Support\BugFramework\Manifest\Contract;
 
 use AyaQA\Support\BugFramework\Support\ApplicableTo;
 
-interface Bug extends HasConfigType
+interface BugManifest extends HasConfigType
 {
     public function getId(): string;
 

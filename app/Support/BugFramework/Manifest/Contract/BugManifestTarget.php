@@ -2,7 +2,7 @@
 
 namespace AyaQA\Support\BugFramework\Manifest\Contract;
 
-interface BugTarget
+interface BugManifestTarget
 {
     public function getId(): string;
     public function getText(): string;

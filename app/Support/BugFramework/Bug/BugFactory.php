@@ -9,6 +9,7 @@ use AyaQA\Support\BugFramework\Condition\ConditionFactory;
 use AyaQA\Support\BugFramework\Condition\ConditionType;
 use AyaQA\Support\BugFramework\ConfiguredBug;
 use AyaQA\Support\BugFramework\ConfiguredBugs;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifest;
 use AyaQA\Support\BugFramework\Manifest\ManifestFactory;
 use AyaQA\Support\BugFramework\Support\ApplicableTo;
 use AyaQA\Support\BugFramework\Support\Config;
@@ -73,7 +74,7 @@ class BugFactory
     public function createBug(string $id, array $config): Bug
     {
         $bugType = BugType::from($id);
-        $bugManifest = $this->manifestFactory->createBug($bugType->getManifestClass());
+        $bugManifest = $this->createBugManifest($id);
 
         return new Bug(
             $id,
@@ -90,5 +91,12 @@ class BugFactory
     public function createActionGroup(array $actions): ActionGroup
     {
         return ActionGroup::from(...$actions);
+    }
+
+    public function createBugManifest(string $id): BugManifest
+    {
+        $bugType = BugType::from($id);
+
+        return $this->manifestFactory->createBug($bugType->getManifestClass());
     }
 }

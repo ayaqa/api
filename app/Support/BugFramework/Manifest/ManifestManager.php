@@ -2,25 +2,25 @@
 
 namespace AyaQA\Support\BugFramework\Manifest;
 
-use AyaQA\Support\BugFramework\Manifest\Contract\Bug;
-use AyaQA\Support\BugFramework\Manifest\Contract\BugCondition;
-use AyaQA\Support\BugFramework\Manifest\Contract\BugTarget;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifest;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifestCondition;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifestTarget;
 use AyaQA\Support\BugFramework\Manifest\Contract\HasDescription;
-use AyaQA\Support\BugFramework\Manifest\Target\AnyTarget;
-use AyaQA\Support\BugFramework\Manifest\Target\CheckboxOneTarget;
-use AyaQA\Support\BugFramework\Manifest\Target\CheckboxTwoTarget;
+use AyaQA\Support\BugFramework\Manifest\Target\AnyManifestTarget;
+use AyaQA\Support\BugFramework\Manifest\Target\CheckboxOneManifestTarget;
+use AyaQA\Support\BugFramework\Manifest\Target\CheckboxTwoManifestTarget;
 
 class ManifestManager
 {
     protected bool $booted = false;
 
-    /** @var BugTarget[] */
+    /** @var BugManifestTarget[] */
     protected array $targets = [];
 
-    /** @var Bug[] */
+    /** @var BugManifest[] */
     protected array $bugs = [];
 
-    /** @var BugCondition[] */
+    /** @var BugManifestCondition[] */
     protected array $conditions = [];
 
     public function __construct(
@@ -28,9 +28,9 @@ class ManifestManager
         private array $availableTargets = []
     ){
         $this->availableTargets = [
-            AnyTarget::class,
-            CheckboxOneTarget::class,
-            CheckboxTwoTarget::class,
+            AnyManifestTarget::class,
+            CheckboxOneManifestTarget::class,
+            CheckboxTwoManifestTarget::class,
         ];
     }
 
@@ -127,7 +127,7 @@ class ManifestManager
         return $conditions;
     }
 
-    public function getBug(string $bugClass): Bug
+    public function getBug(string $bugClass): BugManifest
     {
         if (false === array_key_exists($bugClass, $this->bugs)) {
             // @TODO throw exception
@@ -136,7 +136,7 @@ class ManifestManager
         return $this->bugs[$bugClass];
     }
 
-    public function getCondition(string $conditionClass): BugCondition
+    public function getCondition(string $conditionClass): BugManifestCondition
     {
         if (false === array_key_exists($conditionClass, $this->conditions)) {
             // @TODO throw exception
@@ -145,7 +145,7 @@ class ManifestManager
         return $this->conditions[$conditionClass];
     }
 
-    protected function addTarget(string $targetClass): BugTarget
+    protected function addTarget(string $targetClass): BugManifestTarget
     {
         $target = $this->factory->createTarget($targetClass);
         if (array_key_exists($targetClass, $this->targets)) {
@@ -157,7 +157,7 @@ class ManifestManager
         return $target;
     }
 
-    protected function addBug(string $bugClass): Bug
+    protected function addBug(string $bugClass): BugManifest
     {
         $bug = $this->factory->createBug($bugClass);
         if (array_key_exists($bugClass, $this->bugs)) {
@@ -169,7 +169,7 @@ class ManifestManager
         return $bug;
     }
 
-    protected function addCondition(string $conditionClass): BugCondition
+    protected function addCondition(string $conditionClass): BugManifestCondition
     {
         $condition = $this->factory->createCondition($conditionClass);
         if (array_key_exists($conditionClass, $this->conditions)) {

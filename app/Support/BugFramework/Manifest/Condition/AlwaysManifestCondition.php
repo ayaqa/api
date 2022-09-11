@@ -4,11 +4,11 @@ namespace AyaQA\Support\BugFramework\Manifest\Condition;
 
 use AyaQA\Support\BugFramework\AppStep;
 use AyaQA\Support\BugFramework\Condition\ConditionType;
-use AyaQA\Support\BugFramework\Manifest\Contract\BugCondition;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifestCondition;
 use AyaQA\Support\BugFramework\Manifest\Contract\HasDescription;
 use AyaQA\Support\BugFramework\Support\ConfigType;
 
-class AlwaysCondition implements BugCondition, HasDescription
+class AlwaysManifestCondition implements BugManifestCondition, HasDescription
 {
     public function getId(): string
     {

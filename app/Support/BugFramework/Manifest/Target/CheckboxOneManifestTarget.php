@@ -5,11 +5,13 @@ namespace AyaQA\Support\BugFramework\Manifest\Target;
 use AyaQA\Enum\SectionId;
 use AyaQA\Support\BugFramework\Manifest\Bug\API\ModifyRequestParameter;
 use AyaQA\Support\BugFramework\Manifest\Bug\API\ModifyResponseParameter;
-use AyaQA\Support\BugFramework\Manifest\Bug\UI\HideUIElementBug;
-use AyaQA\Support\BugFramework\Manifest\Contract\BugTarget;
+use AyaQA\Support\BugFramework\Manifest\Bug\UI\DetachUISaveButton;
+use AyaQA\Support\BugFramework\Manifest\Bug\UI\HideUIElement;
+use AyaQA\Support\BugFramework\Manifest\Bug\UI\UpdateUILabel;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifestTarget;
 use AyaQA\Support\BugFramework\Manifest\Dto\KeyLabelDTO;
 
-class CheckboxOneTarget implements BugTarget
+class CheckboxOneManifestTarget implements BugManifestTarget
 {
     public function getId(): string
     {
@@ -49,7 +51,9 @@ class CheckboxOneTarget implements BugTarget
     public function getSupportedBugs(): array
     {
         return [
-            HideUIElementBug::class,
+            HideUIElement::class,
+            DetachUISaveButton::class,
+            UpdateUILabel::class,
             ModifyRequestParameter::class,
             ModifyResponseParameter::class
         ];

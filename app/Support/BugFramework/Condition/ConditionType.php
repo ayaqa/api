@@ -4,10 +4,10 @@ namespace AyaQA\Support\BugFramework\Condition;
 
 use AyaQA\Support\BugFramework\Condition\Operator\Type\ValueIsEqualOperator;
 use AyaQA\Support\BugFramework\Condition\Operator\Type\ValueKeyExistsOperator;
-use AyaQA\Support\BugFramework\Manifest\Condition\AlwaysCondition;
-use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamIsCondition;
-use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamKeyExistsCondition;
-use AyaQA\Support\BugFramework\Manifest\Condition\IfRespParamIsCondition;
+use AyaQA\Support\BugFramework\Manifest\Condition\AlwaysManifestCondition;
+use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamIsManifestCondition;
+use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamKeyExistsManifestCondition;
+use AyaQA\Support\BugFramework\Manifest\Condition\IfRespParamIsManifestCondition;
 use AyaQA\Support\BugFramework\Support\Contract\HasId;
 use AyaQA\Support\BugFramework\Support\Exception\BugException;
 
@@ -29,10 +29,10 @@ enum ConditionType: string implements HasId
     public function getManifestClass(): string
     {
         return match($this) {
-            ConditionType::ALWAYS                  => AlwaysCondition::class,
-            ConditionType::IF_REQ_PARAM_IS         => IfReqParamIsCondition::class,
-            ConditionType::IF_REQ_PARAM_KEY_EXISTS => IfReqParamKeyExistsCondition::class,
-            ConditionType::IF_RESP_PARAM_IS        => IfRespParamIsCondition::class,
+            ConditionType::ALWAYS                  => AlwaysManifestCondition::class,
+            ConditionType::IF_REQ_PARAM_IS         => IfReqParamIsManifestCondition::class,
+            ConditionType::IF_REQ_PARAM_KEY_EXISTS => IfReqParamKeyExistsManifestCondition::class,
+            ConditionType::IF_RESP_PARAM_IS        => IfRespParamIsManifestCondition::class,
             default => throw new BugException(
                 sprintf('There is no manifest class mapped to %s', $this->getId())
             )

@@ -4,9 +4,9 @@ namespace AyaQA\Support\BugFramework\Manifest\Target;
 
 use AyaQA\Enum\SectionId;
 use AyaQA\Support\BugFramework\Manifest\Bug\API\ModifyRequestParameter;
-use AyaQA\Support\BugFramework\Manifest\Contract\BugTarget;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifestTarget;
 
-class AnyTarget implements BugTarget
+class AnyManifestTarget implements BugManifestTarget
 {
     public const ANY_TARGET = 'any';
 

@@ -78,7 +78,7 @@ class BugServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(ConditionManager::class, function(Application $app) {
-            $bugs = $app->make(BugStorageService::class)->getBugs();
+            $bugs = $app->make(BugStorageService::class)->getAPIBugs();
 
             return new ConditionManager(
                 $app->make(BugFactory::class),

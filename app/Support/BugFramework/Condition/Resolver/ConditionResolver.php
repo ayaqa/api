@@ -6,7 +6,7 @@ use AyaQA\Support\BugFramework\ConfiguredBug;
 use AyaQA\Support\BugFramework\Condition\ConditionType;
 use AyaQA\Support\BugFramework\Context\BugContext;
 use AyaQA\Support\BugFramework\Manifest\ManifestFactory;
-use AyaQA\Support\BugFramework\Manifest\Target\AnyTarget;
+use AyaQA\Support\BugFramework\Manifest\Target\AnyManifestTarget;
 use AyaQA\Support\BugFramework\Value\Custom\AppStepValue;
 use AyaQA\Support\BugFramework\Value\ValueType;
 
@@ -20,7 +20,7 @@ class ConditionResolver
     public function hasSameTarget(ConfiguredBug $bug): bool
     {
         // if is any - skip comparison
-        if ($bug->target->value() === AnyTarget::ANY_TARGET) {
+        if ($bug->target->value() === AnyManifestTarget::ANY_TARGET) {
             return true;
         }
 

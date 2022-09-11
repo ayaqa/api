@@ -68,4 +68,9 @@ class Condition implements HasId
     {
         return $this->evalAtStep;
     }
+
+    public function getType(): ConditionType
+    {
+        return ConditionType::from($this->getId());
+    }
 }

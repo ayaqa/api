@@ -16,6 +16,21 @@ enum ApplicableTo: string implements HasId
         return $this->value;
     }
 
+    /**
+     * If is applicable to APP
+     *
+     * @return bool
+     */
+    public function app(): bool
+    {
+        return $this === self::APP || $this === self::BOTH;
+    }
+
+    public function api(): bool
+    {
+        return $this === self::API || $this === self::BOTH;
+    }
+
     public static function present(): array
     {
         $return = [];

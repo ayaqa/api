@@ -23,4 +23,5 @@ Route::prefix('bugs')->middleware('tenant')->group(function() {
     Route::post('/', [BugController::class, 'storeBugs'])->name('bug.store');
 
     Route::get('/manifest', [BugController::class, 'manifest'])->name('bug.manifest');
+    Route::get('/ui', [BugController::class, 'getUIBugs'])->name('bug.ui');
 });

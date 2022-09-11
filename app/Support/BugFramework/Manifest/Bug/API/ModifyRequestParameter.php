@@ -3,15 +3,15 @@
 namespace AyaQA\Support\BugFramework\Manifest\Bug\API;
 
 use AyaQA\Support\BugFramework\Bug\BugType;
-use AyaQA\Support\BugFramework\Manifest\Condition\AlwaysCondition;
-use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamIsCondition;
-use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamKeyExistsCondition;
-use AyaQA\Support\BugFramework\Manifest\Contract\Bug;
+use AyaQA\Support\BugFramework\Manifest\Condition\AlwaysManifestCondition;
+use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamIsManifestCondition;
+use AyaQA\Support\BugFramework\Manifest\Condition\IfReqParamKeyExistsManifestCondition;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifest;
 use AyaQA\Support\BugFramework\Manifest\Contract\HasDescription;
 use AyaQA\Support\BugFramework\Support\ApplicableTo;
 use AyaQA\Support\BugFramework\Support\ConfigType;
 
-class ModifyRequestParameter implements Bug, HasDescription
+class ModifyRequestParameter implements BugManifest, HasDescription
 {
     public function getId(): string
     {
@@ -41,9 +41,9 @@ class ModifyRequestParameter implements Bug, HasDescription
     public function getSupportedConditions(): array
     {
         return [
-            AlwaysCondition::class,
-            IfReqParamIsCondition::class,
-            IfReqParamKeyExistsCondition::class
+            AlwaysManifestCondition::class,
+            IfReqParamIsManifestCondition::class,
+            IfReqParamKeyExistsManifestCondition::class
         ];
     }
 }

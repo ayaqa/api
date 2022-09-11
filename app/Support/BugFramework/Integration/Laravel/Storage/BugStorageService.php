@@ -8,4 +8,6 @@ interface BugStorageService
 {
     public function getBugs(): ConfiguredBugs;
     public function storeBugs(array $bugs): ConfiguredBugs;
+    public function getUIBugs(): ConfiguredBugs;
+    public function getAPIBugs(): ConfiguredBugs;
 }

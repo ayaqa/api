@@ -4,12 +4,12 @@ namespace AyaQA\Support\BugFramework\Manifest\Condition;
 
 use AyaQA\Support\BugFramework\AppStep;
 use AyaQA\Support\BugFramework\Condition\ConditionType;
-use AyaQA\Support\BugFramework\Manifest\Contract\BugCondition;
+use AyaQA\Support\BugFramework\Manifest\Contract\BugManifestCondition;
 use AyaQA\Support\BugFramework\Manifest\Contract\HasDescription;
 use AyaQA\Support\BugFramework\Support\ConfigType;
 use AyaQA\Support\BugFramework\Value\ValueType;
 
-class IfRespParamIsCondition implements BugCondition, HasDescription
+class IfRespParamIsManifestCondition implements BugManifestCondition, HasDescription
 {
     public function getId(): string
     {
