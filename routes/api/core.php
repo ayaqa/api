@@ -1,20 +1,9 @@
 <?php
 
+use AyaQA\Http\Core\Controllers\BugController;
 use AyaQA\Http\Core\Controllers\HomeController;
 use AyaQA\Http\Core\Controllers\TenantController;
-use AyaQA\Http\Core\Middleware\EnsureTenantIsSet;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::get('/', [HomeController::class, 'root'])->name('home');
 
@@ -27,4 +16,12 @@ Route::prefix('session')->group(function () {
             Route::patch('/{session}/deletable', [TenantController::class, 'deletable'])->name('session.update.deletable');
         }
     );
+});
+
+Route::prefix('bugs')->middleware('tenant')->group(function() {
+    Route::get('/', [BugController::class, 'getBugs'])->name('bug.bugs');
+    Route::post('/', [BugController::class, 'storeBugs'])->name('bug.store');
+
+    Route::get('/manifest', [BugController::class, 'manifest'])->name('bug.manifest');
+    Route::get('/ui', [BugController::class, 'getUIBugs'])->name('bug.ui');
 });

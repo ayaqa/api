@@ -2,7 +2,7 @@
 
 namespace AyaQA\Concerns;
 
-use AyaQA\Exceptions\Core\AyaQAException;
+use AyaQA\Exceptions\AyaQAException;
 
 trait Invocable
 {

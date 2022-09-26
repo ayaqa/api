@@ -104,6 +104,7 @@ bash: .docker_bash
 	@echo -e "\t\t make ps APP_NAME=<app name> \t\t\t\t Print docker-compose status";
 	@echo -e "\t\t make status APP_NAME=<app name> \t\t\t Print docker-compose status";
 	@echo -e "\t\t make logs APP_NAME=<app name> \t\t\t\t Tail docker-compose logs";
+	@echo -e "\t\t make bash APP_NAME=<app name> \t\t\t\t Attach to bash session";
 	@echo -e "===================================================================================="
 	@echo -e "${INFO_STRING} Default APP_NAME: $(GREEN_COLOR)${APP_NAME}$(RESET_COLOR)"
 

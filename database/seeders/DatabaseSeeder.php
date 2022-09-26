@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use AyaQA\Models\Core\Tenant;
+use Database\Seeders\Tenant\CheckboxesSeeder;
 use Database\Seeders\Tenant\TogglesSeeder;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
     public function callTenantSpecificSeeders()
     {
         $this->call([
+            CheckboxesSeeder::class,
             TogglesSeeder::class,
         ]);
     }
