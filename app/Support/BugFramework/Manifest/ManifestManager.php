@@ -8,6 +8,7 @@ use AyaQA\Support\BugFramework\Manifest\Contract\BugManifestTarget;
 use AyaQA\Support\BugFramework\Manifest\Contract\HasDescription;
 use AyaQA\Support\BugFramework\Manifest\Target\AnyManifestTarget;
 use AyaQA\Support\BugFramework\Manifest\Target\CheckboxOneManifestTarget;
+use AyaQA\Support\BugFramework\Manifest\Target\CheckboxThreeManifestTarget;
 use AyaQA\Support\BugFramework\Manifest\Target\CheckboxTwoManifestTarget;
 
 class ManifestManager
@@ -31,6 +32,7 @@ class ManifestManager
             AnyManifestTarget::class,
             CheckboxOneManifestTarget::class,
             CheckboxTwoManifestTarget::class,
+            CheckboxThreeManifestTarget::class,
         ];
     }
 

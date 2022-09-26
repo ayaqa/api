@@ -6,6 +6,7 @@ use AyaQA\Support\BugFramework\Support\Contract\HasId;
 
 enum AppStep: string implements HasId
 {
+    case NONE = 'none';
     case PRE_CONTROLLER = 'preController';
     case POST_CONTROLLER = 'postController';
 
